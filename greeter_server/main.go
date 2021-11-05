@@ -54,6 +54,7 @@ func failOnError(err error, msg string) {
 //CONEXIONES
 func grpcChannel(ipAdress string, message string) string {
 	fmt.Println("Entramos al grpChannel_1")
+	fmt.Println(ipAdress)
 	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
