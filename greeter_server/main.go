@@ -256,12 +256,10 @@ func LivePlayers() {
 }
 
 func Menu() {
-	fmt.Println("***************************************************")
+	fmt.Println("Elija 0 para observar el monto actual del pozo")
 	fmt.Println("Elija 1 para comenzar el juego Luz Roja Luz Verde")
 	fmt.Println("Elija 2 para comenzar el juego Tirar la cuerda")
 	fmt.Println("Elija 3 para comenzar el juego Todo o nada")
-	fmt.Println("Elija 4 para ver el valor del pozo")
-	fmt.Println("***************************************************")
 }
 
 func A_IDplayer() int {
