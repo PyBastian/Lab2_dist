@@ -118,7 +118,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
-			_ = grpcChannel(":50071"), message)
+			_ = grpcChannel(":50071", message)
 		}
 	}
 }
@@ -317,7 +317,7 @@ func main() {
 
 	forever := make(chan bool)
 	var elecc string
-1
+	1
 	fmt.Println("Los jugadores estan Entrando!! ", NumberOfPlayers, "/", MaxPlayers)
 	for {
 		if NumberOfPlayers == MaxPlayers {
