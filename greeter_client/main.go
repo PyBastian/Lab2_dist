@@ -69,6 +69,7 @@ func ListenInstr() {
 }
 
 func ComunicacionLider(msg string) string {
+	fmt.Println("Me voy a comunicar con el Lider")
 	var message string = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " " + msg
 
 	//INDICARLE QUE VA A JUGAR
@@ -127,8 +128,6 @@ func main() {
 			var num string
 
 			fmt.Println("Juego Luz verde Luz roja")
-			fmt.Println("Debera elegir 4 veces un numero entre el 1 y el 10")
-			fmt.Println("El objetivo es que la suma de sus numeros sea mayor o igual que 21")
 			fmt.Println("Si usted elige un numero mayor o igual que el lider, quedara descalificado")
 
 			for round < 4 {
