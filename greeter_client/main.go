@@ -60,7 +60,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func grpcChannel(message string) string {
-	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50052", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50052", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
