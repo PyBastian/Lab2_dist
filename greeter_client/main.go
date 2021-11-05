@@ -69,11 +69,11 @@ func ListenInstr() {
 }
 
 func ComunicacionLider(msg string) string {
-	fmt.Println("Me voy a comunicar con el Lider")
+	//fmt.Println("Me voy a comunicar con el Lider")
 	var message string = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " " + msg
 
 	if msg == "Begin" {
-		fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
+		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
 

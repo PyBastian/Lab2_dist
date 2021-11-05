@@ -63,10 +63,12 @@ func grpcChannel(ipAdress string, message string) string {
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+	fmt.Println("Entramos al grpChannel_2")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
+	fmt.Println("Entramos al grpChannel_3")
 	return r.GetMessage()
 }
 
