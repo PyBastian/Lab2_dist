@@ -18,7 +18,7 @@ const (
 )
 
 var (
-	addr = flag.String("addr", "dist213.inf.santiago.usm.cl:50052", "the address to connect to")
+	addr = flag.String("addr", "dist214.inf.santiago.usm.cl:50052", "the address to connect to")
 	name = flag.String("name", defaultName, "Name to greet")
 )
 
@@ -57,7 +57,7 @@ func grpcChannel(message string) string {
 }
 
 func ListenInstr() {
-	lis, err := net.Listen("tcp", ":50052")
+	lis, err := net.Listen("tcp", "dist214.inf.santiago.usm.cl:50052")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
