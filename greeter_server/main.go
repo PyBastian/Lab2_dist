@@ -1,22 +1,3 @@
-/*
- *
- * Copyright 2015 gRPC authors.
- *
- * Licensed under the Apache License, Version 2.0 (the "License");
- * you may not use this file except in compliance with the License.
- * You may obtain a copy of the License at
- *
- *     http://www.apache.org/licenses/LICENSE-2.0
- *
- * Unless required by applicable law or agreed to in writing, software
- * distributed under the License is distributed on an "AS IS" BASIS,
- * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
- * See the License for the specific language governing permissions and
- * limitations under the License.
- *
- */
-
-// Package main implements a server for Greeter service.
 package main
 
 import (
@@ -36,8 +17,8 @@ import (
 
 const (
 	port                = ":50051"
-	addressPozoGRPC     = "localhost:50053"
-	addressNameNodeGRPC = "localhost:50054"
+	addressPozoGRPC     = ":50053"
+	addressNameNodeGRPC = ":50054"
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
@@ -88,7 +69,7 @@ func grpcChannel(ipAdress string, message string) string {
 }
 
 func rabbitmqChannel(message string) {
-	conn, err := amqp.Dial("amqp://guest:guest@localhost:5672/")
+	conn, err := amqp.Dial("amqp://guest:guest@:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 	ch, err := conn.Channel()
@@ -137,7 +118,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
-			_ = grpcChannel("localhost:"+strconv.FormatInt(int64(50060+i+1), 10), message)
+			_ = grpcChannel(":"+strconv.FormatInt(int64(50060+i+1), 10), message)
 		}
 	}
 }
@@ -275,12 +256,12 @@ func LivePlayers() {
 }
 
 func Menu() {
-	fmt.Println("***************************************************")
+
+	fmt.Println("Elija 0 para ver el valor del pozo")
 	fmt.Println("Elija 1 para comenzar el juego Luz Roja Luz Verde")
 	fmt.Println("Elija 2 para comenzar el juego Tirar la cuerda")
 	fmt.Println("Elija 3 para comenzar el juego Todo o nada")
-	fmt.Println("Elija 4 para ver el valor del pozo")
-	fmt.Println("***************************************************")
+
 }
 
 func A_IDplayer() int {
@@ -337,7 +318,7 @@ func main() {
 	forever := make(chan bool)
 	var elecc string
 
-	fmt.Println("Esperando jugadores ", NumberOfPlayers, "/", MaxPlayers)
+	fmt.Println("Los jugadores estan Entrando!! ", NumberOfPlayers, "/", MaxPlayers)
 	for {
 		if NumberOfPlayers == MaxPlayers {
 			break
@@ -349,7 +330,11 @@ func main() {
 		fmt.Scanf("%s", &elecc)
 		SendMessageToPlayers(elecc, 0)
 
-		//PRIMER JUEGO
+		if elecc == "0" {
+			aux := SendMessageToPozo("val", "")
+			fmt.Println("Valor Actual del pozo: ", aux)
+		}
+		//Casos de Juegos
 		if elecc == "1" {
 			SendMessageToPlayers("R", 0)
 			fmt.Println("Primer juego")
@@ -496,11 +481,6 @@ func main() {
 			fmt.Println("Los jugadores ganadores son ", NumberOfPlayersReady)
 			LivePlayers()
 			NumberOfPlayersReady = 0
-		}
-
-		if elecc == "4" {
-			aux := SendMessageToPozo("val", "")
-			fmt.Println("Valor en el pozo: ", aux)
 		}
 	}
 	<-forever
