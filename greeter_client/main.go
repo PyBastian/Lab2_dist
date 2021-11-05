@@ -109,7 +109,9 @@ func main() {
 	if elecc != "yes" {
 		return
 	}
+	fmt.Println("Voy a decirle al lider")
 	IDplayer = ComunicacionLider("Begin")
+	fmt.Println("Le dije al lider")
 
 	for {
 
