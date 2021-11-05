@@ -98,6 +98,7 @@ func ListenMessage() {
 //ENVIAR MENSAJE A LOS JUGADORES
 //IDPLAYER := -1 para enviar a todos
 func SendMessageToPlayers(msgLider string, IDplayer int) {
+	fmt.Println("Mandando info al cliente")
 	var message string
 	var UserToEliminated int = IDplayer
 
