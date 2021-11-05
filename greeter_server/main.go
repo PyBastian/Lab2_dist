@@ -40,7 +40,6 @@ var choiceG2 int = 0
 var TeamPlayers = [3]string{"-", "-", "-"}
 var LoseTeam string = "0"
 
-//VARIABLE JUEGO3
 var numberG3 int = 0
 var PairPlayers = [3]int{-1, -1, -1}
 var AnswerPlayers = [3]int{-1, -1, -1}
@@ -51,7 +50,6 @@ func failOnError(err error, msg string) {
 	}
 }
 
-//CONEXIONES
 func grpcChannel(ipAdress string, message string) string {
 	fmt.Println("Entramos al grpChannel_1")
 	fmt.Println(ipAdress)
@@ -255,12 +253,10 @@ func LivePlayers() {
 }
 
 func Menu() {
-
-	fmt.Println("Elija 0 para ver el valor del pozo")
-	fmt.Println("Elija 1 para comenzar el juego Luz Roja Luz Verde")
-	fmt.Println("Elija 2 para comenzar el juego Tirar la cuerda")
-	fmt.Println("Elija 3 para comenzar el juego Todo o nada")
-
+	fmt.Println("Presione 0 para ver el valor del pozo")
+	fmt.Println("Presiones 1 para comenzar el juego Luz Roja Luz Verde")
+	fmt.Println("Presiones 2 para comenzar el juego Tirar la cuerda")
+	fmt.Println("Presiones 3 para comenzar el juego Todo o nada")
 }
 
 func A_IDplayer() int {
