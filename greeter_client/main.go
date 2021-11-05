@@ -101,9 +101,9 @@ func main() {
 	forever := make(chan bool)
 	go ListenInstr()
 
+	fmt.Scanf("%s", &elecc)
 	fmt.Println("Bienvenido al juego del calamar")
 	fmt.Println("¿Desea jugar? yes/no")
-	fmt.Scanf("%s", &elecc)
 
 	if elecc != "yes" {
 		return
