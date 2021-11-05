@@ -34,14 +34,14 @@ const (
 )
 
 var (
-	addr = flag.String("addr", "localhost:50051", "the address to connect to")
+	addr = flag.String("addr", "dist213.inf.santiago.usm.cl:50051", "the address to connect to")
 	name = flag.String("name", defaultName, "Name to greet")
 )
 
 func main() {
 	flag.Parse()
 	// Set up a connection to the server.
-	conn, err := grpc.Dial(*addr, grpc.WithInsecure())
+	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50051", grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
