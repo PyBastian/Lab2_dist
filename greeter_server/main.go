@@ -44,17 +44,28 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	log.Printf("Received: %v", in.GetName())
 	return &pb.HelloReply{Message: "Hello " + in.GetName()}, nil
 }
+func Instr() {
+	fmt.Println("Ingrese 0 para observar el pozo")
+	fmt.Println("Ingrese 1 para comenzar el juego Luz Roja Luz Verde")
+	fmt.Println("Ingrese 2 para comenzar el juego Tirar la cuerda")
+	fmt.Println("Ingrese 3 para comenzar el juego Todo o nada")
 
-func main() {
-	flag.Parse()
+}
+func ListenInic() {
 	lis, err := net.Listen("tcp", fmt.Sprintf(":%d", *port))
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
 	s := grpc.NewServer()
 	pb.RegisterGreeterServer(s, &server{})
-	log.Printf("server listening at %v", lis.Addr())
+	//log.Printf("server listening at %v", lis.Addr())
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+}
+
+func main() {
+	flag.Parse()
+	ListenInic()
+
 }
