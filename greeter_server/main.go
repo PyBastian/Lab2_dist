@@ -117,7 +117,8 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 		_ = SendMessageToPozo("", strconv.FormatInt(int64(UserToEliminated), 10))
 		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
 	}
-	_ = grpcChannel(":50071", message)
+	//_ = grpcChannel("dist213.inf.santiago.usm.cl:50071", message)
+	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
 			_ = grpcChannel(":50071", message)

@@ -72,7 +72,6 @@ func ComunicacionLider(msg string) string {
 	fmt.Println("Me voy a comunicar con el Lider")
 	var message string = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " " + msg
 
-	//INDICARLE QUE VA A JUGAR
 	if msg == "Begin" {
 		fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
