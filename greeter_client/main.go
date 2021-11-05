@@ -18,16 +18,15 @@ const (
 )
 
 var (
-	addr = flag.String("addr", "dist213.inf.santiago.usm.cl:50052", "the address to connect to")
 	name = flag.String("name", defaultName, "Name to greet")
 )
+
+type server struct{ pb.UnimplementedGreeterServer }
+
 var G_now string = ""
-var IDplayer string = ""
+var id_user string = ""
 var ReadyToPlay string = ""
 var R_Game = ""
-
-//Recepcion mensajes lider
-type server struct{ pb.UnimplementedGreeterServer }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
@@ -70,7 +69,7 @@ func ListenInstr() {
 
 func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
-	var message string = ":50052" + " " + G_now + " " + R_Game + " " + IDplayer + " " + msg
+	var message string = ":50052" + " " + G_now + " " + R_Game + " " + id_user + " " + msg
 	print(message)
 	if msg == "Start" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
@@ -78,14 +77,14 @@ func C_Lider(msg string) string {
 	}
 
 	if msg == "muerte" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + IDplayer + " Muertos"
+		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " Muertos"
 	}
 
 	if msg == "resultado" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + IDplayer + " Resultados"
+		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " Resultados"
 	}
 	if msg == "ValuePozo" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + IDplayer + " ValuePozo"
+		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " ValuePozo"
 	}
 
 	r := grpcChannel(message)
@@ -106,7 +105,7 @@ func main() {
 		return
 	}
 	fmt.Println("Hablemos Con el Lider entonces...")
-	IDplayer = C_Lider("Start")
+	id_user = C_Lider("Start")
 	fmt.Println("El Lider fue Avisado")
 
 	for {

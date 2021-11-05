@@ -23,7 +23,6 @@ const (
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-//VARIABLES GENERALES
 var MaxPlayers int = 1
 var NumberOfPlayers int = 0
 var NumberOfPlayersReady int = 0
