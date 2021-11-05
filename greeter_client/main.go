@@ -27,7 +27,7 @@ var IDplayer string = ""
 var ReadyToPlay string = ""
 var RoundGame = ""
 
-//ESCUCHAR AL LIDER
+//Recepcion mensajes lider
 type server struct{ pb.UnimplementedGreeterServer }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
@@ -71,7 +71,7 @@ func ListenInstr() {
 func ComunicacionLider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var message string = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " " + msg
-
+	print(message)
 	if msg == "Begin" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
