@@ -317,7 +317,6 @@ func main() {
 
 	forever := make(chan bool)
 	var elecc string
-	1
 	fmt.Println("Los jugadores estan Entrando!! ", NumberOfPlayers, "/", MaxPlayers)
 	for {
 		if NumberOfPlayers == MaxPlayers {
