@@ -24,7 +24,7 @@ const (
 type server struct{ pb.UnimplementedGreeterServer }
 
 //VARIABLES GENERALES
-var MaxPlayers int = 2
+var MaxPlayers int = 1
 var NumberOfPlayers int = 0
 var NumberOfPlayersReady int = 0
 var ListOfLivePlayers = [3]string{"y", "y", "y"}
@@ -61,6 +61,7 @@ func grpcChannel(ipAdress string, message string) string {
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+	fmt.Println("Entramos al grpChannel")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
