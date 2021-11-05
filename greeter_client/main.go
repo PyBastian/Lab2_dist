@@ -22,7 +22,7 @@ var (
 	name = flag.String("name", defaultName, "Name to greet")
 )
 
-var JuegoActual string = ""
+var G_now string = ""
 var IDplayer string = ""
 var ReadyToPlay string = ""
 var RoundGame = ""
@@ -32,7 +32,7 @@ type server struct{ pb.UnimplementedGreeterServer }
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
-		JuegoActual = in.GetName()
+		G_now = in.GetName()
 	}
 	if in.GetName() == "Ready" {
 		ReadyToPlay = "Ready"
@@ -41,8 +41,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func grpcChannel(message string) string {
-	print("grpcchanel_client")
-	print(message)
+
 	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -70,27 +69,27 @@ func ListenInstr() {
 	}
 }
 
-func ComunicacionLider(msg string) string {
+func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
-	var message string = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " " + msg
+	var message string = ":50052" + " " + G_now + " " + RoundGame + " " + IDplayer + " " + msg
 	print(message)
-	if msg == "Begin" {
+	if msg == "Start" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
 
 	if msg == "death" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " death"
+		message = ":50052" + " " + G_now + " " + RoundGame + " " + IDplayer + " death"
 	}
 
 	if msg == "resultado" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " R"
+		message = ":50052" + " " + G_now + " " + RoundGame + " " + IDplayer + " R"
 	}
 	if msg == "RandomDeath" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " RD"
+		message = ":50052" + " " + G_now + " " + RoundGame + " " + IDplayer + " RD"
 	}
 	if msg == "ValPozo" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " VP"
+		message = ":50052" + " " + G_now + " " + RoundGame + " " + IDplayer + " VP"
 	}
 
 	r := grpcChannel(message)
@@ -99,19 +98,19 @@ func ComunicacionLider(msg string) string {
 
 func main() {
 
-	var elecc string
+	var choice string
 	forever := make(chan bool)
 	go ListenInstr()
 
 	fmt.Println("Bienvenido al juego del calamar")
 	fmt.Println("¿Desea jugar? yes/no")
-	fmt.Scanf("%s", &elecc)
+	fmt.Scanf("%s", &choice)
 
-	if elecc != "yes" {
+	if choice != "yes" {
 		return
 	}
 	fmt.Println("Voy a decirle al lider")
-	IDplayer = ComunicacionLider("Begin")
+	IDplayer = C_Lider("Start")
 	fmt.Println("Le dije al lider")
 
 	for {
@@ -124,7 +123,7 @@ func main() {
 		}
 		ReadyToPlay = ""
 
-		if JuegoActual == "G1" {
+		if G_now == "G1" {
 			var round int = 0
 			var total int = 0
 			var resp string
@@ -134,7 +133,7 @@ func main() {
 			fmt.Println("Si usted elige un numero mayor o igual que el lider, quedara descalificado")
 
 			for round < 4 {
-				fmt.Println("Esperando eleccion del lider")
+				fmt.Println("Esperando choiceion del lider")
 				for {
 					if ReadyToPlay == "Ready" {
 						break
@@ -146,7 +145,7 @@ func main() {
 				aux, _ := strconv.Atoi(num)
 				total = total + aux
 
-				resp = ComunicacionLider(num)
+				resp = C_Lider(num)
 				if resp == "death" {
 					fmt.Println("Ha muerto")
 					return
@@ -157,21 +156,21 @@ func main() {
 
 			if total < 21 {
 				fmt.Println("Ha muerto")
-				_ = ComunicacionLider("death")
+				_ = C_Lider("death")
 				return
 			}
-			fmt.Println("El valor del pozo actual es: ", ComunicacionLider("ValPozo"))
+			fmt.Println("El valor del pozo actual es: ", C_Lider("ValPozo"))
 			ReadyToPlay = ""
-			JuegoActual = ""
+			G_now = ""
 		}
 
-		if JuegoActual == "G2" {
+		if G_now == "G2" {
 
 			for {
 				if ReadyToPlay == "Ready" {
-					resp := ComunicacionLider("RandomDeath")
+					resp := C_Lider("RandomDeath")
 					if resp == "death" {
-						fmt.Println("Ha muerto")
+						fmt.Println("A perido X(")
 						return
 					}
 					break
@@ -182,7 +181,7 @@ func main() {
 			fmt.Println("Bienvenido al segundo juego: Tirar la cuerda")
 			fmt.Println("Debera elegir un numero entre el 1 y el 4")
 			fmt.Println("Si usted elige un numero de diferente paridad que el lider, quedara descalificado")
-			fmt.Println("Esperando la eleccion del Lider")
+			fmt.Println("Esperando la choiceion del Lider")
 			for {
 				if ReadyToPlay == "Ready" {
 					break
@@ -191,16 +190,16 @@ func main() {
 			ReadyToPlay = ""
 
 			var num string
-			fmt.Println("Elija un numero")
+			fmt.Println("Que numero deseas elegir_")
 			fmt.Scanf("%s", &num)
-			resp := ComunicacionLider(num)
+			resp := C_Lider(num)
 
 			fmt.Println("Esperando al resultado ...")
 
 			if resp == "wait" {
 				for {
 					if ReadyToPlay == "Ready" {
-						resp := ComunicacionLider("resultado")
+						resp := C_Lider("resultado")
 						if resp == "death" {
 							fmt.Println("Ha muerto")
 							return
@@ -211,16 +210,16 @@ func main() {
 				}
 			}
 
-			fmt.Println("El valor del pozo actual es: ", ComunicacionLider("ValPozo"))
+			fmt.Println("El valor del pozo actual es: ", C_Lider("ValPozo"))
 			ReadyToPlay = ""
-			JuegoActual = ""
+			G_now = ""
 		}
 
-		if JuegoActual == "G3" {
+		if G_now == "G3" {
 
 			for {
 				if ReadyToPlay == "Ready" {
-					resp := ComunicacionLider("RandomDeath")
+					resp := C_Lider("RandomDeath")
 					if resp == "death" {
 						fmt.Println("Ha muerto")
 						return
@@ -244,14 +243,14 @@ func main() {
 			var num string
 			fmt.Println("Elija un numero")
 			fmt.Scanf("%s", &num)
-			resp := ComunicacionLider(num)
+			resp := C_Lider(num)
 
 			fmt.Println("Esperando al resultado ...")
 
 			if resp == "wait" {
 				for {
 					if ReadyToPlay == "Ready" {
-						resp := ComunicacionLider("resultado")
+						resp := C_Lider("resultado")
 						if resp == "death" {
 							fmt.Println("Ha muerto")
 							return
@@ -261,9 +260,9 @@ func main() {
 					}
 				}
 			}
-			fmt.Println("El valor del pozo actual es: ", ComunicacionLider("ValPozo"))
+			fmt.Println("El valor del pozo actual es: ", C_Lider("ValPozo"))
 			ReadyToPlay = ""
-			JuegoActual = ""
+			G_now = ""
 		}
 
 	}
