@@ -174,7 +174,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 				ListOfLivePlayers[IDplayer-1] = "n"
 				NumberOfPlayers = NumberOfPlayers - 1
-				fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+				fmt.Println("Esperando jugadores, llevamos", NumberOfPlayersReady, "de", NumberOfPlayers)
 
 				return &pb.HelloReply{Message: "death"}, nil
 			}
