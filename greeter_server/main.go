@@ -331,14 +331,14 @@ func main() {
 		}
 		//Casos de Juegos
 		if elecc == "1" {
-			SMPlayers("R", 0)
+			SMPlayer("R", 0)
 			fmt.Println("Primer juego")
 			fmt.Println("Debe elegir 4 numeros entre 6 y 10")
 			for round := 0; round < 4; round++ {
 				fmt.Println("Elija un numero")
 				fmt.Scanf("%d", &numberG1)
 
-				SMPlayers("Round", 0)
+				SMPlayer("Round", 0)
 
 				fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
 				for {
@@ -362,10 +362,10 @@ func main() {
 		if elecc == "2" {
 
 			NumberOfPlayersReady = 0
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
-				SendMessageToPlayers("R", 0)
+				SMPlayer("R", 0)
 				for {
 					if NumberOfPlayersReady == NumberOfPlayers {
 						break
@@ -381,7 +381,7 @@ func main() {
 			fmt.Scanf("%d", &eleccG2)
 			eleccG2 = eleccG2 % 2
 
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
@@ -408,7 +408,7 @@ func main() {
 			}
 
 			fmt.Println("Equipo perdedor ", LoseTeam)
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
 					break
@@ -425,10 +425,10 @@ func main() {
 		if elecc == "3" {
 
 			NumberOfPlayersReady = 0
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
-				SendMessageToPlayers("R", 0)
+				SMPlayer("R", 0)
 				for {
 					if NumberOfPlayersReady == NumberOfPlayers {
 						break
@@ -445,7 +445,7 @@ func main() {
 			fmt.Println("Elija un numero")
 			fmt.Scanf("%d", &numberG3)
 
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
@@ -465,7 +465,7 @@ func main() {
 				}
 			}
 
-			SendMessageToPlayers("R", 0)
+			SMPlayer("R", 0)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
 					break
