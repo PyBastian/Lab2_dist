@@ -18,7 +18,7 @@ const (
 )
 
 var (
-	addr = flag.String("addr", "dist214.inf.santiago.usm.cl:50052", "the address to connect to")
+	addr = flag.String("addr", "dist214.inf.santiago.usm.cl:50051", "the address to connect to")
 	name = flag.String("name", defaultName, "Name to greet")
 )
 
@@ -78,17 +78,17 @@ func ComunicacionLider(msg string) string {
 
 	//INDICARLE QUE EL JUGADOR PERDIO
 	if msg == "death" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " death"
+		message = ":50051" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " death"
 	}
 
 	if msg == "resultado" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " R"
+		message = ":50051" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " R"
 	}
 	if msg == "RandomDeath" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " RD"
+		message = ":50051" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " RD"
 	}
 	if msg == "ValPozo" {
-		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " VP"
+		message = ":50051" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " VP"
 	}
 
 	r := grpcChannel(message)
