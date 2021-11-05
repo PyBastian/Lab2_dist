@@ -106,6 +106,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 		message = "Ready"
 	}
 	if msgLider == "1" || msgLider == "2" || msgLider == "3" {
+		fmt.Println("Entramos al if")
 		message = "G" + msgLider
 	}
 	if msgLider == "D" || msgLider == "DT" {
@@ -116,7 +117,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 		_ = SendMessageToPozo("", strconv.FormatInt(int64(UserToEliminated), 10))
 		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
 	}
-
+	_ = grpcChannel(":50071", message)
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
 			_ = grpcChannel(":50071", message)
