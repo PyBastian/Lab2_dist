@@ -36,7 +36,7 @@ var numberG1 int = 0
 var RPlayerEliminated string = "-"
 var TotalG2T1 int = 0
 var TotalG2T2 int = 0
-var eleccG2 int = 0
+var choiceG2 int = 0
 var TeamPlayers = [3]string{"-", "-", "-"}
 var LoseTeam string = "0"
 
@@ -312,7 +312,7 @@ func main() {
 	go ListenMessage()
 
 	forever := make(chan bool)
-	var elecc string
+	var choice string
 	fmt.Println("Los jugadores estan Entrando!! ", NumberOfPlayers, "/", MaxPlayers)
 	for {
 		if NumberOfPlayers == MaxPlayers {
@@ -322,16 +322,16 @@ func main() {
 
 	for {
 		Menu()
-		fmt.Scanf("%s", &elecc)
-		SMPlayer(elecc, 0)
+		fmt.Scanf("%s", &choice)
+		SMPlayer(choice, 0)
 
-		if elecc == "0" {
+		if choice == "0" {
 			aux := SendMessageToPozo("val", "")
 			fmt.Println("Valor Actual del pozo: ", aux)
 		}
 		//Casos de Juegos
-		if elecc == "1" {
-			SMPlayer("R", 0)
+		if choice == "1" {
+			SMPlayer("Round", 0)
 			fmt.Println("Primer juego")
 			fmt.Println("Debe elegir 4 numeros entre 6 y 10")
 			for round := 0; round < 4; round++ {
@@ -359,13 +359,13 @@ func main() {
 			LivePlayers()
 		}
 
-		if elecc == "2" {
+		if choice == "2" {
 
 			NumberOfPlayersReady = 0
 			SMPlayer("R", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
-				SMPlayer("R", 0)
+				SMPlayer("Round", 0)
 				for {
 					if NumberOfPlayersReady == NumberOfPlayers {
 						break
@@ -378,10 +378,10 @@ func main() {
 			fmt.Println("Segundo juego")
 			fmt.Println("Debe elegir un numero entre 1 y 4")
 
-			fmt.Scanf("%d", &eleccG2)
-			eleccG2 = eleccG2 % 2
+			fmt.Scanf("%d", &choiceG2)
+			choiceG2 = choiceG2 % 2
 
-			SMPlayer("R", 0)
+			SMPlayer("Round", 0)
 
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
@@ -390,7 +390,7 @@ func main() {
 			}
 			NumberOfPlayersReady = 0
 
-			if TotalG2T1%2 == TotalG2T2%2 && TotalG2T1 != eleccG2 {
+			if TotalG2T1%2 == TotalG2T2%2 && TotalG2T1 != choiceG2 {
 				aux := rand.Intn(2)
 				if aux == 0 {
 					LoseTeam = "1"
@@ -400,15 +400,15 @@ func main() {
 				}
 			}
 
-			if TotalG2T1%2 != eleccG2 {
+			if TotalG2T1%2 != choiceG2 {
 				LoseTeam = "1"
 			}
-			if TotalG2T2%2 != eleccG2 {
+			if TotalG2T2%2 != choiceG2 {
 				LoseTeam = "2"
 			}
 
 			fmt.Println("Equipo perdedor ", LoseTeam)
-			SMPlayer("R", 0)
+			SMPlayer("Round", 0)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
 					break
@@ -422,10 +422,10 @@ func main() {
 			//SendMessageToPlayers("R", 0)
 		}
 
-		if elecc == "3" {
+		if choice == "3" {
 
 			NumberOfPlayersReady = 0
-			SMPlayer("R", 0)
+			SMPlayer("Round", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
 				SMPlayer("R", 0)
@@ -445,7 +445,7 @@ func main() {
 			fmt.Println("Elija un numero")
 			fmt.Scanf("%d", &numberG3)
 
-			SMPlayer("R", 0)
+			SMPlayer("Round", 0)
 			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
@@ -465,7 +465,7 @@ func main() {
 				}
 			}
 
-			SMPlayer("R", 0)
+			SMPlayer("Round", 0)
 			for {
 				if NumberOfPlayersReady == NumberOfPlayers {
 					break
