@@ -71,7 +71,7 @@ func grpcChannel(ipAdress string, message string) string {
 }
 
 func rabbitmqChannel(message string) {
-	conn, err := amqp.Dial("amqp://guest:guest@dist215.inf.santiago.usm.cl:5672/")
+	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:5672/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 	ch, err := conn.Channel()
