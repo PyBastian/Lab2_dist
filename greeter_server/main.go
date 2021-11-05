@@ -121,7 +121,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 	}
 	fmt.Println("Estamos a punto de entrar al grpcChannel")
 	//_ = grpcChannel("dist213.inf.santiago.usm.cl:50071", message)
-	_ = grpcChannel(":50071", message)
+	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
 			_ = grpcChannel(":50071", message)
