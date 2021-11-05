@@ -57,7 +57,7 @@ func grpcChannel(message string) string {
 }
 
 func ListenInstr() {
-	lis, err := net.Listen("tcp", "dist214.inf.santiago.usm.cl:50052")
+	lis, err := net.Listen("tcp", "dist214.inf.santiago.usm.cl:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
