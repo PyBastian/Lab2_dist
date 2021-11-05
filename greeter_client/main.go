@@ -2,7 +2,7 @@ package main
 
 import (
 	"context"
-	"flag" //"strings"
+	"flag"
 	"fmt"
 	"log"
 	"net"
@@ -77,7 +77,6 @@ func ComunicacionLider(msg string) string {
 		return grpcChannel("yes")
 	}
 
-	//INDICARLE QUE EL JUGADOR PERDIO
 	if msg == "death" {
 		message = ":50052" + " " + JuegoActual + " " + RoundGame + " " + IDplayer + " death"
 	}

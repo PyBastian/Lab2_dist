@@ -58,13 +58,10 @@ func grpcChannel(ipAdress string, message string) string {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
-	fmt.Println("Entramos al grpChannel_2")
 	defer conn.Close()
-	fmt.Println("Entramos al grpChannel_3")
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	fmt.Println("Entramos al grpChannel_4")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -99,19 +96,18 @@ func ListenMessage() {
 	}
 }
 
-//ENVIAR MENSAJE A LOS JUGADORES
-//IDPLAYER := -1 para enviar a todos
-func SendMessageToPlayers(msgLider string, IDplayer int) {
+//Enviamos mensaje al cliente
+func SMPlayer(msgLider string, IDplayer int) {
 	fmt.Println("Mandando info al cliente")
 	var message string
 	var UserToEliminated int = IDplayer
 
-	if msgLider == "R" {
+	if msgLider == "Round" {
 		message = "Ready"
 	}
 	if msgLider == "1" || msgLider == "2" || msgLider == "3" {
 		fmt.Println("Entramos al if")
-		message = "Lets play G" + msgLider
+		message = "G" + msgLider
 	}
 	if msgLider == "D" || msgLider == "DT" {
 		NumberOfPlayers = NumberOfPlayers - 1
@@ -122,13 +118,8 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
 	}
 	fmt.Println("Estamos a punto de entrar al grpcChannel")
-	//_ = grpcChannel("dist213.inf.santiago.usm.cl:50071", message)
 	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
-	for i := 0; i < len(ListOfLivePlayers); i++ {
-		if ListOfLivePlayers[i] == "y" {
-			_ = grpcChannel(":50071", message)
-		}
-	}
+
 }
 
 //MANDAR MENSAJES AL POZO
@@ -146,18 +137,16 @@ func SendMessageToNameNode(msg string) string {
 
 // ESCUCHAR MENSAJES DE LOS JUGADORES
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-
+	fmt.Println("Entramos al SayHello")
 	//INGRESAR AL JUEGO
 	if in.GetName() == "yes" {
 		NumberOfPlayers = NumberOfPlayers + 1
-		fmt.Println("Esperando jugadores ", NumberOfPlayers, "/", MaxPlayers)
+		fmt.Println("Esperando a los Jugadores, llevamos = ", NumberOfPlayers, " de ", MaxPlayers)
 		return &pb.HelloReply{Message: strconv.FormatInt(int64(NumberOfPlayers), 10)}, nil
 	}
 
 	//SEPARACION DEL MENSAJE
 	text := strings.Split(in.GetName(), " ")
-	//Game := text[1]
-	//RondaJugada := text[2]
 	IDplayer, _ := strconv.Atoi(text[3])
 	Jugada, _ := strconv.Atoi(text[4])
 
@@ -166,7 +155,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	}
 
 	if text[4] == "R" {
-		if text[1] == "G2" && TeamPlayers[IDplayer-1] == LoseTeam {
+		if text[1] == "Game2" && TeamPlayers[IDplayer-1] == LoseTeam {
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
@@ -176,7 +165,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
-		if text[1] == "G3" {
+		if text[1] == "Game3" {
 			var aux int = FindPair(PairPlayers[IDplayer-1], IDplayer)
 			if AnswerPlayers[IDplayer-1] > AnswerPlayers[aux] {
 				_ = SendMessageToPozo("", text[3])
@@ -254,7 +243,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return nil, nil
 }
 
-//MENUS Y OTROS
 func LivePlayers() {
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
@@ -335,7 +323,7 @@ func main() {
 	for {
 		Menu()
 		fmt.Scanf("%s", &elecc)
-		SendMessageToPlayers(elecc, 0)
+		SMPlayer(elecc, 0)
 
 		if elecc == "0" {
 			aux := SendMessageToPozo("val", "")
@@ -343,14 +331,14 @@ func main() {
 		}
 		//Casos de Juegos
 		if elecc == "1" {
-			SendMessageToPlayers("R", 0)
+			SMPlayers("R", 0)
 			fmt.Println("Primer juego")
 			fmt.Println("Debe elegir 4 numeros entre 6 y 10")
 			for round := 0; round < 4; round++ {
 				fmt.Println("Elija un numero")
 				fmt.Scanf("%d", &numberG1)
 
-				SendMessageToPlayers("R", 0)
+				SMPlayers("Round", 0)
 
 				fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
 				for {
