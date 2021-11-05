@@ -53,6 +53,7 @@ func failOnError(err error, msg string) {
 
 //CONEXIONES
 func grpcChannel(ipAdress string, message string) string {
+	fmt.Println("Entramos al grpChannel_1")
 	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
@@ -61,7 +62,7 @@ func grpcChannel(ipAdress string, message string) string {
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	fmt.Println("Entramos al grpChannel")
+	fmt.Println("Entramos al grpChannel_2")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -118,6 +119,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 		_ = SendMessageToPozo("", strconv.FormatInt(int64(UserToEliminated), 10))
 		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
 	}
+	fmt.Println("Estamos a punto de entrar al grpcChannel")
 	//_ = grpcChannel("dist213.inf.santiago.usm.cl:50071", message)
 	_ = grpcChannel(":50071", message)
 	for i := 0; i < len(ListOfLivePlayers); i++ {
