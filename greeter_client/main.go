@@ -74,6 +74,7 @@ func ComunicacionLider(msg string) string {
 
 	//INDICARLE QUE VA A JUGAR
 	if msg == "Begin" {
+		fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
 
