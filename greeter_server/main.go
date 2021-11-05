@@ -58,11 +58,13 @@ func grpcChannel(ipAdress string, message string) string {
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
+	fmt.Println("Entramos al grpChannel_2")
 	defer conn.Close()
+	fmt.Println("Entramos al grpChannel_3")
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	fmt.Println("Entramos al grpChannel_2")
+	fmt.Println("Entramos al grpChannel_4")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -109,7 +111,7 @@ func SendMessageToPlayers(msgLider string, IDplayer int) {
 	}
 	if msgLider == "1" || msgLider == "2" || msgLider == "3" {
 		fmt.Println("Entramos al if")
-		message = "G" + msgLider
+		message = "Lets play G" + msgLider
 	}
 	if msgLider == "D" || msgLider == "DT" {
 		NumberOfPlayers = NumberOfPlayers - 1
