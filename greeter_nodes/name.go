@@ -14,7 +14,7 @@ import (
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
-type server struct{ pb.UnimplementedGreeterServer }
+type data struct{ pb.UnimplementedGreeterServer }
 
 const (
 	port = ":50054"
@@ -40,7 +40,7 @@ func grpcChannel(message string, ipAddress string) string {
 	return r.GetMessage()
 }
 
-func WriteInTXT(msg string) {
+func TXT(msg string) {
 	var file, err = os.OpenFile(dir, os.O_APPEND|os.O_RDWR, 0644)
 	if err != nil {
 		file, err = os.Create(dir)
@@ -57,7 +57,7 @@ func WriteInTXT(msg string) {
 	if err != nil {
 		log.Fatalf("%s", err)
 	}
-	fmt.Println("Archivo actualizado existosamente.")
+	fmt.Println("Se actualizo el archivo de texto.")
 }
 
 func ListenInstr() {
