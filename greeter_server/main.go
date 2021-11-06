@@ -16,17 +16,17 @@ import (
 )
 
 const (
-	port                = ":50051"
-	addressPozoGRPC     = ":50053"
-	addressNameNodeGRPC = ":50054"
+	port       = ":50051"
+	addrs_pozo = ":50053"
+	addrs_node = ":50054"
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var MaxPlayers int = 1
-var NumberOfPlayers int = 0
+var TotalPlayer int = 1
+var N_play int = 0
 var N_Playerr int = 0
-var ListOfLivePlayers = [3]string{"y", "y", "y"}
+var L_player = [3]string{"l", "l", "l"}
 
 var numberG1 int = 0
 
@@ -109,7 +109,7 @@ func SMPlayer(msgLider string, id_user int) {
 		message = "E" + msgLider
 	}
 	if msgLider == "D" || msgLider == "DT" {
-		NumberOfPlayers = NumberOfPlayers - 1
+		N_play = N_play - 1
 		if msgLider == "D" {
 			UserToEliminated = A_id_user()
 		}
@@ -121,17 +121,16 @@ func SMPlayer(msgLider string, id_user int) {
 
 }
 
-//MANDAR MENSAJES AL POZO
 func SendMessageToPozo(msg string, player string) string {
 	if msg == "val" {
-		return grpcChannel(addressPozoGRPC, msg)
+		return grpcChannel(addrs_pozo, msg)
 	}
 	rabbitmqChannel(player)
 	return ""
 }
 
 func SendMessageToNameNode(msg string) string {
-	return grpcChannel(addressNameNodeGRPC, msg)
+	return grpcChannel(addrs_node, msg)
 }
 
 // ESCUCHAR MENSAJES DE LOS JUGADORES
@@ -139,9 +138,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Println("Entramos al SayHello")
 	//INGRESAR AL JUEGO
 	if in.GetName() == "yes" {
-		NumberOfPlayers = NumberOfPlayers + 1
-		fmt.Println("Esperando a los Jugadores, llevamos = ", NumberOfPlayers, " de ", MaxPlayers)
-		return &pb.HelloReply{Message: strconv.FormatInt(int64(NumberOfPlayers), 10)}, nil
+		N_play = N_play + 1
+		fmt.Println("Esperando a los Jugadores, llevamos = ", N_play, " de ", TotalPlayer)
+		return &pb.HelloReply{Message: strconv.FormatInt(int64(N_play), 10)}, nil
 	}
 
 	//SEPARACION DEL MENSAJE
@@ -158,9 +157,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[id_user-1] = "n"
-			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+			L_player[id_user-1] = "n"
+			N_play = N_play - 1
+			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
@@ -170,16 +169,16 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 				_ = SendMessageToPozo("", text[3])
 				fmt.Println("Jugador " + text[3] + " ha muerto")
 
-				ListOfLivePlayers[id_user-1] = "n"
-				NumberOfPlayers = NumberOfPlayers - 1
-				fmt.Println("Esperando jugadores, llevamos", N_Playerr, "de", NumberOfPlayers)
+				L_player[id_user-1] = "n"
+				N_play = N_play - 1
+				fmt.Println("Esperando jugadores, llevamos", N_Playerr, "de", N_play)
 
 				return &pb.HelloReply{Message: "death"}, nil
 			}
 		}
 
 		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
@@ -188,15 +187,15 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[id_user-1] = "n"
-			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+			L_player[id_user-1] = "n"
+			N_play = N_play - 1
+			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
 
 		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
@@ -209,14 +208,14 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[id_user-1] = "n"
-			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+			L_player[id_user-1] = "n"
+			N_play = N_play - 1
+			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 			return &pb.HelloReply{Message: "death"}, nil
 		}
 
 		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
@@ -228,14 +227,14 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			TotalG2T2 = TotalG2T2 + Jugada
 		}
 		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 		return &pb.HelloReply{Message: "wait"}, nil
 	}
 
 	if text[1] == "E3" {
 		AnswerPlayers[id_user-1] = Jugada
 		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 		return &pb.HelloReply{Message: "wait"}, nil
 	}
 
@@ -243,8 +242,8 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 func LivePlayers() {
-	for i := 0; i < len(ListOfLivePlayers); i++ {
-		if ListOfLivePlayers[i] == "y" {
+	for i := 0; i < len(L_player); i++ {
+		if L_player[i] == "l" {
 			fmt.Println("Jugador ", i+1, "ha sobrevivido")
 		}
 	}
@@ -258,12 +257,12 @@ func Menu() {
 }
 
 func A_id_user() int {
-	IDAleatorio := rand.Intn(NumberOfPlayers) + 1
-	for i := 0; i < len(ListOfLivePlayers); i++ {
-		if ListOfLivePlayers[i] == "y" {
+	IDAleatorio := rand.Intn(N_play) + 1
+	for i := 0; i < len(L_player); i++ {
+		if L_player[i] == "l" {
 			IDAleatorio = IDAleatorio - 1
 		}
-		if IDAleatorio == 0 && ListOfLivePlayers[i] == "y" {
+		if IDAleatorio == 0 && L_player[i] == "l" {
 			return i + 1
 		}
 	}
@@ -272,7 +271,7 @@ func A_id_user() int {
 
 func FindPair(t int, p int) int {
 	var aux int = 0
-	for i := 0; i < len(ListOfLivePlayers); i++ {
+	for i := 0; i < len(L_player); i++ {
 		if PairPlayers[i] == t && (p-1) != i {
 			aux = i
 		}
@@ -282,11 +281,11 @@ func FindPair(t int, p int) int {
 
 func DefineTeamsG2() {
 	var aux int = 0
-	for i := 0; i < len(ListOfLivePlayers); i++ {
-		if aux == 0 && ListOfLivePlayers[i] == "y" {
+	for i := 0; i < len(L_player); i++ {
+		if aux == 0 && L_player[i] == "l" {
 			TeamPlayers[i] = "1"
 		}
-		if aux == 1 && ListOfLivePlayers[i] == "y" {
+		if aux == 1 && L_player[i] == "l" {
 			TeamPlayers[i] = "2"
 		}
 		aux = (aux + 1) % 2
@@ -295,11 +294,11 @@ func DefineTeamsG2() {
 
 func DefineTeamsG3() {
 	var aux int = 0
-	for i := 0; i < len(ListOfLivePlayers); i++ {
-		if ListOfLivePlayers[i] == "y" {
+	for i := 0; i < len(L_player); i++ {
+		if L_player[i] == "l" {
 			PairPlayers[i] = aux
 		}
-		aux = (aux + 1) % (NumberOfPlayers / 2)
+		aux = (aux + 1) % (N_play / 2)
 	}
 }
 
@@ -309,9 +308,9 @@ func main() {
 
 	forever := make(chan bool)
 	var choice string
-	fmt.Println("Los jugadores estan Entrando!! ", NumberOfPlayers, "/", MaxPlayers)
+	fmt.Println("Los jugadores estan Entrando!! ", N_play, "/", TotalPlayer)
 	for {
-		if NumberOfPlayers == MaxPlayers {
+		if N_play == TotalPlayer {
 			break
 		}
 	}
@@ -336,14 +335,14 @@ func main() {
 
 				SMPlayer("Round", 0)
 
-				fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+				fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 				for {
-					if N_Playerr == NumberOfPlayers {
+					if N_Playerr == N_play {
 						break
 					}
 				}
 
-				if NumberOfPlayers == 0 {
+				if N_play == 0 {
 					fmt.Println("Todos los jugadores murieron")
 					break
 				}
@@ -359,11 +358,11 @@ func main() {
 
 			N_Playerr = 0
 			SMPlayer("R", 0)
-			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
+			if N_play%2 == 1 && N_play != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
 				SMPlayer("Round", 0)
 				for {
-					if N_Playerr == NumberOfPlayers {
+					if N_Playerr == N_play {
 						break
 					}
 				}
@@ -380,7 +379,7 @@ func main() {
 			SMPlayer("Round", 0)
 
 			for {
-				if N_Playerr == NumberOfPlayers {
+				if N_Playerr == N_play {
 					break
 				}
 			}
@@ -406,7 +405,7 @@ func main() {
 			fmt.Println("Han perdido ", LoseTeam)
 			SMPlayer("Round", 0)
 			for {
-				if N_Playerr == NumberOfPlayers {
+				if N_Playerr == N_play {
 					break
 				}
 			}
@@ -421,11 +420,11 @@ func main() {
 
 			N_Playerr = 0
 			SMPlayer("Round", 0)
-			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
+			if N_play%2 == 1 && N_play != 1 {
 				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
 				SMPlayer("R", 0)
 				for {
-					if N_Playerr == NumberOfPlayers {
+					if N_Playerr == N_play {
 						break
 					}
 				}
@@ -441,16 +440,16 @@ func main() {
 			fmt.Scanf("%d", &numberG3)
 
 			SMPlayer("Round", 0)
-			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
+			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
 			for {
-				if N_Playerr == NumberOfPlayers {
+				if N_Playerr == N_play {
 					break
 				}
 			}
 			N_Playerr = 0
 
-			for i := 0; i < len(ListOfLivePlayers); i++ {
-				if ListOfLivePlayers[i] == "y" {
+			for i := 0; i < len(L_player); i++ {
+				if L_player[i] == "l" {
 					if AnswerPlayers[i] >= numberG3 {
 						AnswerPlayers[i] = AnswerPlayers[i] - numberG3
 					}
@@ -462,7 +461,7 @@ func main() {
 
 			SMPlayer("Round", 0)
 			for {
-				if N_Playerr == NumberOfPlayers {
+				if N_Playerr == N_play {
 					break
 				}
 			}
