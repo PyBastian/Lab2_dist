@@ -56,7 +56,7 @@ func StringManage(msg string, t int) string {
 
 func rabbitmqCh() {
 
-	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:5672/")
+	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:50051/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
 
