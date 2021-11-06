@@ -28,7 +28,6 @@ var NumberOfPlayers int = 0
 var N_Playerr int = 0
 var ListOfLivePlayers = [3]string{"y", "y", "y"}
 
-//VARIABLES JUEGO 1
 var numberG1 int = 0
 
 //VARIABLES JUEGO 2
