@@ -93,7 +93,7 @@ func rabbitmqCh() {
 }
 
 func grpcCh() {
-	lis, err := net.Listen("tcp", ":50053")
+	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50053")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -117,6 +117,6 @@ func main() {
 	go rabbitmqCh()
 	go grpcCh()
 
-	log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	//log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
 	<-forever
 }

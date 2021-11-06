@@ -364,7 +364,7 @@ func main() {
 
 			DefineTeamsG2()
 			fmt.Println("Segundo juego")
-			fmt.Println("Debe elegir un numero entre 1 y 4")
+			fmt.Println("Elige un numero entre 1 y 4")
 
 			fmt.Scanf("%d", &choiceG2)
 			choiceG2 = choiceG2 % 2
@@ -395,7 +395,7 @@ func main() {
 				LoseTeam = "2"
 			}
 
-			fmt.Println("Han perdido ", LoseTeam)
+			fmt.Println("Perdedores ", LoseTeam)
 			SMPlayer("Round", 0)
 			for {
 				if N_Playerr == N_play {
@@ -427,7 +427,7 @@ func main() {
 			DefineTeamsG3()
 
 			fmt.Println("Tercer juego")
-			fmt.Println("ELige entre 1 al 10")
+			fmt.Println("Elige entre 1 al 10")
 
 			fmt.Println("Escoge un numero")
 			fmt.Scanf("%d", &numberG3)
