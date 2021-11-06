@@ -129,7 +129,7 @@ func SendMessageToPozo(msg string, player string) string {
 	return ""
 }
 
-func SendMessageToNameNode(msg string) string {
+func MsgToNode(msg string) string {
 	return grpcChannel(addrs_node, msg)
 }
 
@@ -149,7 +149,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	Jugada, _ := strconv.Atoi(text[4])
 
 	if text[4] != "R" && text[4] != "RD" && text[4] != "VP" {
-		_ = SendMessageToNameNode(text[1] + " " + text[3] + " " + text[4])
+		_ = MsgToNode(text[1] + " " + text[3] + " " + text[4])
 	}
 
 	if text[4] == "R" {
@@ -189,7 +189,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 			L_player[id_user-1] = "n"
 			N_play = N_play - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
+			fmt.Println("Esperando jugadores", N_Playerr, " de ", N_play)
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
