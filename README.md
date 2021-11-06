@@ -1,16 +1,17 @@
 ﻿# Squid Game
 
 Este documento mostrará y documentará informacion relacionada a la tarea y a las etapas del proceso, como correr los archivos, supuestos que se tengan y cúal fue la lógica usada tras los scripts implementados en Go.
+
 ### Integrantes grupo 54
 - Bastián Vivar 201773109-5
 - Rodrigo Hernandez 201730036-1
 - Luis Blanco
 
 #### La distribución de las máquinas virtuales y sus componentes son los siguentes:
-- dist213 ---> Node/ 
-- dist214 ---> Lider / Server
-- dist215 ---> Pozo
-- dist216 ---> Jugadores
+- dist213 ---> NameNode
+- dist214 ---> Lider / Server / Datanode
+- dist215 ---> Pozo / Datanode
+- dist216 ---> Jugadores / Datanode
 ## Jugadores
 Los jugadores actuan como clientes del sistema, donde para cada jugador se conectara al lider (greeter_server) mediante gRCP. Solamente utilizaran un servicio de mensajeria definido en helloworld.proto el cual se utilizara para hacer las conexiones y comunicaciones entre todos los sistemas en la red. Los jugadores ingresaran al juego mediante una conexion con el lider en el puerto 50071, a los cuales se envia un mensaje de bienvenida y se le preguta si quieren ingresar al juego del calamar.
 En caso de que su respuesta sea afimativa, se le comunica al lider y el contador de jugadores interno del lider aumenta en 1 y asi hasta llegar al numero maximo de jugadores. Cada jugador debera esperar a que se complete el cupo de jugadores disponibles y entonces el lider informara a cada jugador el comienzo del juego del calamar, a lo cual se seleccionará un juego y los jugadores empezarán a enviar sus jugadas al lider. Si el jugador es eliminado, gana o muere, se le informa por consola y se actualiza el pozo con un llamado que queda a cargo del lider. Debido a temas de tiempo y por lo explicado en el discord del curso, no fue posible por temas de tiempo implementar a los jugadores bots, pero la lógica que seguirian estos seria identica a la de un jugador por consola, solamente que cuando se pregunte una accion, el sistema envie automaticamente esta accion con un selector Random(). Estos estarian ejecutandose igualmente en esta maquina.
