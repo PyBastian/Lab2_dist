@@ -32,7 +32,7 @@ var numberG1 int = 0
 
 //VARIABLES JUEGO 2
 var RPlayerEliminated string = "-"
-var TotalG2T1 int = 0
+var T_T1 int = 0
 var TotalG2T2 int = 0
 var choiceG2 int = 0
 var TeamPlayers = [3]string{"-", "-", "-"}
@@ -214,7 +214,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	if text[1] == "E2" {
 		if TeamPlayers[id_user-1] == "1" {
-			TotalG2T1 = TotalG2T1 + Jugada
+			T_T1 = T_T1 + Jugada
 		}
 		if TeamPlayers[id_user-1] == "2" {
 			TotalG2T2 = TotalG2T2 + Jugada
@@ -272,7 +272,7 @@ func FindPair(t int, p int) int {
 	return aux
 }
 
-func DefineTeamsG2() {
+func TeamsG2() {
 	var aux int = 0
 	for i := 0; i < len(L_player); i++ {
 		if aux == 0 && L_player[i] == "l" {
@@ -282,16 +282,6 @@ func DefineTeamsG2() {
 			TeamPlayers[i] = "2"
 		}
 		aux = (aux + 1) % 2
-	}
-}
-
-func DefineTeamsG3() {
-	var aux int = 0
-	for i := 0; i < len(L_player); i++ {
-		if L_player[i] == "l" {
-			PairPlayers[i] = aux
-		}
-		aux = (aux + 1) % (N_play / 2)
 	}
 }
 
@@ -317,12 +307,13 @@ func main() {
 			aux := SendMessageToPozo("val", "")
 			fmt.Println("Valor Actual del pozo: ", aux)
 		}
-		//Casos de Juegos
+		//Casos de Juegos {1,2,3}
 		if choice == "1" {
 			SMPlayer("Round", 0)
 			fmt.Println("Primer juego")
 			fmt.Println("Deberas elegir 4 numeros entre 6 y 10")
-			for round := 0; round < 4; round++ {
+			var n_rondas = 4
+			for round := 0; round < n_rondas; round++ {
 				fmt.Println("Elija un numero")
 				fmt.Scanf("%d", &numberG1)
 
@@ -346,7 +337,7 @@ func main() {
 			fmt.Println("Jugadores sobrevivientes ", N_Playerr)
 			LivePlayers()
 		}
-
+		//Juego 2
 		if choice == "2" {
 
 			N_Playerr = 0
@@ -362,7 +353,7 @@ func main() {
 			}
 			N_Playerr = 0
 
-			DefineTeamsG2()
+			TeamsG2()
 			fmt.Println("Segundo juego")
 			fmt.Println("Elige un numero entre 1 y 4")
 
@@ -378,7 +369,7 @@ func main() {
 			}
 			N_Playerr = 0
 
-			if TotalG2T1%2 == TotalG2T2%2 && TotalG2T1 != choiceG2 {
+			if T_T1%2 == TotalG2T2%2 && T_T1 != choiceG2 {
 				aux := rand.Intn(2)
 				if aux == 0 {
 					LoseTeam = "1"
@@ -388,7 +379,7 @@ func main() {
 				}
 			}
 
-			if TotalG2T1%2 != choiceG2 {
+			if T_T1%2 != choiceG2 {
 				LoseTeam = "1"
 			}
 			if TotalG2T2%2 != choiceG2 {
@@ -424,10 +415,8 @@ func main() {
 			}
 			N_Playerr = 0
 
-			DefineTeamsG3()
-
 			fmt.Println("Tercer juego")
-			fmt.Println("Elige entre 1 al 10")
+			fmt.Println("Elige entre ore 1 al 10")
 
 			fmt.Println("Escoge un numero")
 			fmt.Scanf("%d", &numberG3)

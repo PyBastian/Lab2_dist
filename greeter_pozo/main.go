@@ -3,7 +3,7 @@ package main
 import (
 	"bufio"
 	"context"
-	"fmt"
+	"flag"
 	"log"
 	"net"
 	"os"
@@ -26,7 +26,7 @@ func failOnError(err error, msg string) {
 	}
 }
 
-func StringManage(msg string, t int) string {
+func Manejo_msg_str(msg string, t int) string {
 	file, _ := os.OpenFile(dir, os.O_RDONLY, 0644)
 	defer file.Close()
 	scanner := bufio.NewScanner(file)
@@ -55,7 +55,7 @@ func StringManage(msg string, t int) string {
 }
 
 func rabbitmqCh() {
-
+	flag.Parsed()
 	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:50051/")
 	failOnError(err, "Failed to connect to RabbitMQ")
 	defer conn.Close()
@@ -79,7 +79,7 @@ func rabbitmqCh() {
 			}
 		}
 		defer file.Close()
-		var msgF = StringManage(string(d.Body), 0)
+		var msgF = Manejo_msg_str(string(d.Body), 0)
 		_, err = file.WriteString(msgF + "\n")
 		if err != nil {
 			log.Fatalf("%s", err)
@@ -88,7 +88,6 @@ func rabbitmqCh() {
 		if err != nil {
 			log.Fatalf("%s", err)
 		}
-		fmt.Println("Archivo actualizado existosamente.")
 	}
 }
 
@@ -106,7 +105,7 @@ func grpcCh() {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	if string(in.GetName()) == "val" {
-		return &pb.HelloReply{Message: StringManage("", 1)}, nil
+		return &pb.HelloReply{Message: Manejo_msg_str("", 1)}, nil
 	}
 	return nil, nil
 }
