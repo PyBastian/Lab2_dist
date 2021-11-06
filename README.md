@@ -7,7 +7,7 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Luis Blanco
 
 #### La distribución de las máquinas virtuales y sus componentes son los siguentes:
-- dist213 ---> Node
+- dist213 ---> Node/ 
 - dist214 ---> Lider / Server
 - dist215 ---> Pozo
 - dist216 ---> Jugadores
@@ -16,7 +16,7 @@ Los jugadores actuan como clientes del sistema, donde para cada jugador se conec
 En caso de que su respuesta sea afimativa, se le comunica al lider y el contador de jugadores interno del lider aumenta en 1 y asi hasta llegar al numero maximo de jugadores. Cada jugador debera esperar a que se complete el cupo de jugadores disponibles y entonces el lider informara a cada jugador el comienzo del juego del calamar, a lo cual se seleccionará un juego y los jugadores empezarán a enviar sus jugadas al lider. Si el jugador es eliminado, gana o muere, se le informa por consola y se actualiza el pozo con un llamado que queda a cargo del lider. Debido a temas de tiempo y por lo explicado en el discord del curso, no fue posible por temas de tiempo implementar a los jugadores bots, pero la lógica que seguirian estos seria identica a la de un jugador por consola, solamente que cuando se pregunte una accion, el sistema envie automaticamente esta accion con un selector Random(). Estos estarian ejecutandose igualmente en esta maquina.
 
 ## Lider/Server
-Nuestra entidad Lider es utilziada como servidor inicial donde esta sera la que interactuara con nosotros y se comunicara con todas las entidades a través de strings y a su vez las entidades generara procesos que se comunicaran con el, donde el Lider en un inicio esperara que los jugadores se contacten con el, nosotros definimos la espera de un usuario, ya que los bots si bien pueden ser copias de la entidad Jugadores con otros puertos, y también podrian ser llevados como metodos dentro de jugadores nosotros desarrollamos el juego con un jugador para fines practicos de testeo.
+Nuestra entidad Lider es utilziada como servidor inicial donde esta sera la que interactuara con nosotros y se comunicara con todas las entidades a través de strings y a su vez las entidades también generaran procesos que se comunicaran con el, donde el Lider en un inicio esperara que los jugadores se contacten con el, nosotros definimos la espera de un usuario, ya que los bots si bien pueden ser copias de la entidad Jugadores con otros puertos, y también podrian ser llevados como metodos dentro de jugadores y lo manejamos de manera local, pero nosotros desarrollamos el juego con un jugador para fines practicos de testeo. luego podemos ver que la comunicación entre el cliente (Jugadores), se llevara a cabo con cada jugada y se analizan los strings con mensajes convenientes, para luego ser procesados por el Lider (greater_ser/main.go)
 
 ## Create files and folders
 
