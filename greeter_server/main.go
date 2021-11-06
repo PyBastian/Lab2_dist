@@ -25,7 +25,7 @@ type server struct{ pb.UnimplementedGreeterServer }
 
 var MaxPlayers int = 1
 var NumberOfPlayers int = 0
-var NumberOfPlayersReady int = 0
+var N_Playerr int = 0
 var ListOfLivePlayers = [3]string{"y", "y", "y"}
 
 //VARIABLES JUEGO 1
@@ -97,22 +97,22 @@ func ListenMessage() {
 }
 
 //Enviamos mensaje al cliente
-func SMPlayer(msgLider string, IDplayer int) {
+func SMPlayer(msgLider string, id_user int) {
 	fmt.Println("Mandando info al cliente")
 	var message string
-	var UserToEliminated int = IDplayer
+	var UserToEliminated int = id_user
 
 	if msgLider == "Round" {
 		message = "Ready"
 	}
 	if msgLider == "1" || msgLider == "2" || msgLider == "3" {
 		fmt.Println("Entramos al if")
-		message = "G" + msgLider
+		message = "E" + msgLider
 	}
 	if msgLider == "D" || msgLider == "DT" {
 		NumberOfPlayers = NumberOfPlayers - 1
 		if msgLider == "D" {
-			UserToEliminated = A_IDplayer()
+			UserToEliminated = A_id_user()
 		}
 		_ = SendMessageToPozo("", strconv.FormatInt(int64(UserToEliminated), 10))
 		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
@@ -147,7 +147,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	//SEPARACION DEL MENSAJE
 	text := strings.Split(in.GetName(), " ")
-	IDplayer, _ := strconv.Atoi(text[3])
+	id_user, _ := strconv.Atoi(text[3])
 	Jugada, _ := strconv.Atoi(text[4])
 
 	if text[4] != "R" && text[4] != "RD" && text[4] != "VP" {
@@ -155,32 +155,32 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	}
 
 	if text[4] == "R" {
-		if text[1] == "Game2" && TeamPlayers[IDplayer-1] == LoseTeam {
+		if text[1] == "Game2" && TeamPlayers[id_user-1] == LoseTeam {
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[IDplayer-1] = "n"
+			ListOfLivePlayers[id_user-1] = "n"
 			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
 		if text[1] == "Game3" {
-			var aux int = FindPair(PairPlayers[IDplayer-1], IDplayer)
-			if AnswerPlayers[IDplayer-1] > AnswerPlayers[aux] {
+			var aux int = FindPair(PairPlayers[id_user-1], id_user)
+			if AnswerPlayers[id_user-1] > AnswerPlayers[aux] {
 				_ = SendMessageToPozo("", text[3])
 				fmt.Println("Jugador " + text[3] + " ha muerto")
 
-				ListOfLivePlayers[IDplayer-1] = "n"
+				ListOfLivePlayers[id_user-1] = "n"
 				NumberOfPlayers = NumberOfPlayers - 1
-				fmt.Println("Esperando jugadores, llevamos", NumberOfPlayersReady, "de", NumberOfPlayers)
+				fmt.Println("Esperando jugadores, llevamos", N_Playerr, "de", NumberOfPlayers)
 
 				return &pb.HelloReply{Message: "death"}, nil
 			}
 		}
 
-		NumberOfPlayersReady = NumberOfPlayersReady + 1
-		fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+		N_Playerr = N_Playerr + 1
+		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
@@ -189,15 +189,15 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[IDplayer-1] = "n"
+			ListOfLivePlayers[id_user-1] = "n"
 			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 
 			return &pb.HelloReply{Message: "death"}, nil
 		}
 
-		NumberOfPlayersReady = NumberOfPlayersReady + 1
-		fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+		N_Playerr = N_Playerr + 1
+		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
@@ -205,38 +205,38 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		return &pb.HelloReply{Message: SendMessageToPozo("val", "")}, nil
 	}
 
-	if text[1] == "G1" {
+	if text[1] == "E1" {
 		if Jugada >= numberG1 || text[4] == "death" {
 			_ = SendMessageToPozo("", text[3])
 			fmt.Println("Jugador " + text[3] + " ha muerto")
 
-			ListOfLivePlayers[IDplayer-1] = "n"
+			ListOfLivePlayers[id_user-1] = "n"
 			NumberOfPlayers = NumberOfPlayers - 1
-			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 			return &pb.HelloReply{Message: "death"}, nil
 		}
 
-		NumberOfPlayersReady = NumberOfPlayersReady + 1
-		fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+		N_Playerr = N_Playerr + 1
+		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 		return &pb.HelloReply{Message: "live"}, nil
 	}
 
-	if text[1] == "G2" {
-		if TeamPlayers[IDplayer-1] == "1" {
+	if text[1] == "E2" {
+		if TeamPlayers[id_user-1] == "1" {
 			TotalG2T1 = TotalG2T1 + Jugada
 		}
-		if TeamPlayers[IDplayer-1] == "2" {
+		if TeamPlayers[id_user-1] == "2" {
 			TotalG2T2 = TotalG2T2 + Jugada
 		}
-		NumberOfPlayersReady = NumberOfPlayersReady + 1
-		fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+		N_Playerr = N_Playerr + 1
+		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 		return &pb.HelloReply{Message: "wait"}, nil
 	}
 
-	if text[1] == "G3" {
-		AnswerPlayers[IDplayer-1] = Jugada
-		NumberOfPlayersReady = NumberOfPlayersReady + 1
-		fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+	if text[1] == "E3" {
+		AnswerPlayers[id_user-1] = Jugada
+		N_Playerr = N_Playerr + 1
+		fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 		return &pb.HelloReply{Message: "wait"}, nil
 	}
 
@@ -258,7 +258,7 @@ func Menu() {
 	fmt.Println("Presiones 3 para comenzar el juego Todo o nada")
 }
 
-func A_IDplayer() int {
+func A_id_user() int {
 	IDAleatorio := rand.Intn(NumberOfPlayers) + 1
 	for i := 0; i < len(ListOfLivePlayers); i++ {
 		if ListOfLivePlayers[i] == "y" {
@@ -304,7 +304,6 @@ func DefineTeamsG3() {
 	}
 }
 
-//MAIN
 func main() {
 
 	go ListenMessage()
@@ -338,9 +337,9 @@ func main() {
 
 				SMPlayer("Round", 0)
 
-				fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+				fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 				for {
-					if NumberOfPlayersReady == NumberOfPlayers {
+					if N_Playerr == NumberOfPlayers {
 						break
 					}
 				}
@@ -349,28 +348,28 @@ func main() {
 					fmt.Println("Todos los jugadores murieron")
 					break
 				}
-				NumberOfPlayersReady = 0
+				N_Playerr = 0
 			}
 
 			fmt.Println("Juego finalizado")
-			fmt.Println("Jugadores sobrevivientes ", NumberOfPlayersReady)
+			fmt.Println("Jugadores sobrevivientes ", N_Playerr)
 			LivePlayers()
 		}
 
 		if choice == "2" {
 
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 			SMPlayer("R", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
-				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
+				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
 				SMPlayer("Round", 0)
 				for {
-					if NumberOfPlayersReady == NumberOfPlayers {
+					if N_Playerr == NumberOfPlayers {
 						break
 					}
 				}
 			}
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 
 			DefineTeamsG2()
 			fmt.Println("Segundo juego")
@@ -382,11 +381,11 @@ func main() {
 			SMPlayer("Round", 0)
 
 			for {
-				if NumberOfPlayersReady == NumberOfPlayers {
+				if N_Playerr == NumberOfPlayers {
 					break
 				}
 			}
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 
 			if TotalG2T1%2 == TotalG2T2%2 && TotalG2T1 != choiceG2 {
 				aux := rand.Intn(2)
@@ -405,52 +404,51 @@ func main() {
 				LoseTeam = "2"
 			}
 
-			fmt.Println("Equipo perdedor ", LoseTeam)
+			fmt.Println("Han perdido ", LoseTeam)
 			SMPlayer("Round", 0)
 			for {
-				if NumberOfPlayersReady == NumberOfPlayers {
+				if N_Playerr == NumberOfPlayers {
 					break
 				}
 			}
 
 			fmt.Println("Juego finalizado")
-			fmt.Println("Jugadores sobrevivientes ", NumberOfPlayersReady)
+			fmt.Println("Jugadores restantes ", N_Playerr)
 			LivePlayers()
-			NumberOfPlayersReady = 0
-			//SendMessageToPlayers("R", 0)
+			N_Playerr = 0
 		}
 
 		if choice == "3" {
 
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 			SMPlayer("Round", 0)
 			if NumberOfPlayers%2 == 1 && NumberOfPlayers != 1 {
-				RPlayerEliminated = strconv.FormatInt(int64(A_IDplayer()), 10)
+				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
 				SMPlayer("R", 0)
 				for {
-					if NumberOfPlayersReady == NumberOfPlayers {
+					if N_Playerr == NumberOfPlayers {
 						break
 					}
 				}
 			}
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 
 			DefineTeamsG3()
 
 			fmt.Println("Tercer juego")
-			fmt.Println("Debe elegir un numero entre 1 y 10")
+			fmt.Println("ELige entre 1 al 10")
 
-			fmt.Println("Elija un numero")
+			fmt.Println("Escoge un numero")
 			fmt.Scanf("%d", &numberG3)
 
 			SMPlayer("Round", 0)
-			fmt.Println("Esperando jugadores", NumberOfPlayersReady, "/", NumberOfPlayers)
+			fmt.Println("Esperando jugadores", N_Playerr, "/", NumberOfPlayers)
 			for {
-				if NumberOfPlayersReady == NumberOfPlayers {
+				if N_Playerr == NumberOfPlayers {
 					break
 				}
 			}
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 
 			for i := 0; i < len(ListOfLivePlayers); i++ {
 				if ListOfLivePlayers[i] == "y" {
@@ -465,15 +463,15 @@ func main() {
 
 			SMPlayer("Round", 0)
 			for {
-				if NumberOfPlayersReady == NumberOfPlayers {
+				if N_Playerr == NumberOfPlayers {
 					break
 				}
 			}
 
-			fmt.Println("Juego finalizado")
-			fmt.Println("Los jugadores ganadores son ", NumberOfPlayersReady)
+			fmt.Println("SquidGame has stop")
+			fmt.Println("Ganaron ", N_Playerr)
 			LivePlayers()
-			NumberOfPlayersReady = 0
+			N_Playerr = 0
 		}
 	}
 	<-forever
