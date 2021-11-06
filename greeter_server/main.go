@@ -30,7 +30,6 @@ var L_player = [3]string{"l", "l", "l"}
 
 var numberG1 int = 0
 
-//VARIABLES JUEGO 2
 var RPlayerEliminated string = "-"
 var T_T1 int = 0
 var TotalG2T2 int = 0
