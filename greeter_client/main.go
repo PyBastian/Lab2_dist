@@ -69,7 +69,7 @@ func ListenInstr() {
 
 func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
-	var message string = ":50052" + " " + G_now + " " + R_Game + " " + id_user + " " + msg
+	var message string
 	print(message)
 	if msg == "Start" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
@@ -77,16 +77,15 @@ func C_Lider(msg string) string {
 	}
 
 	if msg == "muerte" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " Muertos"
+		message = ":50071" + " " + G_now + " " + R_Game + " " + id_user + " Muertos"
 	}
 
 	if msg == "resultado" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " Resultados"
+		message = ":50071" + " " + G_now + " " + R_Game + " " + id_user + " Resultados"
 	}
 	if msg == "ValuePozo" {
-		message = ":50051" + " " + G_now + " " + R_Game + " " + id_user + " ValuePozo"
+		message = ":50071" + " " + G_now + " " + R_Game + " " + id_user + " ValuePozo"
 	}
-
 	r := grpcChannel(message)
 	return r
 }
