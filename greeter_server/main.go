@@ -17,7 +17,7 @@ import (
 
 const (
 	port       = ":50051"
-	addrs_pozo = ":50053"
+	addrs_pozo = "dist215.inf.santiago.usm.cl:50053"
 	addrs_node = ":50054"
 )
 
@@ -49,7 +49,7 @@ func failOnError(err error, msg string) {
 }
 
 func grpcChannel(ipAdress string, message string) string {
-	fmt.Println("Entramos al grpChannel_1")
+	fmt.Println("Nos conectamos al Cliente")
 	fmt.Println(ipAdress)
 	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure())
 	if err != nil {
@@ -59,12 +59,10 @@ func grpcChannel(ipAdress string, message string) string {
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
-	fmt.Println("Entramos al grpChannel_2")
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
 	}
-	fmt.Println("Entramos al grpChannel_3")
 	return r.GetMessage()
 }
 
@@ -99,7 +97,7 @@ func ListenMessage() {
 func SMPlayer(msgLider string, id_user int) {
 	fmt.Println("Mandando info al cliente")
 	var message string
-	var UserToEliminated int = id_user
+	var Eliminar_user int = id_user
 
 	if msgLider == "Round" {
 		message = "Ready"
@@ -111,12 +109,11 @@ func SMPlayer(msgLider string, id_user int) {
 	if msgLider == "D" || msgLider == "DT" {
 		N_play = N_play - 1
 		if msgLider == "D" {
-			UserToEliminated = A_id_user()
+			Eliminar_user = A_id_user()
 		}
-		_ = SendMessageToPozo("", strconv.FormatInt(int64(UserToEliminated), 10))
-		message = "death " + strconv.FormatInt(int64(UserToEliminated), 10)
+		_ = SendMessageToPozo("", strconv.FormatInt(int64(Eliminar_user), 10))
+		message = "death " + strconv.FormatInt(int64(Eliminar_user), 10)
 	}
-	fmt.Println("Estamos a punto de entrar al grpcChannel")
 	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
 
 }
@@ -133,17 +130,13 @@ func MsgToNode(msg string) string {
 	return grpcChannel(addrs_node, msg)
 }
 
-// ESCUCHAR MENSAJES DE LOS JUGADORES
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Println("Entramos al SayHello")
-	//INGRESAR AL JUEGO
+
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
 		fmt.Println("Esperando a los Jugadores, llevamos = ", N_play, " de ", TotalPlayer)
 		return &pb.HelloReply{Message: strconv.FormatInt(int64(N_play), 10)}, nil
 	}
-
-	//SEPARACION DEL MENSAJE
 	text := strings.Split(in.GetName(), " ")
 	id_user, _ := strconv.Atoi(text[3])
 	Jugada, _ := strconv.Atoi(text[4])
@@ -328,14 +321,14 @@ func main() {
 		if choice == "1" {
 			SMPlayer("Round", 0)
 			fmt.Println("Primer juego")
-			fmt.Println("Debe elegir 4 numeros entre 6 y 10")
+			fmt.Println("Deberas elegir 4 numeros entre 6 y 10")
 			for round := 0; round < 4; round++ {
 				fmt.Println("Elija un numero")
 				fmt.Scanf("%d", &numberG1)
 
 				SMPlayer("Round", 0)
 
-				fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
+				fmt.Println("Esperando jugadores", N_Playerr, "de", N_play)
 				for {
 					if N_Playerr == N_play {
 						break
