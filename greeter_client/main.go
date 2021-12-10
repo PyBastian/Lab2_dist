@@ -27,7 +27,17 @@ var G_now string = ""
 var id_user string = ""
 var ReadyToPlay string = ""
 var R_Game = ""
-
+func ListenInstr() {
+	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50071")
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	s := grpc.NewServer()
+	pb.RegisterGreeterServer(s, &server{})
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
+}
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
 		G_now = in.GetName()
@@ -39,6 +49,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 }
 
+//Esto envia automaticaamente ingo a 214 (Server)
 func grpcChannel(message string) string {
 	fmt.Println("")
 	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
@@ -56,23 +67,11 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func ListenInstr() {
-	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50071")
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
-}
-
 func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var message string
 	print(message)
-	if msg == "Start" {
+	if msg == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
@@ -91,24 +90,33 @@ func C_Lider(msg string) string {
 	return r
 }
 
+func Menu() {
+	fmt.Println("AddCity {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("DeleteCity {N_planeta} {N_ciudad}")
+
+}
+
 func main() {
 
 	var choice string
 	forever := make(chan bool)
 	go ListenInstr()
 
-	fmt.Println("Bienvenido Informantes")
-
-	fmt.Println("¿Quieres Jugar Squid game? y/n")
-
+	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
+	Menu()
 	fmt.Scanf("%s", &choice)
+	comando := strings.Split(choice, " ")
 
-	if choice != "y" {
+	if choice[0] == "AddCity" {
+		fmt.Println("Okey agregemos")
+		respuesta_host = C_Lider("AddCity")
 		return
 	}
 	fmt.Println("Hablemos Con el Lider entonces...")
-	id_user = C_Lider("Start")
-	fmt.Println(id_user)
+	respuesta_host = C_Lider("Start")
+	fmt.Println(respuesta_host)
 	fmt.Println("El Lider fue Avisado")
 
 	for {

@@ -104,7 +104,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
-		fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
+		//fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
 		return &pb.HelloReply{Message: "Wena hermano aqui server, te mando un saludo camarada"}, nil
 	}
 
