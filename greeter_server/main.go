@@ -99,13 +99,15 @@ func MsgToNode(msg string) string {
 	return grpcChannel(addrs_node, msg)
 }
 
+
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
 		fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
-		return &pb.HelloReply{Message: strconv.FormatInt(int64(N_play), 10)}, nil
+		return &pb.HelloReply{Message: "Wena hermano aqui server, te mando un saludo camarada"}, nil
 	}
+
 	text := strings.Split(in.GetName(), " ")
 	id_user, _ := strconv.Atoi(text[3])
 	Jugada, _ := strconv.Atoi(text[4])
@@ -272,6 +274,7 @@ func main() {
 
 	forever := make(chan bool)
 	var choice string
+
 	fmt.Println("Esperando solicitudes")
 
 	for {
