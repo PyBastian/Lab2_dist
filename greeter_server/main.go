@@ -10,7 +10,6 @@ import (
 	"strings"
 	"time"
 
-	amqp "github.com/rabbitmq/amqp091-go"
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
@@ -93,7 +92,6 @@ func SendMessageToPozo(msg string, player string) string {
 	if msg == "val" {
 		return grpcChannel(addrs_pozo, msg)
 	}
-	rabbitmqChannel(player)
 	return ""
 }
 
