@@ -118,8 +118,10 @@ func main() {
 
 	fmt.Scanf("%s", &choice)
 
-	comando := strings.Split(choice, " ")
 	fmt.Println(choice)
+
+	comando := strings.Split(choice, " ")
+	
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
