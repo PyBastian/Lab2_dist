@@ -22,24 +22,24 @@ const (
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
-//
-// var TotalPlayer int = 1
-// var N_play int = 0
-// var N_Playerr int = 0
-// var L_player = [3]string{"l", "l", "l"}
-//
-// var numberG1 int = 0
-//
-// var RPlayerEliminated string = "-"
-// var T_T1 int = 0
-// var TotalG2T2 int = 0
-// var choiceG2 int = 0
-// var TeamPlayers = [3]string{"-", "-", "-"}
-// var LoseTeam string = "0"
-//
-// var numberG3 int = 0
-// var PairPlayers = [3]int{-1, -1, -1}
-// var AnswerPlayers = [3]int{-1, -1, -1}
+
+var TotalPlayer int = 1
+var N_play int = 0
+var N_Playerr int = 0
+var L_player = [3]string{"l", "l", "l"}
+
+var numberG1 int = 0
+
+var RPlayerEliminated string = "-"
+var T_T1 int = 0
+var TotalG2T2 int = 0
+var choiceG2 int = 0
+var TeamPlayers = [3]string{"-", "-", "-"}
+var LoseTeam string = "0"
+
+var numberG3 int = 0
+var PairPlayers = [3]int{-1, -1, -1}
+var AnswerPlayers = [3]int{-1, -1, -1}
 
 func failOnError(err error, msg string) {
 	if err != nil {
