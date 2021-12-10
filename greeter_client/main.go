@@ -70,20 +70,23 @@ func grpcChannel(message string) string {
 
 func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
+	var message string
 
-	if msg[0] == "AddCity" {
+	message := strings.Split(msg, " ")
+
+	if message[0] == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if msg[0] == "UpdateName" {
+	if message[0] == "UpdateName" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if msg[0] == "UpdateNumber" {
+	if message[0] == "UpdateNumber" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if msg[0] == "DeleteCity" {
+	if message[0] == "DeleteCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
@@ -111,6 +114,7 @@ func main() {
 	Menu()
 
 	fmt.Scanf("%s", &choice)
+
 	comando := strings.Split(choice, " ")
 
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
@@ -119,28 +123,28 @@ func main() {
 	for {
 		if comando[0] == "AddCity" {
 			fmt.Println("Okey agregemos")
-			respuesta_host = C_Lider(comando)
+			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if comando[0] == "UpdateName" {
 			fmt.Println("Okey uName")
-			respuesta_host = C_Lider(comando)
+			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if comando[0] == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
-			respuesta_host = C_Lider(comando)
+			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if comando[0] == "DeleteCity" {
 			fmt.Println("Okey dCity")
-			respuesta_host = C_Lider(comando)
+			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
