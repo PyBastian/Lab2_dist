@@ -73,7 +73,9 @@ func C_Lider(msg string) string {
 	var message string
 
 	message = msg
-
+	fmt.Println(message)
+	fmt.Println(msg)
+/*
 	if message[0] == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
@@ -92,7 +94,8 @@ func C_Lider(msg string) string {
 	}
 
 	r := grpcChannel(message)
-	return r
+	*/
+	return "ñe"
 }
 
 func Menu() {
