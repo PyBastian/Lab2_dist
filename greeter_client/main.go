@@ -72,7 +72,7 @@ func C_Lider(msg string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var message string
 
-	message := strings.Split(msg, " ")
+	message = strings.Split(msg, " ")
 
 	if message[0] == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
@@ -116,10 +116,8 @@ func main() {
 	fmt.Scanf("%s", &choice)
 
 	comando := strings.Split(choice, " ")
-
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
-
-
+	
 	for {
 		if comando[0] == "AddCity" {
 			fmt.Println("Okey agregemos")
