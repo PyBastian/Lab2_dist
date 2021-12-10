@@ -71,7 +71,9 @@ func grpcChannel(message string) string {
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string;
-	comando := msg + n_planeta + n_ciudad + n_valor
+
+	comando := msg + " " +n_planeta + " " + n_ciudad + " " + n_valor
+
 	fmt.Printf("Comando Final \n")
 	fmt.Printf(comando)
 
