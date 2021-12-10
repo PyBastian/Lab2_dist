@@ -90,7 +90,7 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 	}
 
 	r := grpcChannel(msg)
-	return "ñe"
+	return r
 }
 
 func Menu() {
