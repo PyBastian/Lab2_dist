@@ -68,27 +68,23 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func C_Lider(msg string) string {
+func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
-	var message string
 
-	message = msg
-	fmt.Println(message)
-	fmt.Println(msg[0])
-/*
-	if message[0] == "AddCity" {
+
+	if msg == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if message[0] == "UpdateName" {
+	if msg == "UpdateName" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if message[0] == "UpdateNumber" {
+	if msg == "UpdateNumber" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-	if message[0] == "DeleteCity" {
+	if msg == "DeleteCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
@@ -131,28 +127,28 @@ func main() {
 	for {
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
-			respuesta_host = C_Lider(choice)
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if choice == "UpdateName" {
 			fmt.Println("Okey uName")
-			respuesta_host = C_Lider(choice)
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if choice == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
-			respuesta_host = C_Lider(choice)
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if choice == "DeleteCity" {
 			fmt.Println("Okey dCity")
-			respuesta_host = C_Lider(choice)
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
