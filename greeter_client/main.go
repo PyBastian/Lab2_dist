@@ -87,7 +87,7 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 	}
 	if msg == "UpdateNumber" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
-		return grpcChannel(comando))
+		return grpcChannel(comando)
 	}
 	if msg == "DeleteCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
