@@ -275,7 +275,7 @@ func main() {
 	fmt.Println("Esperando solicitudes")
 
 	for {
-		Menu()
+		//Menu()
 		fmt.Scanf("%s", &choice)
 		SMPlayer(choice, 0)
 
