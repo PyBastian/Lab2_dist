@@ -126,8 +126,6 @@ func main() {
 	fmt.Println(N_ciudad)
 	fmt.Println(N_valor)
 
-	comando := strings.Split(choice, " ")
-
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
