@@ -103,7 +103,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
-		fmt.Println("Esperando a los Jugadores, llevamos = ", N_play, " de ", TotalPlayer)
+		fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
 		return &pb.HelloReply{Message: strconv.FormatInt(int64(N_play), 10)}, nil
 	}
 	text := strings.Split(in.GetName(), " ")
