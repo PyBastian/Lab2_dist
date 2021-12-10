@@ -36,13 +36,14 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		ReadyToPlay = "Ready"
 	}
 	return &pb.HelloReply{Message: "recibido"}, nil
+
 }
 
 func grpcChannel(message string) string {
-
+	fmt.Println("")
 	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		log.Fatalf("did not connect: %v", err)
+		log.Fatalf("Error de conecc'on con host: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
@@ -96,8 +97,10 @@ func main() {
 	forever := make(chan bool)
 	go ListenInstr()
 
-	fmt.Println("Bienvenido a SquidGame")
+	fmt.Println("Bienvenido Informantes")
+
 	fmt.Println("¿Quieres Jugar Squid game? y/n")
+
 	fmt.Scanf("%s", &choice)
 
 	if choice != "y" {
@@ -105,6 +108,7 @@ func main() {
 	}
 	fmt.Println("Hablemos Con el Lider entonces...")
 	id_user = C_Lider("Start")
+	fmt.Println(id_user)
 	fmt.Println("El Lider fue Avisado")
 
 	for {

@@ -22,24 +22,24 @@ const (
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
-
-var TotalPlayer int = 1
-var N_play int = 0
-var N_Playerr int = 0
-var L_player = [3]string{"l", "l", "l"}
-
-var numberG1 int = 0
-
-var RPlayerEliminated string = "-"
-var T_T1 int = 0
-var TotalG2T2 int = 0
-var choiceG2 int = 0
-var TeamPlayers = [3]string{"-", "-", "-"}
-var LoseTeam string = "0"
-
-var numberG3 int = 0
-var PairPlayers = [3]int{-1, -1, -1}
-var AnswerPlayers = [3]int{-1, -1, -1}
+//
+// var TotalPlayer int = 1
+// var N_play int = 0
+// var N_Playerr int = 0
+// var L_player = [3]string{"l", "l", "l"}
+//
+// var numberG1 int = 0
+//
+// var RPlayerEliminated string = "-"
+// var T_T1 int = 0
+// var TotalG2T2 int = 0
+// var choiceG2 int = 0
+// var TeamPlayers = [3]string{"-", "-", "-"}
+// var LoseTeam string = "0"
+//
+// var numberG3 int = 0
+// var PairPlayers = [3]int{-1, -1, -1}
+// var AnswerPlayers = [3]int{-1, -1, -1}
 
 func failOnError(err error, msg string) {
 	if err != nil {
@@ -64,34 +64,6 @@ func grpcChannel(ipAdress string, message string) string {
 	}
 	return r.GetMessage()
 }
-
-func rabbitmqChannel(message string) {
-	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:5672/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-	q, err := ch.QueueDeclare("hello", false, false, false, false, nil)
-	failOnError(err, "Failed to declare a queue")
-
-	body := message + " 1 100"
-	err = ch.Publish("", q.Name, false, false, amqp.Publishing{ContentType: "text/plain", Body: []byte(body)})
-	failOnError(err, "Failed to publish a message")
-}
-
-func ListenMessage() {
-	lis, err := net.Listen("tcp", port)
-	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
-	}
-	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
-}
-
 //Enviamos mensaje al cliente
 func SMPlayer(msgLider string, id_user int) {
 	fmt.Println("Mandando info al cliente")
@@ -284,18 +256,25 @@ func TeamsG2() {
 	}
 }
 
+func ListenMessage() {
+	lis, err := net.Listen("tcp", port)
+	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
+	}
+	s := grpc.NewServer()
+	pb.RegisterGreeterServer(s, &server{})
+	if err := s.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
+}
+
 func main() {
 
 	go ListenMessage()
 
 	forever := make(chan bool)
 	var choice string
-	fmt.Println("Los jugadores estan Entrando!! ", N_play, "/", TotalPlayer)
-	for {
-		if N_play == TotalPlayer {
-			break
-		}
-	}
+	fmt.Println("Esperando solicitudes")
 
 	for {
 		Menu()
