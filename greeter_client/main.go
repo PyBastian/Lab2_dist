@@ -74,7 +74,7 @@ func C_Lider(msg string) string {
 
 	message = msg
 	fmt.Println(message)
-	fmt.Println(msg)
+	fmt.Println(msg[0])
 /*
 	if message[0] == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
@@ -119,6 +119,7 @@ func main() {
 	fmt.Scanf("%s", &choice)
 
 	comando := strings.Split(choice, " ")
+	fmt.Println(choice)
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
