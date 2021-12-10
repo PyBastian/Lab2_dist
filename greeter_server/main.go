@@ -101,7 +101,8 @@ func MsgToNode(msg string) string {
 
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-
+	fmt.Printf("Comando Final server \n")
+	fmt.Printf(in.GetName())
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
 		//fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
