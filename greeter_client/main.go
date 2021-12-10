@@ -108,45 +108,51 @@ func Menu() {
 
 func main() {
 
-	var choice string
+	var choice, N_planeta, N_ciudad, N_valor string
 	var respuesta_host string
+
 	forever := make(chan bool)
 	go ListenInstr()
 
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 	Menu()
 
-	fmt.Scanf("%s", &choice)
+
+	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
+  //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	fmt.Println(choice)
+	fmt.Println(N_planeta)
+	fmt.Println(N_ciudad)
+	fmt.Println(N_valor)
 
 	comando := strings.Split(choice, " ")
-	
+
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
-		if comando[0] == "AddCity" {
+		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
-		if comando[0] == "UpdateName" {
+		if choice == "UpdateName" {
 			fmt.Println("Okey uName")
 			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
-		if comando[0] == "UpdateNumber" {
+		if choice == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
 			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
 			//return
 		}
-		if comando[0] == "DeleteCity" {
+		if choice == "DeleteCity" {
 			fmt.Println("Okey dCity")
 			respuesta_host = C_Lider(choice)
 			fmt.Println(respuesta_host)
