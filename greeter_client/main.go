@@ -88,9 +88,8 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel("yes")
 	}
-
-	r := grpcChannel(message)
-	*/
+	
+	r := grpcChannel(msg)
 	return "ñe"
 }
 
