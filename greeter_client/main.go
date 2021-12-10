@@ -19,6 +19,7 @@ const (
 
 var (
 	name = flag.String("name", defaultName, "Name to greet")
+
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
@@ -101,6 +102,7 @@ func Menu() {
 func main() {
 
 	var choice string
+	var respuesta_host string
 	forever := make(chan bool)
 	go ListenInstr()
 
@@ -109,15 +111,16 @@ func main() {
 	fmt.Scanf("%s", &choice)
 	comando := strings.Split(choice, " ")
 
+	fmt.Println("Hablemos Con el Lider entonces...")
+
 	if choice[0] == "AddCity" {
 		fmt.Println("Okey agregemos")
 		respuesta_host = C_Lider("AddCity")
-		return
+		fmt.Println(respuesta_host)
+		fmt.Println("El Lider fue Avisado")
+		//return
 	}
-	fmt.Println("Hablemos Con el Lider entonces...")
 	respuesta_host = C_Lider("Start")
-	fmt.Println(respuesta_host)
-	fmt.Println("El Lider fue Avisado")
 
 	for {
 
