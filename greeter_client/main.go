@@ -113,7 +113,7 @@ func main() {
 
 	fmt.Println("Hablemos Con el Lider entonces...")
 
-	if choice[0] == "AddCity" {
+	if comando[0] == "AddCity" {
 		fmt.Println("Okey agregemos")
 		respuesta_host = C_Lider("AddCity")
 		fmt.Println(respuesta_host)
