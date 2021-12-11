@@ -81,12 +81,12 @@ func C_Lider(msg string, n_planeta string, n_ciudad string) string {
 	if msg == "GetNumberRebelds" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
-
+	}
 	r := grpcChannel(msg)
 	return r
 }
 
-func Menu2() {
+func Menu() {
 	fmt.Println("GetNumberRebelds {N_planeta} {N_ciudad}")
 }
 
@@ -100,7 +100,7 @@ func main() {
 
 	fmt.Println("Bienvenide Leia Organa, asi seran tus comandos:\n")
 
-	Menu2()
+	Menu()
 
 	fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
