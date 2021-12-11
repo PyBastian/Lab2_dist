@@ -115,7 +115,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	//fmt.Printf(text)
 	fmt.Printf(text[0])
 
-	return text[0], nil
+	return nil, nil
 }
 
 func LivePlayers() {
