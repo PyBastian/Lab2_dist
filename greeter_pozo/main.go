@@ -86,9 +86,8 @@ func C_Lider(msg string, n_planeta string, n_ciudad string) string {
 	return r
 }
 
-func Menu() {
+func Menu2() {
 	fmt.Println("GetNumberRebelds {N_planeta} {N_ciudad}")
-
 }
 
 func main() {
@@ -101,7 +100,7 @@ func main() {
 
 	fmt.Println("Bienvenide Leia Organa, asi seran tus comandos:\n")
 
-	Menu()
+	Menu2()
 
 	fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
