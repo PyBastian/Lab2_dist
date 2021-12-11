@@ -9,8 +9,6 @@ import (
 	"strconv"
 	"strings"
 	"time"
-	"math/rand"
-
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
@@ -106,7 +104,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	fmt.Printf(in.GetName())
 
-	randomIndex := rand.Intn([213,215,216])
+	randomIndex := rand.Intn({213,215,216})
 	fmt.Printf(randomIndex)
 
 	if in.GetName() == "yes" {
