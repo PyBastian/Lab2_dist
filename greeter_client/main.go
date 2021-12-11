@@ -160,7 +160,7 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 		if respuesta_host == "216"{
-			fmt.Printf("Vamos a guardar la wea en dist 215")
+			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 		}
 		fmt.Println("Comenzando nueva iteración ...")
 

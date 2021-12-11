@@ -111,13 +111,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	selected_value := dir_maquinas[randomIndex]
 	fmt.Println(selected_value)
 
-	if in.GetName() == "yes" {
-		N_play = N_play + 1
-		//fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
-		return &pb.HelloReply{Message: "Wena hermano aqui server, te mando un saludo camarada"}, nil
-	}
-
-
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
 	fmt.Printf(text[0])
