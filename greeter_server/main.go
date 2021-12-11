@@ -113,8 +113,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	text := strings.Split(in.GetName(), " ")
 	fmt.Printf(text)
+	fmt.Printf(text[0])
 
-	return text
+	return text, nil
 }
 
 func LivePlayers() {
