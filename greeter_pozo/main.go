@@ -114,6 +114,7 @@ func main() {
 			fmt.Println("El Lider fue Avisado")
 			fmt.Println(respuesta_host)
 			//return
+		}
 		if respuesta_host == "213"{
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
