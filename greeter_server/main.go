@@ -102,10 +102,12 @@ func MsgToNode(msg string) string {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Comando Final server \n")
+	//214 no porque es la direcciones del Broker
 	dir_maquinas := []string{"213", "215", "216"}
 	fmt.Printf(in.GetName())
 
 	randomIndex := rand.Intn(3)
+
 	selected_value := dir_maquinas[randomIndex]
 	fmt.Println(selected_value)
 
@@ -114,6 +116,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		//fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
 		return &pb.HelloReply{Message: "Wena hermano aqui server, te mando un saludo camarada"}, nil
 	}
+
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)

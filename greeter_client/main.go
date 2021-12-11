@@ -153,6 +153,15 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+		if respuesta_host == "213"{
+			fmt.Printf("Vamos a guardar la wea en dist 213")
+		}
+		if respuesta_host == "215"{
+			fmt.Printf("Vamos a guardar la wea en dist 215")
+		}
+		if respuesta_host == "216"{
+			fmt.Printf("Vamos a guardar la wea en dist 215")
+		}
 		fmt.Println("Comenzando nueva iteración ...")
 
 	<-forever

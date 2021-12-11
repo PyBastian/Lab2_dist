@@ -1,98 +1,36 @@
 package main
 
 import (
-	"bufio"
 	"context"
 	"flag"
+	"fmt"
 	"log"
 	"net"
 	"os"
-	"strconv"
-	"strings"
-
-	amqp "github.com/rabbitmq/amqp091-go"
-
+	//"strconv"
+	"time"
+	//"strings"
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
+const (
+	defaultName = "world"
+)
+
+var (
+	name = flag.String("name", defaultName, "Name to greet")
+
+)
+
 type server struct{ pb.UnimplementedGreeterServer }
 
-var dir = "pozo.txt"
-
-func failOnError(err error, msg string) {
-	if err != nil {
-		log.Fatalf("%s: %s", msg, err)
-	}
-}
-
-func Manejo_msg_str(msg string, t int) string {
-	file, _ := os.OpenFile(dir, os.O_RDONLY, 0644)
-	defer file.Close()
-	scanner := bufio.NewScanner(file)
-	scanner.Split(bufio.ScanLines)
-	var text []string
-	for scanner.Scan() {
-		text = append(text, scanner.Text())
-	}
-
-	if t == 1 {
-		if len(text) == 0 {
-			return "0"
-		}
-		maxValue := strings.Split(text[len(text)-1], " ")[2]
-		return maxValue
-	}
-
-	var aux = strings.Split(msg, " ")
-	if len(text) == 0 {
-		return msg
-	}
-	aux1, _ := strconv.Atoi(strings.Split(text[len(text)-1], " ")[2])
-	aux2, _ := strconv.Atoi(aux[2])
-	aux[2] = strconv.FormatInt(int64(aux1+aux2), 10)
-	return strings.Join(aux[:], " ")
-}
-
-func rabbitmqCh() {
-	flag.Parsed()
-	conn, err := amqp.Dial("amqp://guest:guest@dist214.inf.santiago.usm.cl:50051/")
-	failOnError(err, "Failed to connect to RabbitMQ")
-	defer conn.Close()
-
-	ch, err := conn.Channel()
-	failOnError(err, "Failed to open a channel")
-	defer ch.Close()
-
-	q, err := ch.QueueDeclare("hello", false, false, false, false, nil)
-	failOnError(err, "Failed to declare a queue")
-
-	msgs, err := ch.Consume(q.Name, "", true, false, false, false, nil)
-	failOnError(err, "Failed to register a consumer")
-
-	for d := range msgs {
-		var file, err = os.OpenFile(dir, os.O_APPEND|os.O_RDWR, 0644)
-		if err != nil {
-			file, err = os.Create(dir)
-			if err != nil {
-				log.Fatalf("%s", err)
-			}
-		}
-		defer file.Close()
-		var msgF = Manejo_msg_str(string(d.Body), 0)
-		_, err = file.WriteString(msgF + "\n")
-		if err != nil {
-			log.Fatalf("%s", err)
-		}
-		err = file.Sync()
-		if err != nil {
-			log.Fatalf("%s", err)
-		}
-	}
-}
-
-func grpcCh() {
-	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50053")
+var G_now string = ""
+var id_user string = ""
+var ReadyToPlay string = ""
+var R_Game = ""
+func ListenInstr() {
+	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50071")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -102,20 +40,92 @@ func grpcCh() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
-
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	if string(in.GetName()) == "val" {
-		return &pb.HelloReply{Message: Manejo_msg_str("", 1)}, nil
+	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
+		G_now = in.GetName()
 	}
-	return nil, nil
+	if in.GetName() == "Ready" {
+		ReadyToPlay = "Ready"
+	}
+	return &pb.HelloReply{Message: "recibido"}, nil
+
+}
+
+//Esto envia automaticaamente ingo a 214 (Server)
+func grpcChannel(message string) string {
+	fmt.Println("")
+	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con host: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
+
+func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
+	//fmt.Println("Me voy a comunicar con el Lider")
+	var comando string;
+
+	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor
+
+	fmt.Printf("Comando Final \n")
+	fmt.Printf(comando)
+
+	if msg == "GetNumberRebelds" {
+		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
+		return grpcChannel(comando)
+
+	r := grpcChannel(msg)
+	return r
+}
+
+func Menu() {
+	fmt.Println("GetNumberRebelds {N_planeta} {N_ciudad}")
+
 }
 
 func main() {
+
+	var choice, N_planeta, N_ciudad string
+	var respuesta_host string
+
 	forever := make(chan bool)
+	go ListenInstr()
 
-	go rabbitmqCh()
-	go grpcCh()
+	fmt.Println("Bienvenide Leia Organa, asi seran tus comandos:\n")
 
-	//log.Printf(" [*] Waiting for messages. To exit press CTRL+C")
+	Menu()
+
+	fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
+  //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+
+	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
+
+	for {
+		if choice == "GetNumberRebelds" {
+			fmt.Println("Okey Preguntando")
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad)
+			fmt.Println("El Lider fue Avisado")
+			fmt.Println(respuesta_host)
+			//return
+		if respuesta_host == "213"{
+			fmt.Printf("Vamos a guardar la wea en dist 213")
+		}
+		if respuesta_host == "215"{
+			fmt.Printf("Vamos a guardar la wea en dist 215")
+		}
+		if respuesta_host == "216"{
+			fmt.Printf("Vamos a guardar la wea en dist 215")
+		}
+		fmt.Println("Comenzando nueva iteración ...")
+
 	<-forever
+	}
 }
