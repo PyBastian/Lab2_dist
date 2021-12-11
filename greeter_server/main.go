@@ -105,7 +105,8 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Printf(in.GetName())
 
 	randomIndex := rand.Intn(3)
-	fmt.Println(dir_maquinas[randomIndex])
+	selected_value := dir_maquinas[randomIndex]
+	fmt.Println(selected_value)
 
 	fmt.Printf(randomIndex)
 
