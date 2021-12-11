@@ -121,11 +121,6 @@ func main() {
 	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
-	fmt.Println(choice)
-	fmt.Println(N_planeta)
-	fmt.Println(N_ciudad)
-	fmt.Println(N_valor)
-
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {

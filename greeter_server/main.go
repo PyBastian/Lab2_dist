@@ -102,7 +102,7 @@ func MsgToNode(msg string) string {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Comando Final server \n")
-	
+
 	fmt.Printf(in.GetName())
 
 	if in.GetName() == "yes" {
@@ -112,100 +112,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	}
 
 	text := strings.Split(in.GetName(), " ")
-	id_user, _ := strconv.Atoi(text[3])
-	Jugada, _ := strconv.Atoi(text[4])
+	fmt.Printf(text)
 
-	if text[4] != "R" && text[4] != "RD" && text[4] != "VP" {
-		_ = MsgToNode(text[1] + " " + text[3] + " " + text[4])
-	}
-
-	if text[4] == "R" {
-		if text[1] == "Game2" && TeamPlayers[id_user-1] == LoseTeam {
-			_ = SendMessageToPozo("", text[3])
-			fmt.Println("Jugador " + text[3] + " ha muerto")
-
-			L_player[id_user-1] = "n"
-			N_play = N_play - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-
-			return &pb.HelloReply{Message: "death"}, nil
-		}
-		if text[1] == "Game3" {
-			var aux int = FindPair(PairPlayers[id_user-1], id_user)
-			if AnswerPlayers[id_user-1] > AnswerPlayers[aux] {
-				_ = SendMessageToPozo("", text[3])
-				fmt.Println("Jugador " + text[3] + " ha muerto")
-
-				L_player[id_user-1] = "n"
-				N_play = N_play - 1
-				fmt.Println("Esperando jugadores, llevamos", N_Playerr, "de", N_play)
-
-				return &pb.HelloReply{Message: "death"}, nil
-			}
-		}
-
-		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-		return &pb.HelloReply{Message: "live"}, nil
-	}
-
-	if text[4] == "RD" {
-		if RPlayerEliminated == text[3] {
-			_ = SendMessageToPozo("", text[3])
-			fmt.Println("Jugador " + text[3] + " ha muerto")
-
-			L_player[id_user-1] = "n"
-			N_play = N_play - 1
-			fmt.Println("Esperando jugadores", N_Playerr, " de ", N_play)
-
-			return &pb.HelloReply{Message: "death"}, nil
-		}
-
-		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-		return &pb.HelloReply{Message: "live"}, nil
-	}
-
-	if text[4] == "VP" {
-		return &pb.HelloReply{Message: SendMessageToPozo("val", "")}, nil
-	}
-
-	if text[1] == "E1" {
-		if Jugada >= numberG1 || text[4] == "death" {
-			_ = SendMessageToPozo("", text[3])
-			fmt.Println("Jugador " + text[3] + " ha muerto")
-
-			L_player[id_user-1] = "n"
-			N_play = N_play - 1
-			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-			return &pb.HelloReply{Message: "death"}, nil
-		}
-
-		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-		return &pb.HelloReply{Message: "live"}, nil
-	}
-
-	if text[1] == "E2" {
-		if TeamPlayers[id_user-1] == "1" {
-			T_T1 = T_T1 + Jugada
-		}
-		if TeamPlayers[id_user-1] == "2" {
-			TotalG2T2 = TotalG2T2 + Jugada
-		}
-		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-		return &pb.HelloReply{Message: "wait"}, nil
-	}
-
-	if text[1] == "E3" {
-		AnswerPlayers[id_user-1] = Jugada
-		N_Playerr = N_Playerr + 1
-		fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-		return &pb.HelloReply{Message: "wait"}, nil
-	}
-
-	return nil, nil
+	return text
 }
 
 func LivePlayers() {
