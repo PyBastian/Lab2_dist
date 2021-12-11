@@ -108,8 +108,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	selected_value := dir_maquinas[randomIndex]
 	fmt.Println(selected_value)
 
-	fmt.Printf(randomIndex)
-
 	if in.GetName() == "yes" {
 		N_play = N_play + 1
 		//fmt.Println("Esperando a los Jugadoress, llevamos = ", N_play, " de ", TotalPlayer)
@@ -120,7 +118,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	//fmt.Printf(text)
 	fmt.Printf(text[0])
 
-	return &pb.HelloReply{Message: dir_maquinas[randomIndex]}, nil
+	return &pb.HelloReply{Message: selected_value}, nil
 }
 
 func LivePlayers() {
