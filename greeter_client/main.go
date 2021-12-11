@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
+	"os"
 	//"strconv"
 	"time"
 	//"strings"
@@ -117,7 +118,7 @@ func main() {
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
 	Menu()
-	
+
 	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
@@ -127,37 +128,33 @@ func main() {
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
-			fmt.Println(respuesta_host)
 			fmt.Println("El Lider fue Avisado")
+			fmt.Println(respuesta_host)
 			//return
 		}
 		if choice == "UpdateName" {
 			fmt.Println("Okey uName")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
-			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if choice == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
-			fmt.Println("El Lider fue Avisado")
 			//return
 		}
 		if choice == "DeleteCity" {
 			fmt.Println("Okey dCity")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
-			fmt.Println("El Lider fue Avisado")
 			//return
 		}
-		fmt.Println("Esperando ...")
-		for {
-			if ReadyToPlay == "Ready" {
-				break
-			}
-		}
+		fmt.Println("Comenzando nueva iteración ...")
+
 	<-forever
 	}
 }
