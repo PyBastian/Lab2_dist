@@ -101,10 +101,12 @@ func MsgToNode(msg string) string {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Comando Final server \n")
-	dir_maquinas := []int{2, 5, 6}
+	dir_maquinas := []string{213, 215, 216}
 	fmt.Printf(in.GetName())
 
-	randomIndex := rand.Intn(dir_maquinas)
+	randomIndex := rand.Intn(len(dir_maquinas))
+	fmt.Println(dir_maquinas[randomIndex])
+
 	fmt.Printf(randomIndex)
 
 	if in.GetName() == "yes" {
@@ -117,7 +119,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	//fmt.Printf(text)
 	fmt.Printf(text[0])
 
-	return &pb.HelloReply{Message: text[0]}, nil
+	return &pb.HelloReply{Message: dir_maquinas[randomIndex]}, nil
 }
 
 func LivePlayers() {
