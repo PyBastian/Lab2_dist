@@ -115,9 +115,9 @@ func main() {
 	go ListenInstr()
 
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
+
 	Menu()
-
-
+	
 	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
