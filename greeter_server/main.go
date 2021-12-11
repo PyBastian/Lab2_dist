@@ -101,7 +101,7 @@ func MsgToNode(msg string) string {
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Comando Final server \n")
-	dir_maquinas := []string{213, 215, 216}
+	dir_maquinas := []string{"213", "215", "216"}
 	fmt.Printf(in.GetName())
 
 	randomIndex := rand.Intn(len(dir_maquinas))
