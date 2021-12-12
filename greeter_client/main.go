@@ -186,12 +186,13 @@ func main() {
 
 	Menu()
 
-	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-  //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
-	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
+
+		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
+		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
@@ -229,10 +230,8 @@ func main() {
 		if respuesta_host == "216"{
 			usecomando(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-
 		}
-		fmt.Println("Comenzando nueva iteración ...")
-
+		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 	<-forever
 	}
 }
