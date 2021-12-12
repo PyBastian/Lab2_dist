@@ -120,42 +120,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 }
 
 
-func A_id_user() int {
-	IDAleatorio := rand.Intn(N_play) + 1
-	for i := 0; i < len(L_player); i++ {
-		if L_player[i] == "l" {
-			IDAleatorio = IDAleatorio - 1
-		}
-		if IDAleatorio == 0 && L_player[i] == "l" {
-			return i + 1
-		}
-	}
-	return 0
-}
-
-func FindPair(t int, p int) int {
-	var aux int = 0
-	for i := 0; i < len(L_player); i++ {
-		if PairPlayers[i] == t && (p-1) != i {
-			aux = i
-		}
-	}
-	return aux
-}
-
-func TeamsG2() {
-	var aux int = 0
-	for i := 0; i < len(L_player); i++ {
-		if aux == 0 && L_player[i] == "l" {
-			TeamPlayers[i] = "1"
-		}
-		if aux == 1 && L_player[i] == "l" {
-			TeamPlayers[i] = "2"
-		}
-		aux = (aux + 1) % 2
-	}
-}
-
 func ListenMessage() {
 	lis, err := net.Listen("tcp", port)
 	if err != nil {
@@ -187,35 +151,8 @@ func main() {
 			fmt.Println("Valor Actual del pozo: ", aux)
 		}
 		//Casos de Juegos {1,2,3}
-		if choice == "1" {
-			SMPlayer("Round", 0)
-			fmt.Println("Primer juego")
-			fmt.Println("Deberas elegir 4 numeros entre 6 y 10")
-			var n_rondas = 4
-			for round := 0; round < n_rondas; round++ {
-				fmt.Println("Elija un numero")
-				fmt.Scanf("%d", &numberG1)
 
-				SMPlayer("Round", 0)
-
-				fmt.Println("Esperando jugadores", N_Playerr, "de", N_play)
-				for {
-					if N_Playerr == N_play {
-						break
-					}
-				}
-
-				if N_play == 0 {
-					fmt.Println("Todos los jugadores murieron")
-					break
-				}
-				N_Playerr = 0
-			}
-
-			fmt.Println("Juego finalizado")
-			fmt.Println("Jugadores sobrevivientes ", N_Playerr)
-			LivePlayers()
-		}
 		//Juego 2
 	<-forever
+	}
 }
