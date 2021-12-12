@@ -172,6 +172,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			return
 		}
 		for i, line := range lines {
+			fmt.Printf(line)
 			if strings.Contains(line, N_planeta) {
 				lines[i] = "buena"
 			}
@@ -228,6 +229,7 @@ func main() {
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
+
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
@@ -256,6 +258,7 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if respuesta_host == "213" {
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
