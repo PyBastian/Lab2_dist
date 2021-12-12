@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"log"
 	"net"
-	//"os"
+	"os"
 	//"strconv"
 	"time"
 	//"strings"
@@ -17,10 +17,16 @@ import (
 const (
 	defaultName = "world"
 )
+func isError(err error) bool {
+    if err != nil {
+        fmt.Println(err.Error())
+    }
+
+    return (err != nil)
+}
 
 var (
 	name = flag.String("name", defaultName, "Name to greet")
-
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
@@ -121,7 +127,8 @@ func createFile(path string){
 }
 
 func usecomando(choice string, N_planeta string ,N_ciudad string ,N_valor string){
-	path  = N_planeta + ".txt"
+	var path string
+	path = N_planeta + ".txt"
 	if choice == "AddCity"{
 		createFile(path)
 		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
