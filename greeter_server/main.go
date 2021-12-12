@@ -112,11 +112,9 @@ func main() {
 		fmt.Scanf("%s", &choice)
 
 		if choice == "0" {
-			fmt.Println("Valor Actual del pozo: ", aux)
+			fmt.Println("Valor Actual del pozo: ")
 		}
-		//Casos de Juegos {1,2,3}
 
-		//Juego 2
 	<-forever
 	}
 }
