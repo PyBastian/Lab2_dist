@@ -130,6 +130,7 @@ func createFile(path string){
 func usecomando(choice string, N_planeta string ,N_ciudad string ,N_valor string){
 	var path string
 	path = N_planeta + ".txt"
+	fmt.Println(path)
 	if choice == "AddCity"{
 		createFile(path)
 		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
