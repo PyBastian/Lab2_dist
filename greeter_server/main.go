@@ -63,40 +63,6 @@ func grpcChannel(ipAdress string, message string) string {
 	}
 	return r.GetMessage()
 }
-//Enviamos mensaje al cliente
-func SMPlayer(msgLider string, id_user int) {
-	fmt.Println("Mandando info al cliente")
-	var message string
-	var Eliminar_user int = id_user
-
-	if msgLider == "Round" {
-		message = "Ready"
-	}
-	if msgLider == "1" || msgLider == "2" || msgLider == "3" {
-		fmt.Println("Entramos al if")
-		message = "E" + msgLider
-	}
-	if msgLider == "D" || msgLider == "DT" {
-		N_play = N_play - 1
-		if msgLider == "D" {
-			Eliminar_user = A_id_user()
-		}
-		_ = SendMessageToPozo("", strconv.FormatInt(int64(Eliminar_user), 10))
-		message = "death " + strconv.FormatInt(int64(Eliminar_user), 10)
-	}
-	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
-}
-
-func SendMessageToPozo(msg string, player string) string {
-	if msg == "val" {
-		return grpcChannel(addrs_pozo, msg)
-	}
-	return ""
-}
-
-func MsgToNode(msg string) string {
-	return grpcChannel(addrs_node, msg)
-}
 
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
