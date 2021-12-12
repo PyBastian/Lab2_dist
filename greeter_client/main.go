@@ -186,8 +186,6 @@ func main() {
 
 	Menu()
 
-
-
 	for {
 
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
@@ -222,9 +220,11 @@ func main() {
 			//return
 		}
 		if respuesta_host == "213"{
+			usecomando(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 		if respuesta_host == "215"{
+			usecomando(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 		if respuesta_host == "216"{
