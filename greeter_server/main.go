@@ -6,10 +6,12 @@ import (
 	"log"
 	"math/rand"
 	"net"
+
 	//"os"
 	//"strconv"
 	"strings"
 	"time"
+
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
@@ -64,7 +66,6 @@ func grpcChannel(ipAdress string, message string) string {
 	return r.GetMessage()
 }
 
-
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
 	//214 no porque es la direcciones del Broker
@@ -77,14 +78,13 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
-	if text[0] == "GetNumberRebelds"{
-			return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
+	if text[0] == "GetNumberRebelds" {
+		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
 	fmt.Printf(text[0])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 }
-
 
 func ListenMessage() {
 	lis, err := net.Listen("tcp", port)
@@ -102,6 +102,28 @@ func main() {
 
 	go ListenMessage()
 
+	r := rand.New(rand.NewSource(time.Now().UnixNano()))
+	pointCount := int(r.Int31n(100)) + 2 // Traverse at least two points
+	var points []*pb.Point
+	for i := 0; i < pointCount; i++ {
+		points = append(points, randomPoint(r))
+	}
+	log.Printf("Traversing %d points.", len(points))
+	stream, err := client.RecordRoute(context.Background())
+	if err != nil {
+		log.Fatalf("%v.RecordRoute(_) = _, %v", client, err)
+	}
+	for _, point := range points {
+		if err := stream.Send(point); err != nil {
+			log.Fatalf("%v.Send(%v) = %v", stream, point, err)
+		}
+	}
+	reply, err := stream.CloseAndRecv()
+	if err != nil {
+		log.Fatalf("%v.CloseAndRecv() got error %v, want %v", stream, err, nil)
+	}
+	log.Printf("Route summary: %v", reply)
+
 	forever := make(chan bool)
 	var choice string
 
@@ -115,6 +137,6 @@ func main() {
 			fmt.Println("Valor Actual del pozo: ")
 		}
 
-	<-forever
+		<-forever
 	}
 }
