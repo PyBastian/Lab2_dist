@@ -74,7 +74,6 @@ func C_Lider(msg string, n_planeta string, n_ciudad string) string {
 	var comando string;
 
 	comando = msg + " " + n_planeta + " " + n_ciudad
-
 	fmt.Printf("Comando Final \n")
 	fmt.Printf(comando)
 
@@ -119,7 +118,7 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 		if respuesta_host == "215"{
-			fmt.Printf("Vamos a guardar la wea en dist 215")
+			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 215")
 		}
 		if respuesta_host == "216"{
 			fmt.Printf("Vamos a guardar la wea en dist 216")

@@ -6,18 +6,16 @@ import (
 	"fmt"
 	"log"
 	"net"
-	//"os"
+	"os"
 	//"strconv"
 	"time"
 	//"strings"
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
-
 const (
 	defaultName = "world"
 )
-
 var (
 	name = flag.String("name", defaultName, "Name to greet")
 
@@ -30,7 +28,7 @@ var id_user string = ""
 var ReadyToPlay string = ""
 var R_Game = ""
 func ListenInstr() {
-	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50071")
+	lis, err := net.Listen("tcp", "dist213.inf.santiago.usm.cl:50071")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -69,54 +67,92 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func C_Lider(msg string, n_planeta string, n_ciudad string) string {
+func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string;
 
-	comando = msg + " " + n_planeta + " " + n_ciudad
+	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor
 
 	fmt.Printf("Comando Final \n")
 	fmt.Printf(comando)
 
-	if msg == "GetNumberRebelds" {
+	if msg == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
+	if msg == "UpdateName" {
+		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
+		return grpcChannel(comando)
+	}
+	if msg == "UpdateNumber" {
+		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
+		return grpcChannel(comando)
+	}
+	if msg == "DeleteCity" {
+		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
+		return grpcChannel(comando)
+	}
+
 	r := grpcChannel(msg)
 	return r
 }
 
 func Menu() {
-	fmt.Println("GetNumberRebelds {N_planeta} {N_ciudad}")
+	fmt.Println("AddCity {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
+
 }
 
 func main() {
 
-	var choice, N_planeta, N_ciudad string
+	var choice, N_planeta, N_ciudad, N_valor string
 	var respuesta_host string
 
 	forever := make(chan bool)
 	go ListenInstr()
 
-	fmt.Println("Bienvenide Leia Organa, asi seran tus comandos:\n")
+	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:\n")
 
 	Menu()
 
-	fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
+	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
-		if choice == "GetNumberRebelds" {
-			fmt.Println("Okey Preguntando")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad)
+		if choice == "AddCity" {
+			fmt.Println("Okey agregemos")
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Println("El Lider fue Avisado")
 			fmt.Println(respuesta_host)
 			//return
 		}
+		if choice == "UpdateName" {
+			fmt.Println("Okey uName")
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Println(respuesta_host)
+			//return
+		}
+		if choice == "UpdateNumber" {
+			fmt.Println("Okey uNumber")
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Println(respuesta_host)
+			//return
+		}
+		if choice == "DeleteCity" {
+			fmt.Println("Okey dCity")
+			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Println(respuesta_host)
+			//return
+		}
 		if respuesta_host == "213"{
-			fmt.Printf("Vamos a guardar la wea en dist 213")
+			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 213")
 		}
 		if respuesta_host == "215"{
 			fmt.Printf("Vamos a guardar la wea en dist 215")
