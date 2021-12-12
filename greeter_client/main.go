@@ -106,6 +106,64 @@ func Menu() {
 	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
 
 }
+func createFile(path string){
+	// check if file exists
+	var _, err = os.Stat(path)
+	// create file if not exists
+	if os.IsNotExist(err) {
+			var file, err = os.Create(path)
+			if isError(err) {
+					return
+			}
+			defer file.Close()
+	}
+	fmt.Println("Se ha agregado un nuevo registro", path)
+}
+
+func usecomando(choice string, N_planeta string ,N_ciudad string ,N_valor string){
+	path  = N_planeta + ".txt"
+	if choice == "AddCity"{
+		createFile(path)
+		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+		if isError(err) {
+				return
+		}
+		defer file.Close()
+		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
+		if isError(err) {
+				return
+		}
+		// Read file, line by line
+		var text = make([]byte, 1024)
+		for {
+				_, err = file.Read(text)
+				// Break if finally arrived at end of file
+				if err == io.EOF {
+						break
+				}
+				// Break if error occured
+				if err != nil && err != io.EOF {
+						isError(err)
+						break
+				}
+		}
+		fmt.Println(string(text))
+	}
+	if choice == "UpdateName"{
+
+	}
+	if choice == "UpdateNumber"{
+
+	}
+	if choice == "DeleteCity "{
+    var err = os.Remove(path)
+    if isError(err) {
+        return
+    }
+    fmt.Println("")
+	}
+
+}
 
 func main() {
 
@@ -160,7 +218,7 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 		if respuesta_host == "216"{
-
+			usecomando(choice, N_planeta,N_ciudad,N_valor)
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 
 		}

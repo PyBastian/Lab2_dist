@@ -113,7 +113,7 @@ func main() {
 		if choice == "GetNumberRebelds" {
 			fmt.Println("Okey Preguntando")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad)
-			fmt.Println("El Lider fue Avisado")
+			fmt.Println("Respuesta Mos\n")
 			fmt.Println(respuesta_host)
 			//return
 		}
