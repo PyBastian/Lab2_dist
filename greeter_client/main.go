@@ -172,7 +172,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			return
 		}
 		for i, line := range lines {
-			fmt.Printf(line)
+			fmt.Printf(line + "<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
 			if strings.Contains(line, N_planeta) {
 				lines[i] = "buena"
 			}
