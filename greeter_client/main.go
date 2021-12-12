@@ -184,7 +184,22 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	}
 
 	if choice == "UpdateNumber" {
-
+		fmt.Print("Se actualizara el numero de rebeldes")
+		input, err := ioutil.ReadFile(path)
+		lines := strings.Split(string(input), "\n")
+		if isError(err) {
+			return
+		}
+		for i, line := range lines {
+			if strings.Contains(line, N_planeta) {
+				lines[i] = "buena"
+			}
+		}
+		output := strings.Join(lines, "\n")
+		err = ioutil.WriteFile(path, []byte(output), 0644)
+		if err != nil {
+			log.Fatalln(err)
+		}
 	}
 	if choice == "DeleteCity " {
 		var err = os.Remove(path)
