@@ -29,3 +29,6 @@ El namenode contiene las direcciones de los 3 datanodes que se encargan de mante
 
 ## Ejecución Codigo
 Al ejecutar el juego sin utilizar make, nosotros primero hacemos en /Distribuidos_w en la maquina Dist214 go run greeter_server/main.go inicializando el Lider, para luego en Dist216 en /Distribuidos_w (todas seran ahi ya que utilizamos git para subir codigo a las maquinas) go run greeter_client/main.go y luego en dist215 go run greeter_pozo/main.go y finalmente en dist215 go run greeter_pozo/main.go, utilizando los Maklefile de cada maquina simplemente es el make en /Distribuidos_w, cabe destacar que en la maquina Dist216  hay que entrar primero a una carpeta Node y los Makefile no se encuentran en el codigo subido a aula
+
+
+Read-Your-Writes consistency states that the system guarantees that, once an item has been updated, any attempt to read the record by the same client will return the updated value. This consistency makes no promises about other clients getting the updated value immediately after the Write and is meant to reassure the user that their Write is successful.

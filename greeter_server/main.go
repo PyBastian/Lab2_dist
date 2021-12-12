@@ -85,7 +85,6 @@ func SMPlayer(msgLider string, id_user int) {
 		message = "death " + strconv.FormatInt(int64(Eliminar_user), 10)
 	}
 	_ = grpcChannel("dist216.inf.santiago.usm.cl:50071", message)
-
 }
 
 func SendMessageToPozo(msg string, player string) string {
@@ -120,20 +119,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	return &pb.HelloReply{Message: selected_value}, nil
 }
 
-func LivePlayers() {
-	for i := 0; i < len(L_player); i++ {
-		if L_player[i] == "l" {
-			fmt.Println("Jugador ", i+1, "ha sobrevivido")
-		}
-	}
-}
-
-func Menu() {
-	fmt.Println("Presione 0 para ver el valor del pozo")
-	fmt.Println("Presiones 1 para comenzar el juego Luz Roja Luz Verde")
-	fmt.Println("Presiones 2 para comenzar el juego Tirar la cuerda")
-	fmt.Println("Presiones 3 para comenzar el juego Todo o nada")
-}
 
 func A_id_user() int {
 	IDAleatorio := rand.Intn(N_play) + 1
@@ -232,121 +217,5 @@ func main() {
 			LivePlayers()
 		}
 		//Juego 2
-		if choice == "2" {
-
-			N_Playerr = 0
-			SMPlayer("R", 0)
-			if N_play%2 == 1 && N_play != 1 {
-				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
-				SMPlayer("Round", 0)
-				for {
-					if N_Playerr == N_play {
-						break
-					}
-				}
-			}
-			N_Playerr = 0
-
-			TeamsG2()
-			fmt.Println("Segundo juego")
-			fmt.Println("Elige un numero entre 1 y 4")
-
-			fmt.Scanf("%d", &choiceG2)
-			choiceG2 = choiceG2 % 2
-
-			SMPlayer("Round", 0)
-
-			for {
-				if N_Playerr == N_play {
-					break
-				}
-			}
-			N_Playerr = 0
-
-			if T_T1%2 == TotalG2T2%2 && T_T1 != choiceG2 {
-				aux := rand.Intn(2)
-				if aux == 0 {
-					LoseTeam = "1"
-				}
-				if aux == 1 {
-					LoseTeam = "2"
-				}
-			}
-
-			if T_T1%2 != choiceG2 {
-				LoseTeam = "1"
-			}
-			if TotalG2T2%2 != choiceG2 {
-				LoseTeam = "2"
-			}
-
-			fmt.Println("Perdedores ", LoseTeam)
-			SMPlayer("Round", 0)
-			for {
-				if N_Playerr == N_play {
-					break
-				}
-			}
-
-			fmt.Println("Juego finalizado")
-			fmt.Println("Jugadores restantes ", N_Playerr)
-			LivePlayers()
-			N_Playerr = 0
-		}
-
-		if choice == "3" {
-
-			N_Playerr = 0
-			SMPlayer("Round", 0)
-			if N_play%2 == 1 && N_play != 1 {
-				RPlayerEliminated = strconv.FormatInt(int64(A_id_user()), 10)
-				SMPlayer("R", 0)
-				for {
-					if N_Playerr == N_play {
-						break
-					}
-				}
-			}
-			N_Playerr = 0
-
-			fmt.Println("Tercer juego")
-			fmt.Println("Elige entre ore 1 al 10")
-
-			fmt.Println("Escoge un numero")
-			fmt.Scanf("%d", &numberG3)
-
-			SMPlayer("Round", 0)
-			fmt.Println("Esperando jugadores", N_Playerr, "/", N_play)
-			for {
-				if N_Playerr == N_play {
-					break
-				}
-			}
-			N_Playerr = 0
-
-			for i := 0; i < len(L_player); i++ {
-				if L_player[i] == "l" {
-					if AnswerPlayers[i] >= numberG3 {
-						AnswerPlayers[i] = AnswerPlayers[i] - numberG3
-					}
-					if AnswerPlayers[i] < numberG3 {
-						AnswerPlayers[i] = numberG3 - AnswerPlayers[i]
-					}
-				}
-			}
-
-			SMPlayer("Round", 0)
-			for {
-				if N_Playerr == N_play {
-					break
-				}
-			}
-
-			fmt.Println("SquidGame has stop")
-			fmt.Println("Ganaron ", N_Playerr)
-			LivePlayers()
-			N_Playerr = 0
-		}
-	}
 	<-forever
 }
