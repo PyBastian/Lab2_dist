@@ -101,12 +101,15 @@ func main() {
 
 	Menu()
 
-	fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
+
   //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
-	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
+
+		fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
+		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
+
 		if choice == "GetNumberRebelds" {
 			fmt.Println("Okey Preguntando")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad)

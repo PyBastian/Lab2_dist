@@ -66,7 +66,7 @@ func grpcChannel(ipAdress string, message string) string {
 
 
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Printf("Comando Final server \n")
+	fmt.Printf("Recibimos Comando \n")
 	//214 no porque es la direcciones del Broker
 	dir_maquinas := []string{"213", "215", "216"}
 
