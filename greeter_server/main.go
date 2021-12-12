@@ -7,7 +7,7 @@ import (
 	"math/rand"
 	"net"
 	//"os"
-	"strconv"
+	//"strconv"
 	"strings"
 	"time"
 	"google.golang.org/grpc"
@@ -110,10 +110,8 @@ func main() {
 	for {
 		//Menu()
 		fmt.Scanf("%s", &choice)
-		SMPlayer(choice, 0)
 
 		if choice == "0" {
-			aux := SendMessageToPozo("val", "")
 			fmt.Println("Valor Actual del pozo: ", aux)
 		}
 		//Casos de Juegos {1,2,3}
