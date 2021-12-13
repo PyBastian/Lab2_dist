@@ -39,13 +39,23 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
-		G_now = in.GetName()
+	fmt.Printf("Recibimos Comando \n")
+	//214 no porque es la direcciones del Broker
+	dir_maquinas := []string{"213", "215", "216"}
+
+	fmt.Printf(in.GetName())
+
+	randomIndex := rand.Intn(3)
+	selected_value := dir_maquinas[randomIndex]
+
+	text := strings.Split(in.GetName(), " ")
+	//fmt.Printf(text)
+	if text[0] == "GetNumberRebelds" {
+		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	if in.GetName() == "Ready" {
-		ReadyToPlay = "Ready"
-	}
-	return &pb.HelloReply{Message: "recibido"}, nil
+	fmt.Printf(text[0])
+
+	return &pb.HelloReply{Message: selected_value}, nil
 
 }
 

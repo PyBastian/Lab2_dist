@@ -80,6 +80,38 @@ func grpcChannel(message string) string {
 	}
 	return r.GetMessage()
 }
+func grpcChannel213(message string) string {
+	fmt.Println("")
+	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con 213: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
+func grpcChannel215(message string) string {
+	fmt.Println("")
+	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con 215: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
 
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
@@ -281,8 +313,8 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 		if respuesta_host == "216" {
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 		<-forever
