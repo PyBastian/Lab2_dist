@@ -81,7 +81,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	fmt.Printf(text[0])
+	fmt.Printf("\n" + text[0])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 }
