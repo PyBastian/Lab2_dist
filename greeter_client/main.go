@@ -134,6 +134,7 @@ func createFile(path string) {
 
 func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var path string
+	var didchange int = 0
 	path = N_planeta + ".txt"
 	fmt.Println(path)
 
@@ -172,35 +173,47 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			return
 		}
 		for i, line := range lines {
-			fmt.Printf(line + "<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>")
-			if strings.Contains(line, N_planeta) {
+			if strings.Contains(line, N_ciudad) {
 				lines[i] = N_ciudad + " " + N_valor
+				fmt.Printf("El nombre de la ciudad se actualizo correctamente")
+				didchange = 1
+				break
 			}
+		}
+		if didchange == 0 {
+			fmt.Printf("No se encontro el nombre de la cuidad")
 		}
 		output := strings.Join(lines, "\n")
 		err = ioutil.WriteFile(path, []byte(output), 0644)
 		if err != nil {
 			log.Fatalln(err)
 		}
+		didchange = 0
 	}
 
 	if choice == "UpdateNumber" {
-		fmt.Print("Se actualizara el numero de rebeldes")
 		input, err := ioutil.ReadFile(path)
 		lines := strings.Split(string(input), "\n")
 		if isError(err) {
 			return
 		}
 		for i, line := range lines {
-			if strings.Contains(line, N_planeta) {
-				lines[i] = "buena"
+			if strings.Contains(line, N_ciudad) {
+				lines[i] = N_ciudad + " " + N_valor
+				fmt.Print("El numero de rebeldes fue actualizado correctamente")
+				didchange = 1
+				break
 			}
+		}
+		if didchange == 0 {
+			fmt.Printf("No se encontro el nombre de la cuidad")
 		}
 		output := strings.Join(lines, "\n")
 		err = ioutil.WriteFile(path, []byte(output), 0644)
 		if err != nil {
 			log.Fatalln(err)
 		}
+		didchange = 0
 	}
 	if choice == "DeleteCity " {
 		var err = os.Remove(path)
