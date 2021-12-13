@@ -80,6 +80,7 @@ func grpcChannel(message string) string {
 	}
 	return r.GetMessage()
 }
+
 func grpcChannel213(message string) string {
 	fmt.Println("Enviando mensaje a 213")
 	fmt.Println(message)
@@ -98,6 +99,7 @@ func grpcChannel213(message string) string {
 	}
 	return r.GetMessage()
 }
+
 func grpcChannel215(message string) string {
 	fmt.Println("Enviando mensaje a 215")
 	fmt.Println(message)
@@ -153,6 +155,7 @@ func Menu() {
 	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
 
 }
+
 func createFile(path string) {
 	// check if file exists
 	var _, err = os.Stat(path)
@@ -170,7 +173,7 @@ func createFile(path string) {
 func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var path string
 	var didchange int = 0
-	path = "greeter_client/" +N_planeta + ".txt"
+	path = "greeter_client/" + N_planeta + ".txt"
 	fmt.Println(path)
 
 	if choice == "AddCity" {
@@ -315,15 +318,19 @@ func main() {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			grpcChannel213(comando_input)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
+
 		}
 		if respuesta_host == "215" {
 			grpcChannel215(comando_input)
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
+
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			grpcChannel213("213")
+			grpcChannel215("215")
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 		<-forever
