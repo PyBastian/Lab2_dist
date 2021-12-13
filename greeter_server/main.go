@@ -102,28 +102,6 @@ func main() {
 
 	go ListenMessage()
 
-	r := rand.New(rand.NewSource(time.Now().UnixNano()))
-	pointCount := int(r.Int31n(100)) + 2 // Traverse at least two points
-	var points []*pb.Point
-	for i := 0; i < pointCount; i++ {
-		points = append(points, randomPoint(r))
-	}
-	log.Printf("Traversing %d points.", len(points))
-	stream, err := client.RecordRoute(context.Background())
-	if err != nil {
-		log.Fatalf("%v.RecordRoute(_) = _, %v", client, err)
-	}
-	for _, point := range points {
-		if err := stream.Send(point); err != nil {
-			log.Fatalf("%v.Send(%v) = %v", stream, point, err)
-		}
-	}
-	reply, err := stream.CloseAndRecv()
-	if err != nil {
-		log.Fatalf("%v.CloseAndRecv() got error %v, want %v", stream, err, nil)
-	}
-	log.Printf("Route summary: %v", reply)
-
 	forever := make(chan bool)
 	var choice string
 
