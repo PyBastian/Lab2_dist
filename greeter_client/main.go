@@ -181,7 +181,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			}
 		}
 		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la cuidad")
+			fmt.Printf("No se encontro el nombre de la ciudad")
 		}
 		output := strings.Join(lines, "\n")
 		err = ioutil.WriteFile(path, []byte(output), 0644)
@@ -206,7 +206,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			}
 		}
 		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la cuidad")
+			fmt.Printf("No se encontro el nombre de la ciudad")
 		}
 		output := strings.Join(lines, "\n")
 		err = ioutil.WriteFile(path, []byte(output), 0644)
