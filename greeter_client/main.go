@@ -100,7 +100,7 @@ func grpcChannel213(message string) string {
 }
 func grpcChannel215(message string) string {
 	fmt.Println("Enviando mensaje a 215")
-	fmt.Println(message))
+	fmt.Println(message)
 	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 215: %v", err)
