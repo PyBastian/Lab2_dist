@@ -135,7 +135,7 @@ func createFile(path string) {
 func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var path string
 	var didchange int = 0
-	path = N_planeta + ".txt"
+	path = "greeter_client2/" +N_planeta + ".txt"
 	fmt.Println(path)
 
 	if choice == "AddCity" {

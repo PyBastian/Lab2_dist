@@ -105,6 +105,99 @@ func Menu() {
 
 }
 
+func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
+	var path string
+	var didchange int = 0
+	path = "greeter_client2/"+N_planeta + ".txt"
+	fmt.Println(path)
+
+	if choice == "AddCity" {
+		createFile(path)
+		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
+		if isError(err) {
+			return
+		}
+		// Read file, line by line
+		var text = make([]byte, 1024)
+		for {
+			_, err = file.Read(text)
+			// Break if finally arrived at end of file
+			if err == io.EOF {
+				break
+			}
+			// Break if error occured
+			if err != nil && err != io.EOF {
+				isError(err)
+				break
+			}
+		}
+		fmt.Println(string(text))
+	}
+
+	if choice == "UpdateName" {
+		input, err := ioutil.ReadFile(path)
+		lines := strings.Split(string(input), "\n")
+		if isError(err) {
+			return
+		}
+		for i, line := range lines {
+			if strings.Contains(line, N_ciudad) {
+				lines[i] = N_ciudad + " " + N_valor
+				fmt.Printf("El nombre de la ciudad se actualizo correctamente")
+				didchange = 1
+				break
+			}
+		}
+		if didchange == 0 {
+			fmt.Printf("No se encontro el nombre de la ciudad")
+		}
+		output := strings.Join(lines, "\n")
+		err = ioutil.WriteFile(path, []byte(output), 0644)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		didchange = 0
+	}
+
+	if choice == "UpdateNumber" {
+		input, err := ioutil.ReadFile(path)
+		lines := strings.Split(string(input), "\n")
+		if isError(err) {
+			return
+		}
+		for i, line := range lines {
+			if strings.Contains(line, N_ciudad) {
+				lines[i] = N_ciudad + " " + N_valor
+				fmt.Print("El numero de rebeldes fue actualizado correctamente")
+				didchange = 1
+				break
+			}
+		}
+		if didchange == 0 {
+			fmt.Printf("No se encontro el nombre de la ciudad")
+		}
+		output := strings.Join(lines, "\n")
+		err = ioutil.WriteFile(path, []byte(output), 0644)
+		if err != nil {
+			log.Fatalln(err)
+		}
+		didchange = 0
+	}
+	if choice == "DeleteCity " {
+		var err = os.Remove(path)
+		if isError(err) {
+			return
+		}
+		fmt.Println("")
+	}
+
+}
+
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -152,6 +245,7 @@ func main() {
 			//return
 		}
 		if respuesta_host == "213"{
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 213")
 		}
 		if respuesta_host == "215"{
