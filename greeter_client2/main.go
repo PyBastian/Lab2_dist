@@ -40,20 +40,15 @@ func ListenInstr() {
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
-	//214 no porque es la direcciones del Broker
-	dir_maquinas := []string{"213", "215", "216"}
-
 	fmt.Printf(in.GetName())
-
-	randomIndex := rand.Intn(3)
-	selected_value := dir_maquinas[randomIndex]
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
-	if text[0] == "GetNumberRebelds" {
+	if text[0] == "GetNumberRebelds " {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	fmt.Printf(text[0])
+	fmt.Printf(text[0],text[1],text[2],text[3])
+	usecomando(text[0],text[1],text[2],text[3])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 
@@ -226,6 +221,8 @@ func main() {
 	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
+		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
+		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)

@@ -81,7 +81,9 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 func grpcChannel213(message string) string {
-	fmt.Println("")
+	fmt.Println("Enviando mensaje a 213")
+	fmt.Println(message))
+
 	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 213: %v", err)
@@ -97,7 +99,8 @@ func grpcChannel213(message string) string {
 	return r.GetMessage()
 }
 func grpcChannel215(message string) string {
-	fmt.Println("")
+	fmt.Println("Enviando mensaje a 215")
+	fmt.Println(message))
 	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 215: %v", err)
@@ -272,6 +275,9 @@ func main() {
 	for {
 
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
+		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
+
+		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
@@ -305,11 +311,13 @@ func main() {
 		}
 
 		if respuesta_host == "213" {
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
+			grpcChannel213(comando_input)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 		if respuesta_host == "215" {
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			grpcChannel215(comando_input)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 		if respuesta_host == "216" {
