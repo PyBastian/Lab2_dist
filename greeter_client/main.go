@@ -82,7 +82,7 @@ func grpcChannel(message string) string {
 }
 func grpcChannel213(message string) string {
 	fmt.Println("Enviando mensaje a 213")
-	fmt.Println(message))
+	fmt.Println(message)
 
 	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
