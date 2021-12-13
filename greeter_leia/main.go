@@ -41,13 +41,19 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
-		G_now = in.GetName()
+	fmt.Printf("Recibimos Comando \n")
+	fmt.Printf(in.GetName())
+
+	text := strings.Split(in.GetName(), " ")
+	//fmt.Printf(text)
+	if text[0] == "GetNumberRebelds " {
+		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	if in.GetName() == "Ready" {
-		ReadyToPlay = "Ready"
-	}
-	return &pb.HelloReply{Message: "recibido"}, nil
+	fmt.Printf(text[0],text[1],text[2],text[3])
+	usecomando(text[0],text[1],text[2],text[3])
+
+	return &pb.HelloReply{Message: selected_value}, nil
+
 
 }
 
