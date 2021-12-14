@@ -274,8 +274,9 @@ func main() {
 	var respuesta_host string = ""
 	var comando_input string
 
-	forever := make(chan bool)
 	go ListenInstr()
+	
+	forever := make(chan bool)
 
 	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
