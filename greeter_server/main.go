@@ -53,6 +53,7 @@ func failOnError(err error, msg string) {
 		log.Fatalf("%s: %s", msg, err)
 	}
 }
+
 func RemoveIndex(s []string, index int) []string {
 	return append(s[:index], s[index+1:]...)
 }
@@ -152,6 +153,7 @@ func helloworld(t time.Time) {
 
 func main() {
 
+	var response string
 	forever := make(chan bool)
 	go ListenMessage()
 
@@ -163,6 +165,8 @@ func main() {
 	// 				"AfterFunc() after 3 seconssds")
 	// }
 	for {
+		response = grpcChannel("dist216.inf.santiago.usm.cl:50051", "nc conectamo a la 216")
+		fmt.Printf(response)
 		//doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
 		// Calling sleep method

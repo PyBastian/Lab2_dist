@@ -44,7 +44,7 @@ var R_Game = ""
 var reloj [3]int
 
 func ListenInstr() {
-	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50071")
+	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50051")
 	if err != nil {
 		log.Fatalf("failed to listen: %v", err)
 	}
@@ -53,8 +53,8 @@ func ListenInstr() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
-	//forever <- false
 }
+
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	//text := strings.Split(in.GetName(), " ")
 	fmt.Print(in.GetName())
