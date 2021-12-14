@@ -415,7 +415,8 @@ func main() {
 
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-			grpcChannel216(comando_input)
+			var respuesta = grpcChannel216(comando_input)
+			fmt.Print(respuesta)
 		}
 
 		if respuesta_host == "update" {
