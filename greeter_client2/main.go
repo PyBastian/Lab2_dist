@@ -108,12 +108,12 @@ func grpcChannel(message string) string {
 // }
 
 func grpcChannel216(choice string, N_planeta string, N_ciudad string, N_valor string) string {
-	fmt.Println("Enviando mensaje a 215")
+	fmt.Println("Enviando mensaje a 216")
 	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
 	var message string = "devuelve la wea qlo"
 	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
-		log.Fatalf("Error de conecc'on con 215: %v", err)
+		log.Fatalf("Error de conecc'on con 216: %v", err)
 	}
 	defer conn.Close()
 	c := pb.NewGreeterClient(conn)
@@ -384,6 +384,7 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 
 	if respuesta_host == "216" {
 		fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+		grpcChannel216(choice, N_planeta, N_ciudad, N_valor)
 		// var respuesta = grpcChannel216(comando_input)
 		// fmt.Print(respuesta + " eesta wea se mando")
 	}
