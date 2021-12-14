@@ -104,16 +104,16 @@ func main() {
 	go ListenMessage()
 
 	forever := make(chan bool)
-	var choice string
+	//var choice string
 
 	fmt.Println("Esperando solicitudes")
 	DurationOfTime := time.Duration(3) * time.Second
+	f := func() {
+			fmt.Println("Function called by "+
+					"AfterFunc() after 3 seconssds")
+	}
 
 	for {
-		f := func() {
-				fmt.Println("Function called by "+
-						"AfterFunc() after 3 seconssds")
-		}
 
 		time.AfterFunc(DurationOfTime, f)
 
@@ -121,11 +121,7 @@ func main() {
 		// Calling sleep method
 
 		//Menu()
-		fmt.Scanf("%s", &choice)
-
-		if choice == "0" {
-			fmt.Println("Valor Actual del pozo: ")
-		}
+		//fmt.Scanf("%s", &choice)
 
 		<-forever
 	}
