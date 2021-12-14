@@ -120,7 +120,7 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string
 
-	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor
+	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor " " + "1"
 
 	fmt.Printf("Comando Final \n")
 	fmt.Printf(comando)
@@ -291,7 +291,7 @@ func main() {
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
-		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + "1"
+		comando_input = choice + " " + N_planeta + " " + N_ciudad
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
