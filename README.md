@@ -15,11 +15,11 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
   
 ## Informantes
 - Inicialmente envia los comando al Broker, el cual respondera con la dirección del servidor fulcrum al cual debera reenviar el comando 
-- Para luego recibir la diirección y comunicarse con este, donde cabe desatcar que el serviidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
+- Para luego recibir la dirección y comunicarse con este, donde cabe desatcar que el serviidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
 
 ## Broker/Server
-- Recibir las comunicaciones de los dos informantes y elegir según el criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum
-- Retornar información a Leia PENDIENTE
+- Recibir las comunicaciones de los dos informantes y elegir según el criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum que direcciona, 
+- Recibe los comandos de Leia y este consulta a los servidores Fulcrum, donde utilizando Monotonic Reads, el valor que este retorne siempre sera igual o más actualizado que las lecturas anterior.
   
 ## Servidores Fulcrum
 - Recibir comandos...LISTO
@@ -30,7 +30,7 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Merge PENDIENTE
 
 ## Leia Organa
-- Realizar consulta PENDIENTE
+- Leia envia comandos al Broker, donde ella guardara los comandos que ha solicitado, y además guardara el reloj del planeta de lainformación que solicito y cual fue la maquina que tenia guardado este registro.
 
 ## Ejecución Codigo
 
