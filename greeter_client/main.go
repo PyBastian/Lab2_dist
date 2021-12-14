@@ -288,6 +288,7 @@ func main() {
 
 		var choice, N_planeta, N_ciudad, N_valor, instruccion string
 		var respuesta_host string = ""
+		var comando_input string
 
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
