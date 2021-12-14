@@ -125,7 +125,7 @@ func main() {
 
 	for {
 
-		doEvery(20*time.Millisecond, helloworld)
+		doEvery(20*time.Second, helloworld)
 
 		//defer Timer1.Stop()
 		// Calling sleep method
