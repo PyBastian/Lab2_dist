@@ -46,7 +46,7 @@ var dir_maquinas = []string{"213", "215", "216"}
 
 var dir_Inf1 = ""
 var dir_Inf2 = ""
-var forever := make(chan bool)
+var forever = make(chan bool)
 
 func failOnError(err error, msg string) {
 	if err != nil {
