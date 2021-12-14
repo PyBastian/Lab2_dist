@@ -29,11 +29,6 @@ var (
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var G_now string = ""
-var id_user string = ""
-var ReadyToPlay string = ""
-var R_Game = ""
-
 func isError(err error) bool {
 	if err != nil {
 		fmt.Println(err.Error())
@@ -107,6 +102,25 @@ func grpcChannel(message string) string {
 // 	return r.GetMessage()
 // }
 
+func grpcChannel215(choice string, N_planeta string, N_ciudad string, N_valor string) string {
+	fmt.Println("Enviando mensaje a 215")
+	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
+	var message string = "devuelve la wea qlo"
+	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con 215: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
+
 func grpcChannel216(choice string, N_planeta string, N_ciudad string, N_valor string) string {
 	fmt.Println("Enviando mensaje a 216")
 	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
@@ -127,25 +141,6 @@ func grpcChannel216(choice string, N_planeta string, N_ciudad string, N_valor st
 	return r.GetMessage()
 }
 
-func grpcChannel215(choice string, N_planeta string, N_ciudad string, N_valor string) string {
-	fmt.Println("Enviando mensaje a 215")
-	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
-	var message string = "devuelve la wea qlo"
-	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Error de conecc'on con 215: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	return r.GetMessage()
-}
-
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string
@@ -153,7 +148,6 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor + " " + "2"
 
 	fmt.Printf("Comando Final \n")
-	fmt.Printf(comando)
 
 	if msg == "AddCity" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
