@@ -117,6 +117,7 @@ func main() {
 	//var choice string
 
 	fmt.Println("Esperando solicitudes")
+
 	// DurationOfTime := time.Duration(3) * time.Second
 	// f := func() {
 	// 		fmt.Println("Function called by "+
