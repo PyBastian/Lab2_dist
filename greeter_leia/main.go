@@ -253,6 +253,57 @@ func Menu() {
 	fmt.Println("GetNumberRebelds {N_planeta} {N_ciudad}")
 }
 
+func AddCity(path string, N_ciudad string, N_valor string) {
+	if N_valor == "" {
+		N_valor = "0"
+	}
+
+	if !isPlanetFileCreated(path) {
+		createFile(path)
+		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
+		if isError(err) {
+			return
+		}
+		// Read file, line by line
+		var text = make([]byte, 1024)
+		for {
+			_, err = file.Read(text)
+			// Break if finally arrived at end of file
+			if err == io.EOF {
+				break
+			}
+			// Break if error occured
+			if err != nil && err != io.EOF {
+				isError(err)
+				break
+			}
+		}
+		fmt.Println(string(text))
+	} else {
+		var file, err = os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
+		if isError(err) {
+			return
+		}
+
+		defer file.Close()
+
+		if N_valor == "" || N_valor == " " {
+			N_valor = "0"
+		}
+
+		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
+		if isError(err) {
+			return
+		}
+		fmt.Printf("\nSe ha agregado la ciudad %s al registro", N_ciudad)
+	}
+}
+
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -271,7 +322,7 @@ func main() {
 
 		fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
-
+		AddCity("greeter_leia/"+N_planeta+".txt", N_planeta, N_ciudad)
 		if choice == "GetNumberRebelds" {
 			fmt.Println("Okey Preguntando")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad)
