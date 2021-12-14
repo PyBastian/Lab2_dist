@@ -283,6 +283,7 @@ func main() {
 	Menu()
 
 	for {
+		fmt.Println("Procedemos al scanF")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
