@@ -106,7 +106,7 @@ func doEvery(d time.Duration, f func(time.Time)) {
 }
 
 func helloworld(t time.Time) {
-	fmt.Printf("%v: Hello, World!\n", t)
+	fmt.Printf("%v: Hello, World!\n")
 }
 
 func main() {
@@ -124,9 +124,7 @@ func main() {
 	// }
 
 	for {
-
 		doEvery(20*time.Second, helloworld)
-
 		//defer Timer1.Stop()
 		// Calling sleep method
 
