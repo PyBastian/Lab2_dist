@@ -99,22 +99,39 @@ func ListenMessage() {
 	}
 }
 
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+
+func helloworld(t time.Time) {
+	fmt.Printf("%v: Hello, World!\n", t)
+}
+
 func main() {
 
 	go ListenMessage()
 
 	forever := make(chan bool)
-	var choice string
+	//var choice string
 
 	fmt.Println("Esperando solicitudes")
+	// DurationOfTime := time.Duration(3) * time.Second
+	// f := func() {
+	// 		fmt.Println("Function called by "+
+	// 				"AfterFunc() after 3 seconssds")
+	// }
 
 	for {
-		//Menu()
-		fmt.Scanf("%s", &choice)
 
-		if choice == "0" {
-			fmt.Println("Valor Actual del pozo: ")
-		}
+		doEvery(20*time.Second, helloworld)
+
+		//defer Timer1.Stop()
+		// Calling sleep method
+
+		//Menu()
+		//fmt.Scanf("%s", &choice)
 
 		<-forever
 	}
