@@ -274,8 +274,10 @@ func main() {
 	var respuesta_host string
 
 	var comando_input string
-	//forever := make(chan bool)
+	forever := make(chan bool)
+
 	go ListenInstr()
+	<-forever
 
 	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
@@ -340,7 +342,5 @@ func main() {
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-		//forever <- false
-		//<-forever
 	}
 }
