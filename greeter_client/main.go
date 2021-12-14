@@ -55,13 +55,9 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	if in.GetName() == "G1" || in.GetName() == "G2" || in.GetName() == "G3" {
-		G_now = in.GetName()
-	}
-	if in.GetName() == "Ready" {
-		ReadyToPlay = "Ready"
-	}
-	return &pb.HelloReply{Message: "recibido"}, nil
+	text := strings.Split(in.GetName(), " ")
+	usecomando(text[0], text[1], text[2], text[3])
+	return &pb.HelloReply{Message: "recibid chuhc escrito"}, nil
 
 }
 
@@ -278,7 +274,7 @@ func main() {
 	var choice, N_planeta, N_ciudad, N_valor string
 	var respuesta_host string = ""
 	var comando_input string
-
+	var mensaje_input string
 	forever := make(chan bool)
 	go ListenInstr()
 
@@ -288,6 +284,11 @@ func main() {
 	Menu()
 
 	for {
+		mensaje_input = grpcChannel("Update")
+		if mensaje_input != "No hay update" {
+
+		}
+
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
@@ -340,8 +341,6 @@ func main() {
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
-			grpcChannel213("213")
-			grpcChannel215("215")
 		}
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
