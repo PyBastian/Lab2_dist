@@ -151,10 +151,10 @@ func helloworld(t time.Time) {
 }
 
 func main() {
-
-	go ListenMessage()
-	//var choice string
 	forever := make(chan bool)
+	go ListenMessage()
+
+	//var choice string
 	fmt.Println("Esperando solicitudes")
 	// DurationOfTime := time.Duration(3) * time.Second
 	// f := func() {
