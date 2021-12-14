@@ -136,8 +136,8 @@ func helloworld(t time.Time) {
 	fmt.Printf("Procederemos al merge\n")
 
 	dir_maquinas = []string{"213", "215", "216"}
-	var dir_Inf1 = ""
-	var dir_Inf2 = ""
+	dir_Inf1 = ""
+	dir_Inf2 = ""
 
 	grpcChannel("dist213.inf.santiago.usm.cl:50071", "Update")
 	grpcChannel("dist215.inf.santiago.usm.cl:50071", "Update")
