@@ -16,6 +16,12 @@ import (
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
 
+const (
+	port       = ":50051"
+	addrs_pozo = "dist215.inf.santiago.usm.cl:50053"
+	addrs_node = ":50054"
+)
+
 type server struct{ pb.UnimplementedGreeterServer }
 
 var TotalPlayer int = 1
@@ -53,7 +59,7 @@ func RemoveIndex(s []string, index int) []string {
 func grpcChannel(ipAdress string, message string) string {
 	fmt.Println("Nos conectamos al Cliente")
 	fmt.Println(ipAdress)
-	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
