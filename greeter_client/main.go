@@ -155,7 +155,6 @@ func Menu() {
 	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
-
 }
 
 func createFile(path string) {
@@ -301,6 +300,7 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "UpdateName" {
 			fmt.Println("Okey uName")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
@@ -308,6 +308,7 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
@@ -315,6 +316,7 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "DeleteCity" {
 			fmt.Println("Okey dCity")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
@@ -322,23 +324,26 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if respuesta_host == "213" {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			grpcChannel213(comando_input)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
-
 		}
+
 		if respuesta_host == "215" {
 			grpcChannel215(comando_input)
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
+
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			grpcChannel213("213")
 			grpcChannel215("215")
 		}
+
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 		<-forever
 	}
