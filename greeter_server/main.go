@@ -53,7 +53,7 @@ func failOnError(err error, msg string) {
 	}
 }
 func RemoveIndex(s []string, index int) []string {
-    return append(s[:index], s[index+1:]...)
+	return append(s[:index], s[index+1:]...)
 }
 
 func grpcChannel(ipAdress string, message string) string {
@@ -83,20 +83,21 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	text := strings.Split(in.GetName(), " ")
 
-	if text[len(text) - 1] == "1"{
-		if dir_Inf1 == ""{
+	if text[len(text)-1] == "1" {
+		if dir_Inf1 == "" {
 			randomIndex := rand.Intn(len(dir_maquinas))
 			dir_Inf1 = dir_maquinas[randomIndex]
 			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
 			fmt.Print("Maquina 1")
 			fmt.Print(dir_Inf1)
-			return &pb.HelloReply{Message: dir_Inf1}, nil
+			//return &pb.HelloReply{Message: dir_Inf1}, nil
+			return &pb.HelloReply{Message: "216"}, nil
 		}
 		fmt.Print(dir_Inf1)
 		return &pb.HelloReply{Message: dir_Inf1}, nil
 	}
-	if text[len(text) - 1] == "2"{
-		if dir_Inf1 == ""{
+	if text[len(text)-1] == "2" {
+		if dir_Inf1 == "" {
 			randomIndex := rand.Intn(len(dir_maquinas))
 			dir_Inf2 = dir_maquinas[randomIndex]
 			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
