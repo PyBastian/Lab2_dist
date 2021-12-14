@@ -17,7 +17,7 @@ import (
 )
 
 const (
-	port       = ":50051"
+	port       = "dist214.inf.santiago.usm.cl:50051"
 	addrs_pozo = "dist215.inf.santiago.usm.cl:50053"
 	addrs_node = ":50054"
 )
