@@ -53,6 +53,7 @@ func ListenInstr() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+	forever <- false
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	//text := strings.Split(in.GetName(), " ")
