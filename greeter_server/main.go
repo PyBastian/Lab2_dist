@@ -24,24 +24,6 @@ const (
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var TotalPlayer int = 1
-var N_play int = 0
-var N_Playerr int = 0
-var L_player = [3]string{"l", "l", "l"}
-
-var numberG1 int = 0
-
-var RPlayerEliminated string = "-"
-var T_T1 int = 0
-var TotalG2T2 int = 0
-var choiceG2 int = 0
-var TeamPlayers = [3]string{"-", "-", "-"}
-var LoseTeam string = "0"
-
-var numberG3 int = 0
-var PairPlayers = [3]int{-1, -1, -1}
-var AnswerPlayers = [3]int{-1, -1, -1}
-
 func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
@@ -74,15 +56,14 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Printf(in.GetName())
 
 	randomIndex := rand.Intn(3)
-	//selected_value := dir_maquinas[randomIndex]
-	selected_value := "216"
+	selected_value := dir_maquinas[randomIndex]
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	fmt.Printf("\n" + text[0])
+	fmt.Printf(text[0])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 }
@@ -99,6 +80,14 @@ func ListenMessage() {
 	}
 }
 
+func MenuBroker() {
+	fmt.Println("1.- AddCity {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("2.- UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("3.- UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
+	fmt.Println("4.- DeleteCity {N_planeta} {N_ciudad}")
+	fmt.Println("")
+}
+
 func main() {
 
 	go ListenMessage()
@@ -109,13 +98,10 @@ func main() {
 	fmt.Println("Esperando solicitudes")
 
 	for {
-		//Menu()
+		//Menu() del broker
+		MenuBroker()
+
 		fmt.Scanf("%s", &choice)
-
-		if choice == "0" {
-			fmt.Println("Valor Actual del pozo: ")
-		}
-
 		<-forever
 	}
 }

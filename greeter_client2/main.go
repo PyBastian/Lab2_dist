@@ -2,69 +2,46 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"log"
-	"net"
-	//"os"
-	//"strconv"
+	"os"
 	"time"
-	//"strings"
+
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
+
 const (
-	defaultName = "world"
-)
-var (
-	name = flag.String("name", defaultName, "Name to greet")
-
+	address           = "localhost:50051"
+	addressReal       = "dist214.inf.santiago.usm.cl:50051"
+	nombre_informante = "Almirante Thrawn"
 )
 
-type server struct{ pb.UnimplementedGreeterServer }
-
-var G_now string = ""
-var id_user string = ""
-var ReadyToPlay string = ""
-var R_Game = ""
-func ListenInstr() {
-	lis, err := net.Listen("tcp", "dist213.inf.santiago.usm.cl:50071")
+func isError(err error) bool {
 	if err != nil {
-		log.Fatalf("failed to listen: %v", err)
+		fmt.Println(err.Error())
 	}
-	s := grpc.NewServer()
-	pb.RegisterGreeterServer(s, &server{})
-	if err := s.Serve(lis); err != nil {
-		log.Fatalf("failed to serve: %v", err)
-	}
-}
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Printf("Recibimos Comando \n")
-	fmt.Printf(in.GetName()
 
-	text := strings.Split(in.GetName(), " ")
-	//fmt.Printf(text)
-	if text[0] == "GetNumberRebelds " {
-		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	}
-	fmt.Printf(text[0],text[1],text[2],text[3])
-	usecomando(text[0],text[1],text[2],text[3])
-
-	return &pb.HelloReply{Message: selected_value}, nil
-
+	return (err != nil)
 }
 
-//Esto envia automaticaamente ingo a 214 (Server)
+func sendComandoToBroker(comando string, nombre_planeta string, nombre_ciudad string, nuevo_valor string) string {
+	grpcChannel(comando)
+	r := grpcChannel(comando)
+	return r
+}
+
 func grpcChannel(message string) string {
-	fmt.Println("")
-	conn, err := grpc.Dial("dist214.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial(address, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con host: %v", err)
 	}
 	defer conn.Close()
+
 	c := pb.NewGreeterClient(conn)
 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
 	defer cancel()
+
 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
 	if err != nil {
 		log.Fatalf("could not greet: %v", err)
@@ -72,197 +49,142 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
-	//fmt.Println("Me voy a comunicar con el Lider")
-	var comando string;
-
-	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor
-
-	fmt.Printf("Comando Final \n")
-	fmt.Printf(comando)
-
-	if msg == "AddCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
-		return grpcChannel(comando)
+func grpcChannelServerFulctrum(comando string, nombre_planeta string, nombre_ciudad string, nuevo_valor string, direccion_maquina string) string {
+	var message = comando + " " + nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor
+	conn, err := grpc.Dial(direccion_maquina, grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con host: %v", err)
 	}
-	if msg == "UpdateName" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
-		return grpcChannel(comando)
+	defer conn.Close()
+
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
 	}
-	if msg == "UpdateNumber" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
-		return grpcChannel(comando)
+	return r.GetMessage()
+}
+
+func menuInformante() {
+	fmt.Println("AddCity {nombre_planeta} {nombre_ciudad} [numero de rebeldes]")
+	fmt.Println("UpdateName {nombre_planeta} {nombre_ciudad} [nuevo valor nombre de ciudad]")
+	fmt.Println("UpdateNumber {nombre_planeta} {nombre_ciudad} [nuevo valor nro de rebeldes]")
+	fmt.Println("DeleteCity {nombre_planeta} {nombre_ciudad}")
+	fmt.Println("")
+}
+
+func isValidComando(comando string) bool {
+	if comando != "AddCity" && comando != "UpdateName" && comando != "DeleteCity" && comando != "UpdateNumber" {
+		return false
 	}
-	if msg == "DeleteCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
-		return grpcChannel(comando)
+	return true
+}
+
+func createComando(comando string, nombre_planeta string, nombre_ciudad string, nuevo_valor string) {
+	if nuevo_valor == "" || nuevo_valor == " " {
+		nuevo_valor = "0"
 	}
 
-	r := grpcChannel(msg)
+	if isValidComando(comando) {
+		var comando_completo = comando + " " + nombre_planeta + " " + nombre_ciudad + " " + nuevo_valor
+		var brokerResponse = sendComandoToBroker(comando, nombre_planeta, nombre_ciudad, nuevo_valor)
+		if brokerResponse == "213" {
+			var direccion_servidor = "localhost:50053"
+			var response = comandosInformante(comando, nombre_planeta, nombre_ciudad, nuevo_valor, direccion_servidor)
+			fmt.Printf("%s", response)
+			//agregar if para la respuesta del servidor y de ahi dejar el registro
+			registroAcciones(nombre_informante, comando_completo, "213")
+		}
+		if brokerResponse == "215" {
+			var direccion_servidor = "localhost:50055"
+			comandosInformante(comando, nombre_planeta, nombre_ciudad, nuevo_valor, direccion_servidor)
+			//agregar if para la respuesta del servidor y de ahi dejar el registro
+			registroAcciones(nombre_informante, comando_completo, "215")
+		}
+		if brokerResponse == "216" {
+			var direccion_servidor = "localhost:50056"
+			comandosInformante(comando, nombre_planeta, nombre_ciudad, nuevo_valor, direccion_servidor)
+			//agregar if para la respuesta del servidor y de ahi dejar el registro
+			registroAcciones(nombre_informante, comando_completo, "216")
+		}
+	} else {
+		fmt.Println("Comando no existe")
+	}
+}
+
+func comandosInformante(comando string, nombre_planeta string, nombre_ciudad string, nuevo_valor string, direccion_servidor string) string {
+	r := grpcChannelServerFulctrum(comando, nombre_planeta, nombre_ciudad, nuevo_valor, direccion_servidor)
 	return r
 }
 
-func Menu() {
-	fmt.Println("AddCity {N_planeta} {N_ciudad} [nuevo valor]")
-	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
-	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
-	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
-
+//crea el archivo donde se guardan las acciones que ha enviado el informante
+func registroAcciones(nombre_informante string, comando string, maquina string) {
+	if isCreatedActionsFile(nombre_informante) {
+		addRegisterToActionsFile(nombre_informante, comando, maquina)
+	} else {
+		createActionsFile(nombre_informante)
+		addRegisterToActionsFile(nombre_informante, comando, maquina)
+	}
 }
 
-func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
-	var path string
-	var didchange int = 0
-	path = "greeter_client2/"+N_planeta + ".txt"
-	fmt.Println(path)
+func isCreatedActionsFile(nombre_informante string) bool {
+	var path = nombre_informante + ".txt"
+	var _, err = os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
+}
 
-	if choice == "AddCity" {
-		createFile(path)
-		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
-		if isError(err) {
-			return
-		}
-		defer file.Close()
-		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
-		if isError(err) {
-			return
-		}
-		// Read file, line by line
-		var text = make([]byte, 1024)
-		for {
-			_, err = file.Read(text)
-			// Break if finally arrived at end of file
-			if err == io.EOF {
-				break
-			}
-			// Break if error occured
-			if err != nil && err != io.EOF {
-				isError(err)
-				break
-			}
-		}
-		fmt.Println(string(text))
+func createActionsFile(nombre_informante string) {
+	var path = nombre_informante + ".txt"
+
+	var file, err = os.Create(path)
+	if isError(err) {
+		return
+	}
+	defer file.Close()
+
+	fmt.Printf("\nSe ha creado un nuevo archivo de registros para el informante %s", nombre_informante)
+}
+
+func addRegisterToActionsFile(nombre_informante string, comando string, maquina string) {
+	var path = nombre_informante + ".txt"
+
+	var file, err = os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
+	if isError(err) {
+		return
 	}
 
-	if choice == "UpdateName" {
-		input, err := ioutil.ReadFile(path)
-		lines := strings.Split(string(input), "\n")
-		if isError(err) {
-			return
-		}
-		for i, line := range lines {
-			if strings.Contains(line, N_ciudad) {
-				lines[i] = N_ciudad + " " + N_valor
-				fmt.Printf("El nombre de la ciudad se actualizo correctamente")
-				didchange = 1
-				break
-			}
-		}
-		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la ciudad")
-		}
-		output := strings.Join(lines, "\n")
-		err = ioutil.WriteFile(path, []byte(output), 0644)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		didchange = 0
-	}
+	defer file.Close()
 
-	if choice == "UpdateNumber" {
-		input, err := ioutil.ReadFile(path)
-		lines := strings.Split(string(input), "\n")
-		if isError(err) {
-			return
-		}
-		for i, line := range lines {
-			if strings.Contains(line, N_ciudad) {
-				lines[i] = N_ciudad + " " + N_valor
-				fmt.Print("El numero de rebeldes fue actualizado correctamente")
-				didchange = 1
-				break
-			}
-		}
-		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la ciudad")
-		}
-		output := strings.Join(lines, "\n")
-		err = ioutil.WriteFile(path, []byte(output), 0644)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		didchange = 0
+	_, err = file.WriteString(comando + " -> Maquina " + maquina + "\n")
+	if isError(err) {
+		return
 	}
-	if choice == "DeleteCity " {
-		var err = os.Remove(path)
-		if isError(err) {
-			return
-		}
-		fmt.Println("")
-	}
-
+	fmt.Printf("\nSe ha guardado el comando ejecutado al archivo del informante %s", nombre_informante)
 }
 
 func main() {
+	var comando, nombre_planeta, nombre_ciudad, nuevo_valor string
 
-	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string
+	fmt.Printf("Bienvenide Informante %s, estos seran tus comandos: \n", nombre_informante)
+
+	menuInformante()
 
 	forever := make(chan bool)
-	go ListenInstr()
-
-	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:\n")
-
-	Menu()
-
-	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-  //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
-
-	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
-		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
-		if choice == "AddCity" {
-			fmt.Println("Okey agregemos")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
-			fmt.Println("El Lider fue Avisado")
-			fmt.Println(respuesta_host)
-			//return
-		}
-		if choice == "UpdateName" {
-			fmt.Println("Okey uName")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
-			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
-		}
-		if choice == "UpdateNumber" {
-			fmt.Println("Okey uNumber")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
-			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
-		}
-		if choice == "DeleteCity" {
-			fmt.Println("Okey dCity")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
-			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
-		}
-		if respuesta_host == "213"{
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 213")
-		}
-		if respuesta_host == "215"{
-			fmt.Printf("Vamos a guardar la wea en dist 215")
-		}
-		if respuesta_host == "216"{
-			fmt.Printf("Vamos a guardar la wea en dist 216")
-		}
-		fmt.Println("Comenzando nueva iteración ...")
+		fmt.Println("Ingresa el comando: ")
+		fmt.Scanf("%s %s %s %s", &comando, &nombre_planeta, &nombre_ciudad, &nuevo_valor)
 
-	<-forever
+		fmt.Println("\n Hablemos Con el Broker Mos Eisley entonces...")
+
+		createComando(comando, nombre_planeta, nombre_ciudad, nuevo_valor)
+		<-forever
 	}
 }
