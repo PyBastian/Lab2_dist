@@ -8,17 +8,17 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Luis Blanco 201573027-K
 
 ### La distribución de las máquinas virtuales y sus componentes son los siguentes:
-- dist213 ---> Informante Ahsoka Tano / Servidor Fulcrum 1
+- dist213 ---> Informante Ahsoka Tano / Servidor Fulcrum 
 - dist214 ---> Broker
 - dist215 ---> Informante Almirante Thrawn / Servidor Fulcrum 2
 - dist216 ---> Leia Organa / Servidor Fulcrum 3
   
 ## Informantes
-- Enviar comandos a servidores...LISTO
-- Guardar registro de lo que hicieron...LISTO
+- Inicialmente envia los comando al Broker, el cual respondera con la dirección del servidor fulcrum al cual debera reenviar el comando 
+- Para luego recibir la diirección y comunicarse con este, donde cabe desatcar que el serviidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
 
 ## Broker/Server
-- Retornar cualquier servidor fulcrum...LISTO
+- Recibir las comunicaciones de los dos informantes y elegir según el criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum
 - Retornar información a Leia PENDIENTE
   
 ## Servidores Fulcrum
@@ -33,3 +33,9 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Realizar consulta PENDIENTE
 
 ## Ejecución Codigo
+
+Todo el desarrollo de nuestro sistema se lleva a cabo con github, por lo  que las maquinas tienen el codigo de todo el sistema pero cada una ejecuta un go run especifico, es por esto que nuestras maquina dentro del directorio Lab2_dist, cada una posee un Makefile especifico que ejecuta su logica correspondiente, por lo que para el testeo y funcionamiento del sistema se debe ejecutar un "make" en cada maquina partiendo por la maquina 214, la cual posee el make que ejecutara "go run greeter_server/main.go" o sea el broker, para ejecutar el make en cada una de las otras maquinas sin un orden necesario especifico.
+
+
+
+
