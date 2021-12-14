@@ -362,9 +362,9 @@ func createFile(path string) {
 func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var respuesta_host string
 
-	respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
+	//respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 
-	// respuesta_host = "216"
+	respuesta_host = "216"
 
 	if respuesta_host == "213" {
 		usecomando(choice, N_planeta, N_ciudad, N_valor)
