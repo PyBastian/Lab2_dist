@@ -177,7 +177,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 
 	if choice == "AddCity" {
 		createFile(path)
-		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
+		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
 		if isError(err) {
 			return
 		}
