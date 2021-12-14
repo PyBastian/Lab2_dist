@@ -89,10 +89,10 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func grpcChannel213(message string) string {
+func grpcChannel216(message string) string {
 	fmt.Println("Enviando mensaje a 213")
 	fmt.Println(message)
-	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 213: %v", err)
 	}
@@ -358,7 +358,6 @@ func main() {
 	var respuesta_host string = ""
 	var comando_input string
 
-	forever := make(chan bool)
 	go ListenInstr()
 
 	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:")
@@ -404,7 +403,7 @@ func main() {
 
 		if respuesta_host == "213" {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			grpcChannel213(comando_input)
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 
@@ -416,7 +415,7 @@ func main() {
 
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			grpcChannel216(comando_input)
 		}
 
 		if respuesta_host == "update" {
@@ -424,6 +423,5 @@ func main() {
 		}
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-		<-forever
 	}
 }

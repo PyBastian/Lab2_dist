@@ -55,11 +55,10 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	//text := strings.Split(in.GetName(), " ")
+	text := strings.Split(in.GetName(), " ")
 	fmt.Print(in.GetName())
-	//usecomando(text[0], text[1], text[2], text[3])
+	usecomando(text[0], text[1], text[2], text[3])
 	return &pb.HelloReply{Message: "recibid chuhc escrito"}, nil
-
 }
 
 //Esto envia automaticaamente ingo a 214 (Server)
@@ -260,7 +259,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		fmt.Println("")
 	}
 	createFile(path_log)
-	var file, err = os.OpenFile(path_log, os.O_RDWR, 0644)
+	var file, err = os.OpenFile(path_log, os.O_RDWR|os.O_APPEND, 0644)
 	if isError(err) {
 		return
 	}
