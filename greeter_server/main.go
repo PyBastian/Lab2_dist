@@ -43,7 +43,7 @@ var PairPlayers = [3]int{-1, -1, -1}
 var AnswerPlayers = [3]int{-1, -1, -1}
 
 var dir_maquinas = []string{"213", "215", "216"}
-var Informantes = []string{"client", "client2"}
+
 var dir_Inf1 = ""
 var dir_Inf2 = ""
 

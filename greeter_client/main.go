@@ -284,10 +284,6 @@ func main() {
 	Menu()
 
 	for {
-		mensaje_input = grpcChannel("Update")
-		if mensaje_input != "No hay update" {
-
-		}
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
