@@ -340,6 +340,7 @@ func main() {
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
+		forever <- false
 		<-forever
 	}
 }
