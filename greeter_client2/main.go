@@ -4,8 +4,13 @@ import (
 	"context"
 	"flag"
 	"fmt"
+	"io"
+	"io/ioutil"
 	"log"
 	"net"
+	"os"
+	"strings"
+
 	//"os"
 	//"strconv"
 	"time"
@@ -13,12 +18,13 @@ import (
 	"google.golang.org/grpc"
 	pb "google.golang.org/grpc/examples/helloworld/helloworld"
 )
+
 const (
 	defaultName = "world"
 )
+
 var (
 	name = flag.String("name", defaultName, "Name to greet")
-
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
@@ -27,6 +33,15 @@ var G_now string = ""
 var id_user string = ""
 var ReadyToPlay string = ""
 var R_Game = ""
+
+func isError(err error) bool {
+	if err != nil {
+		fmt.Println(err.Error())
+	}
+
+	return (err != nil)
+}
+
 func ListenInstr() {
 	lis, err := net.Listen("tcp", "dist213.inf.santiago.usm.cl:50071")
 	if err != nil {
@@ -40,15 +55,17 @@ func ListenInstr() {
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
-	fmt.Printf(in.GetName()
+	fmt.Printf(in.GetName())
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
+	selected_value := "216"
+
 	if text[0] == "GetNumberRebelds " {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	fmt.Printf(text[0],text[1],text[2],text[3])
-	usecomando(text[0],text[1],text[2],text[3])
+	fmt.Printf(text[0], text[1], text[2], text[3])
+	usecomando(text[0], text[1], text[2], text[3])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 
@@ -72,11 +89,47 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
+func grpcChannel213(message string) string {
+	fmt.Println("Enviando mensaje a 213")
+	fmt.Println(message)
+	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con 213: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
+
+func grpcChannel215(message string) string {
+	fmt.Println("Enviando mensaje a 215")
+	fmt.Println(message)
+	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	if err != nil {
+		log.Fatalf("Error de conecc'on con 215: %v", err)
+	}
+	defer conn.Close()
+	c := pb.NewGreeterClient(conn)
+	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
+	defer cancel()
+	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
+	if err != nil {
+		log.Fatalf("could not greet: %v", err)
+	}
+	return r.GetMessage()
+}
+
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
-	var comando string;
+	var comando string
 
-	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor
+	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor + " " + "2"
 
 	fmt.Printf("Comando Final \n")
 	fmt.Printf(comando)
@@ -106,17 +159,63 @@ func Menu() {
 	fmt.Println("AddCity {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
-	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
-
+	fmt.Println("DeleteCity {N_planeta} {N_ciudad}")
+	fmt.Println("")
 }
 
 func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var path string
-	var didchange int = 0
-	path = "greeter_client2/"+N_planeta + ".txt"
+	path = N_planeta + ".txt"
 	fmt.Println(path)
 
 	if choice == "AddCity" {
+		AddCity(path, N_ciudad, N_valor)
+	}
+
+	if choice == "UpdateName" {
+		UpdateName(path, N_ciudad, N_valor)
+	}
+
+	if choice == "UpdateNumber" {
+		UpdateNumber(path, N_ciudad, N_valor)
+	}
+	if choice == "DeleteCity " {
+		DeleteCity(path)
+	}
+
+}
+
+func updateMaquina(comandos []string) {
+	//esta funcion deberia ser llamada cada 2 minutos para ejecutar los comandos que se puedan haber usado en otra maquina
+
+	for i := 0; i < len(comandos); i++ {
+		comando := strings.Split(string(comandos[i]), " ")
+		path := comando[1] + ".txt"
+		N_ciudad := comando[2]
+		N_valor := "0"
+		if len(comando) == 4 {
+			N_valor = comando[3]
+		}
+
+		switch comando[0] {
+		case "AddCity":
+			AddCity(path, N_ciudad, N_valor)
+		case "UpdateName":
+			UpdateName(path, N_ciudad, N_valor)
+		case "UpdateNumber":
+			UpdateNumber(path, N_ciudad, N_valor)
+		case "DeleteCity":
+			DeleteCity(path)
+		}
+	}
+}
+
+func AddCity(path string, N_ciudad string, N_valor string) {
+	if N_valor == "" {
+		N_valor = "0"
+	}
+
+	if !isPlanetFileCreated(path) {
 		createFile(path)
 		var file, err = os.OpenFile(path, os.O_RDWR, 0644)
 		if isError(err) {
@@ -142,127 +241,190 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			}
 		}
 		fmt.Println(string(text))
-	}
+	} else {
+		var file, err = os.OpenFile(path, os.O_APPEND|os.O_WRONLY, 0644)
+		if isError(err) {
+			return
+		}
 
-	if choice == "UpdateName" {
-		input, err := ioutil.ReadFile(path)
-		lines := strings.Split(string(input), "\n")
-		if isError(err) {
-			return
-		}
-		for i, line := range lines {
-			if strings.Contains(line, N_ciudad) {
-				lines[i] = N_ciudad + " " + N_valor
-				fmt.Printf("El nombre de la ciudad se actualizo correctamente")
-				didchange = 1
-				break
-			}
-		}
-		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la ciudad")
-		}
-		output := strings.Join(lines, "\n")
-		err = ioutil.WriteFile(path, []byte(output), 0644)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		didchange = 0
-	}
+		defer file.Close()
 
-	if choice == "UpdateNumber" {
-		input, err := ioutil.ReadFile(path)
-		lines := strings.Split(string(input), "\n")
+		if N_valor == "" || N_valor == " " {
+			N_valor = "0"
+		}
+
+		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
 		if isError(err) {
 			return
 		}
-		for i, line := range lines {
-			if strings.Contains(line, N_ciudad) {
-				lines[i] = N_ciudad + " " + N_valor
-				fmt.Print("El numero de rebeldes fue actualizado correctamente")
-				didchange = 1
-				break
-			}
-		}
-		if didchange == 0 {
-			fmt.Printf("No se encontro el nombre de la ciudad")
-		}
-		output := strings.Join(lines, "\n")
-		err = ioutil.WriteFile(path, []byte(output), 0644)
-		if err != nil {
-			log.Fatalln(err)
-		}
-		didchange = 0
-	}
-	if choice == "DeleteCity " {
-		var err = os.Remove(path)
-		if isError(err) {
-			return
-		}
-		fmt.Println("")
+		fmt.Printf("\nSe ha agregado la ciudad %s al registro", N_ciudad)
+
 	}
 
 }
 
+func isPlanetFileCreated(path string) bool {
+	var _, err = os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
+}
+
+func UpdateName(path string, N_ciudad string, N_valor string) {
+	var didchange int = 0
+	input, err := ioutil.ReadFile(path)
+	lines := strings.Split(string(input), "\n")
+	if isError(err) {
+		return
+	}
+	for i, line := range lines {
+		if strings.Contains(line, N_ciudad) {
+			lines[i] = N_ciudad + " " + N_valor
+			fmt.Printf("\nEl nombre de la ciudad se actualizo correctamente")
+			didchange = 1
+			break
+		}
+	}
+	if didchange == 0 {
+		fmt.Printf("\nNo se encontro el nombre de la ciudad")
+	}
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile(path, []byte(output), 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	didchange = 0
+}
+
+func UpdateNumber(path string, N_ciudad string, N_valor string) {
+	var didchange int = 0
+	input, err := ioutil.ReadFile(path)
+	lines := strings.Split(string(input), "\n")
+	if isError(err) {
+		return
+	}
+	for i, line := range lines {
+		if strings.Contains(line, N_ciudad) {
+			lines[i] = N_ciudad + " " + N_valor
+			fmt.Print("\nEl numero de rebeldes fue actualizado correctamente")
+			didchange = 1
+			break
+		}
+	}
+	if didchange == 0 {
+		fmt.Printf("No se encontro el nombre de la ciudad")
+	}
+	output := strings.Join(lines, "\n")
+	err = ioutil.WriteFile(path, []byte(output), 0644)
+	if err != nil {
+		log.Fatalln(err)
+	}
+	didchange = 0
+}
+
+func DeleteCity(path string) {
+	var err = os.Remove(path)
+	if isError(err) {
+		return
+	}
+	fmt.Println("Deleted")
+}
+
+func createFile(path string) {
+	// check if file exists
+	var _, err = os.Stat(path)
+	// create file if not exists
+	if os.IsNotExist(err) {
+		var file, err = os.Create(path)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+	}
+	fmt.Println("\nSe ha agregado un nuevo registro", path)
+}
+
 func main() {
+	comando := []string{}
+	comando = append(comando, "AddCity perrito pitbull")
+	comando = append(comando, "AddCity perrito salchicha")
+	comando = append(comando, "AddCity Tierra Chile")
+	comando = append(comando, "AddCity Tierra Brasil")
+	comando = append(comando, "UpdateName perrito pitbull dalmata")
+	comando = append(comando, "UpdateNumber perrito dalmata 1200")
 
 	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string
+	var respuesta_host string = ""
+	var comando_input string
 
 	forever := make(chan bool)
 	go ListenInstr()
 
-	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:\n")
+	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:")
 
 	Menu()
-
-	fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-  //fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
-
-	fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
 	for {
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Lider fue Avisado")
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "UpdateName" {
 			fmt.Println("Okey uName")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "UpdateNumber" {
 			fmt.Println("Okey uNumber")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
 			//return
 		}
+
 		if choice == "DeleteCity" {
 			fmt.Println("Okey dCity")
-			respuesta_host = C_Lider(choice, N_planeta,N_ciudad,N_valor)
+			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
 			fmt.Println(respuesta_host)
 			//return
 		}
-		if respuesta_host == "213"{
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 213")
+
+		if respuesta_host == "213" {
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
+			grpcChannel213(comando_input)
+			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
-		if respuesta_host == "215"{
+
+		if respuesta_host == "215" {
+			grpcChannel215(comando_input)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
-		if respuesta_host == "216"{
-			fmt.Printf("Vamos a guardar la wea en dist 216")
-		}
-		fmt.Println("Comenzando nueva iteración ...")
 
-	<-forever
+		if respuesta_host == "216" {
+			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
+		}
+
+		if respuesta_host == "update" {
+			updateMaquina(comando)
+		}
+
+		fmt.Println("Finalizado, puedes ingresar nuevo comando")
+		<-forever
 	}
 }
