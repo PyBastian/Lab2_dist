@@ -390,11 +390,11 @@ func main() {
 
 	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:")
 
+	go ListenInstr()
+
 	for {
 
 		Menu()
-
-		go ListenInstr()
 
 		var choice, N_planeta, N_ciudad, N_valor string
 
