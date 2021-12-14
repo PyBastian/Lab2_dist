@@ -119,10 +119,6 @@ func main() {
 
 		Timer1 := time.AfterFunc(DurationOfTime, f)
 
-		defer Timer1.Stop()
-		// Calling sleep method
-		time.Sleep(10 * time.Second)
-		//Menu()
 		fmt.Scanf("%s", &choice)
 
 		if choice == "0" {
