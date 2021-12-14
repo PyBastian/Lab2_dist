@@ -9,6 +9,7 @@ import (
 	"log"
 	"net"
 	"os"
+	"strconv"
 	"strings"
 
 	//"strconv"
@@ -40,6 +41,7 @@ var G_now string = ""
 var id_user string = ""
 var ReadyToPlay string = ""
 var R_Game = ""
+var reloj [3]int
 
 func ListenInstr() {
 	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50071")
@@ -173,7 +175,9 @@ func createFile(path string) {
 func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var path string
 	var didchange int = 0
+
 	path = "greeter_client/" + N_planeta + ".txt"
+	var path_log string = "greeter_client/" + "historial" + ".txt"
 	fmt.Println(path)
 
 	if choice == "AddCity" {
@@ -260,31 +264,36 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		}
 		fmt.Println("")
 	}
-
+	createFile(path_log)
+	var file, err = os.OpenFile(path_log, os.O_RDWR, 0644)
+	if isError(err) {
+		return
+	}
+	reloj[2] = reloj[2] + 1
+	defer file.Close()
+	_, err = file.WriteString(N_ciudad + " " + N_valor + " " + "Ahsoka Tano" + strconv.Itoa(reloj[0]) + strconv.Itoa(reloj[1]) + strconv.Itoa(reloj[2]))
 }
 
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string
+	var respuesta_host string = ""
 	var comando_input string
 
 	forever := make(chan bool)
 	go ListenInstr()
 
+	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
 	Menu()
 
 	for {
-
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
-
 		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
-
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
@@ -313,7 +322,6 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
-
 		if respuesta_host == "213" {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			grpcChannel213(comando_input)
@@ -325,7 +333,6 @@ func main() {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
-
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
