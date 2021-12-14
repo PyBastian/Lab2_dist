@@ -126,7 +126,7 @@ func ListenMessage() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
-	forever <- 0
+	forever <- false
 }
 
 func doEvery(d time.Duration, f func(time.Time)) {
