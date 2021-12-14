@@ -346,17 +346,13 @@ func createFile(path string) {
 }
 
 func main() {
-	comando := []string{}
-	comando = append(comando, "AddCity perrito pitbull")
-	comando = append(comando, "AddCity perrito salchicha")
-	comando = append(comando, "AddCity Tierra Chile")
-	comando = append(comando, "AddCity Tierra Brasil")
-	comando = append(comando, "UpdateName perrito pitbull dalmata")
-	comando = append(comando, "UpdateNumber perrito dalmata 1200")
-
-	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string = ""
-	var comando_input string
+	// comando := []string{}
+	// comando = append(comando, "AddCity perrito pitbull")
+	// comando = append(comando, "AddCity perrito salchicha")
+	// comando = append(comando, "AddCity Tierra Chile")
+	// comando = append(comando, "AddCity Tierra Brasil")
+	// comando = append(comando, "UpdateName perrito pitbull dalmata")
+	// comando = append(comando, "UpdateNumber perrito dalmata 1200")
 
 	go ListenInstr()
 
@@ -365,14 +361,19 @@ func main() {
 	Menu()
 
 	for {
+
+		var choice, N_planeta, N_ciudad, N_valor, instruccion string
+		var respuesta_host string = ""
+
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		instruccion = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		fmt.Println(len(instruccion))
+
 		if choice == "close" {
 			break
 		}
 
-		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")
@@ -408,24 +409,25 @@ func main() {
 
 		if respuesta_host == "213" {
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 
 		if respuesta_host == "215" {
-			grpcChannel215(comando_input)
+			//grpcChannel215(comando_input)
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 
 		if respuesta_host == "216" {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-			var respuesta = grpcChannel216(comando_input)
-			fmt.Print(respuesta + " eesta wea se mando")
+			// var respuesta = grpcChannel216(comando_input)
+			// fmt.Print(respuesta + " eesta wea se mando")
 		}
 
 		if respuesta_host == "update" {
-			updateMaquina(comando)
+			fmt.Println("Debemos actualizar")
+			// updateMaquina(comando)
 		}
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
