@@ -173,7 +173,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	}
 
 	if choice == "UpdateName" {
-		UpdateCity(path, N_ciudad, N_valor)
+		UpdateName(path, N_ciudad, N_valor)
 	}
 
 	if choice == "UpdateNumber" {
@@ -200,8 +200,8 @@ func updateMaquina(comandos []string) {
 		switch comando[0] {
 		case "AddCity":
 			AddCity(path, N_ciudad, N_valor)
-		case "UpdateCity":
-			UpdateCity(path, N_ciudad, N_valor)
+		case "UpdateName":
+			UpdateName(path, N_ciudad, N_valor)
 		case "UpdateNumber":
 			UpdateNumber(path, N_ciudad, N_valor)
 		case "DeleteCity":
@@ -272,7 +272,7 @@ func isPlanetFileCreated(path string) bool {
 	}
 }
 
-func UpdateCity(path string, N_ciudad string, N_valor string) {
+func UpdateName(path string, N_ciudad string, N_valor string) {
 	var didchange int = 0
 	input, err := ioutil.ReadFile(path)
 	lines := strings.Split(string(input), "\n")
@@ -352,7 +352,7 @@ func main() {
 	comando = append(comando, "AddCity perrito salchicha")
 	comando = append(comando, "AddCity Tierra Chile")
 	comando = append(comando, "AddCity Tierra Brasil")
-	comando = append(comando, "UpdateCity perrito pitbull dalmata")
+	comando = append(comando, "UpdateName perrito pitbull dalmata")
 	comando = append(comando, "UpdateNumber perrito dalmata 1200")
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -368,7 +368,6 @@ func main() {
 
 	for {
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:")
 		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
