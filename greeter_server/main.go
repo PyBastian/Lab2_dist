@@ -150,7 +150,7 @@ func helloworld(t time.Time) {
 
 func main() {
 
-	//forever := make(chan bool)
+	forever := make(chan bool)
 	go ListenMessage()
 	//var choice string
 
@@ -163,13 +163,14 @@ func main() {
 	// }
 
 	for {
-		doEvery(120*time.Second, helloworld)
+		//doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
 		// Calling sleep method
+		fmt.Printf("forever")
 
 		//Menu()
 		//fmt.Scanf("%s", &choice)
 
-		//<-forever
+		<-forever
 	}
 }
