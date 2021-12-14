@@ -262,7 +262,7 @@ func AddCity(path string, N_ciudad string, N_valor string) {
 	}
 
 }
-
+sa
 func isPlanetFileCreated(path string) bool {
 	var _, err = os.Stat(path)
 	if os.IsNotExist(err) {
