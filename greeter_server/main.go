@@ -44,6 +44,8 @@ var AnswerPlayers = [3]int{-1, -1, -1}
 
 var dir_maquinas = []string{"213", "215", "216"}
 var Informantes = []string{"client", "client2"}
+var dir_Inf1 = ""
+var dir_Inf2 = ""
 
 func failOnError(err error, msg string) {
 	if err != nil {
@@ -75,23 +77,35 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	fmt.Printf(in.GetName())
 
-	randomIndex := rand.Intn(3)
-	selected_value := dir_maquinas[randomIndex]
+
 	text := strings.Split(in.GetName(), " ")
-	if text[len(text)-1] == "1"{
-		fmt.Print("Maquina 1")
+
+	if text[len(text) - 1] == "1"{
+		if dir_Inf1 == ""{
+			randomIndex := rand.Intn(len(dir_maquinas))
+			dir_Inf1 = dir_maquinas[randomIndex]
+			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
+			fmt.Print("Maquina 1")
+			return &pb.HelloReply{Message: dir_Inf1}, nil
+		}
+		return &pb.HelloReply{Message: dir_Inf1}, nil
 	}
 
-
-
+	if text[len(text) - 1] == "2"{
+		if dir_Inf1 == ""{
+			randomIndex := rand.Intn(len(dir_maquinas))
+			dir_Inf2 = dir_maquinas[randomIndex]
+			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
+			fmt.Print("Maquina 2")
+			return &pb.HelloReply{Message: dir_Inf2}, nil
+		}
+		return &pb.HelloReply{Message: dir_Inf2}, nil
+	}
 	//fmt.Printf(text)
 
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
-	fmt.Printf("\n" + text[0])
-
-	return &pb.HelloReply{Message: selected_value}, nil
 }
 
 func ListenMessage() {
@@ -133,7 +147,7 @@ func main() {
 	// }
 
 	for {
-		doEvery(20*time.Second, helloworld)
+		doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
 		// Calling sleep method
 
