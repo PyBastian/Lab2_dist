@@ -52,7 +52,7 @@ func failOnError(err error, msg string) {
 		log.Fatalf("%s: %s", msg, err)
 	}
 }
-func RemoveIndex(s []int, index int) []int {
+func RemoveIndex(s []string, index int) []string {
     return append(s[:index], s[index+1:]...)
 }
 
