@@ -341,5 +341,6 @@ func main() {
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 		<-forever
+		continue
 	}
 }
