@@ -154,15 +154,13 @@ func main() {
 
 	go ListenMessage()
 	//var choice string
-
+	forever := make(chan bool)
 	fmt.Println("Esperando solicitudes")
-
 	// DurationOfTime := time.Duration(3) * time.Second
 	// f := func() {
 	// 		fmt.Println("Function called by "+
 	// 				"AfterFunc() after 3 seconssds")
 	// }
-
 	for {
 		//doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
