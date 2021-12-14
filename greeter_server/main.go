@@ -99,6 +99,16 @@ func ListenMessage() {
 	}
 }
 
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+
+func helloworld(t time.Time) {
+	fmt.Printf("%v: Hello, World!\n", t)
+}
+
 func main() {
 
 	go ListenMessage()
@@ -115,7 +125,7 @@ func main() {
 
 	for {
 
-		time.AfterFunc(DurationOfTime, f)
+		doEvery(20*time.Millisecond, helloworld)
 
 		//defer Timer1.Stop()
 		// Calling sleep method
