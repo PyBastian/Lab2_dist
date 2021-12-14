@@ -55,9 +55,9 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	text := strings.Split(in.GetName(), " ")
+	//text := strings.Split(in.GetName(), " ")
 	fmt.Print(in.GetName())
-	usecomando(text[0], text[1], text[2], text[3])
+	//usecomando(text[0], text[1], text[2], text[3])
 	return &pb.HelloReply{Message: "recibid chuhc escrito"}, nil
 }
 
@@ -340,7 +340,6 @@ func main() {
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 		}
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-		respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 		<-forever
 	}
 }

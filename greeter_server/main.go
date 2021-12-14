@@ -143,15 +143,15 @@ func helloworld(t time.Time) {
 
 	//grpcChannel("dist213.inf.santiago.usm.cl:50071", "Update")
 	//grpcChannel("dist215.inf.santiago.usm.cl:50071", "Update")
-	grpcChannel("dist216.inf.santiago.usm.cl:50071", "Update")
+	b := grpcChannel("dist216.inf.santiago.usm.cl:50071", "Update")
+	fmt.Printf(b)
 
 }
 
 func main() {
 
-	go ListenMessage()
-
 	forever := make(chan bool)
+	go ListenMessage()
 	//var choice string
 
 	fmt.Println("Esperando solicitudes")
