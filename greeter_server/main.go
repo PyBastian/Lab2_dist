@@ -107,6 +107,24 @@ func main() {
 	var choice string
 
 	fmt.Println("Esperando solicitudes")
+	DurationOfTime := time.Duration(3) * time.Second
+
+		// Defining function parameter of
+		// AfterFunc() method
+		f := func() {
+
+
+				fmt.Println("Function called by "+
+						"AfterFunc() after 3 seconssds")
+		}
+
+		// Calling AfterFunc() method with its
+		// parameter
+		Timer1 := time.AfterFunc(DurationOfTime, f)
+
+		defer Timer1.Stop()
+		// Calling sleep method
+		time.Sleep(10 * time.Second)
 
 	for {
 		//Menu()
