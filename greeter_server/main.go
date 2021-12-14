@@ -59,7 +59,7 @@ func RemoveIndex(s []string, index int) []string {
 func grpcChannel(ipAdress string, message string) string {
 	fmt.Println("Nos conectamos al Cliente")
 	fmt.Println(ipAdress)
-	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure())
+	conn, err := grpc.Dial(ipAdress, grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("did not connect: %v", err)
 	}
