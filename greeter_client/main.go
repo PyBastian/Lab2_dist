@@ -11,6 +11,7 @@ import (
 	"os"
 	"strconv"
 	"strings"
+
 	//"strconv"
 	"time"
 	//"strings"
@@ -275,7 +276,7 @@ func main() {
 	var comando_input string
 
 	go ListenInstr()
-	
+
 	forever := make(chan bool)
 
 	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
@@ -342,6 +343,5 @@ func main() {
 		}
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-		<-forever
 	}
 }
