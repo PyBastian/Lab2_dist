@@ -85,12 +85,16 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	if text[len(text) - 1] == "1"{
 		if dir_Inf1 == ""{
+			fmt.Print("Entramos primera vez")
 			randomIndex := rand.Intn(len(dir_maquinas))
 			dir_Inf1 = dir_maquinas[randomIndex]
 			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
 			fmt.Print("Maquina 1")
+			fmt.Print(dir_Inf1)
 			return &pb.HelloReply{Message: dir_Inf1}, nil
 		}
+		fmt.Print("Entramos se vez")
+		fmt.Print(dir_Inf1)
 		return &pb.HelloReply{Message: dir_Inf1}, nil
 	}
 
