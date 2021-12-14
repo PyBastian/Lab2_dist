@@ -162,7 +162,7 @@ func main() {
 	// }
 
 	for {
-		doEvery(120*time.Second, helloworld)
+		//doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
 		// Calling sleep method
 
