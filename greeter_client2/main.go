@@ -106,7 +106,7 @@ func grpcChannel215(choice string, N_planeta string, N_ciudad string, N_valor st
 	fmt.Println("Enviando mensaje a 215")
 	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
 	var message string = "devuelve la wea qlo"
-	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 215: %v", err)
 	}
@@ -123,9 +123,8 @@ func grpcChannel215(choice string, N_planeta string, N_ciudad string, N_valor st
 
 func grpcChannel216(choice string, N_planeta string, N_ciudad string, N_valor string) string {
 	fmt.Println("Enviando mensaje a 216")
-	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
 	var message string = "devuelve la wea qlo"
-	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
+	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
 	if err != nil {
 		log.Fatalf("Error de conecc'on con 216: %v", err)
 	}
@@ -363,7 +362,9 @@ func createFile(path string) {
 func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var respuesta_host string
 
-	respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
+	//respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
+
+	respuesta_host = "216"
 
 	if respuesta_host == "213" {
 		usecomando(choice, N_planeta, N_ciudad, N_valor)
