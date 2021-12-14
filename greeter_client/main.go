@@ -274,7 +274,7 @@ func main() {
 	var choice, N_planeta, N_ciudad, N_valor string
 	var respuesta_host string = ""
 	var comando_input string
-	var mensaje_input string
+
 	forever := make(chan bool)
 	go ListenInstr()
 
