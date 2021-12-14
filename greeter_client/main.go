@@ -288,11 +288,12 @@ func main() {
 		if mensaje_input != "No hay update" {
 
 		}
-
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
-		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+
+		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + "1"
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
 			fmt.Println("Okey agregemos")

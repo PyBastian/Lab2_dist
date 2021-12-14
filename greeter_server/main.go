@@ -42,6 +42,9 @@ var numberG3 int = 0
 var PairPlayers = [3]int{-1, -1, -1}
 var AnswerPlayers = [3]int{-1, -1, -1}
 
+var dir_maquinas = []string{"213", "215", "216"}
+var Informantes = []string{"client", "client2"}
+
 func failOnError(err error, msg string) {
 	if err != nil {
 		log.Fatalf("%s: %s", msg, err)
@@ -69,16 +72,20 @@ func grpcChannel(ipAdress string, message string) string {
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
 	//214 no porque es la direcciones del Broker
-	dir_maquinas := []string{"213", "215", "216"}
 
 	fmt.Printf(in.GetName())
 
 	randomIndex := rand.Intn(3)
 	selected_value := dir_maquinas[randomIndex]
-	selected_value = in.GetName()
-
 	text := strings.Split(in.GetName(), " ")
+	if text[len(text)-1] == "1"{
+		fmt.Print("Maquina 1")
+	}
+
+
+
 	//fmt.Printf(text)
+
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
@@ -106,6 +113,7 @@ func doEvery(d time.Duration, f func(time.Time)) {
 }
 
 func helloworld(t time.Time) {
+	dir_maquinas = []string{"213", "215", "216"}
 	fmt.Printf("%v: Hello, World!\n")
 }
 
