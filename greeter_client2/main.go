@@ -365,8 +365,13 @@ func main() {
 	Menu()
 
 	for {
+		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
 		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		if choice == "close" {
+			break
+		}
+
 		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
