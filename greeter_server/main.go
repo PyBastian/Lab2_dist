@@ -46,6 +46,7 @@ var dir_maquinas = []string{"213", "215", "216"}
 
 var dir_Inf1 = ""
 var dir_Inf2 = ""
+var forever := make(chan bool)
 
 func failOnError(err error, msg string) {
 	if err != nil {
@@ -125,6 +126,7 @@ func ListenMessage() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
+	forever <- 0
 }
 
 func doEvery(d time.Duration, f func(time.Time)) {
@@ -150,10 +152,8 @@ func helloworld(t time.Time) {
 
 func main() {
 
-	forever := make(chan bool)
 	go ListenMessage()
 	//var choice string
-	<-forever
 
 	fmt.Println("Esperando solicitudes")
 
@@ -171,6 +171,6 @@ func main() {
 		//Menu()
 		//fmt.Scanf("%s", &choice)
 
-		//<-forever
+		<-forever
 	}
 }
