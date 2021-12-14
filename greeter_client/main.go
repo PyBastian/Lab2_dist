@@ -271,10 +271,12 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string = ""
+	var respuesta_host string
+
 	var comando_input string
 
 	go ListenInstr()
+	forever := make(chan bool)
 
 	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
 	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
@@ -338,7 +340,7 @@ func main() {
 			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
 		}
-
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
+		<-forever
 	}
 }
