@@ -291,7 +291,7 @@ func main() {
 
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		instruccion = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
 		fmt.Println(len(instruccion))
 
 		if choice == "close" {
