@@ -75,7 +75,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	randomIndex := rand.Intn(3)
 	selected_value := dir_maquinas[randomIndex]
-	selected_value := "216"
+	selected_value = "216"
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
