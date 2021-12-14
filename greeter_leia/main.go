@@ -303,7 +303,14 @@ func AddCity(path string, N_ciudad string, N_valor string) {
 		fmt.Printf("\nSe ha agregado la ciudad %s al registro", N_ciudad)
 	}
 }
-
+func isPlanetFileCreated(path string) bool {
+	var _, err = os.Stat(path)
+	if os.IsNotExist(err) {
+		return false
+	} else {
+		return true
+	}
+}
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
