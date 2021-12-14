@@ -387,13 +387,13 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 
 func main() {
 
-	go ListenInstr()
-
 	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:")
 
-	Menu()
-
 	for {
+
+		Menu()
+
+		go ListenInstr()
 
 		var choice, N_planeta, N_ciudad, N_valor string
 
