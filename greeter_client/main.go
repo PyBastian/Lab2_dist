@@ -54,8 +54,9 @@ func ListenInstr() {
 	}
 }
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	text := strings.Split(in.GetName(), " ")
-	usecomando(text[0], text[1], text[2], text[3])
+	//text := strings.Split(in.GetName(), " ")
+	fmt.Print(in.GetName())
+	//usecomando(text[0], text[1], text[2], text[3])
 	return &pb.HelloReply{Message: "recibid chuhc escrito"}, nil
 
 }
