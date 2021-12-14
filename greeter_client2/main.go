@@ -59,13 +59,13 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
-	selected_value := "216"
+	selected_value := "Te entregsmos desde 213"
 
-	if text[0] == "GetNumberRebelds " {
-		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	}
-	fmt.Printf(text[0], text[1], text[2], text[3])
-	usecomando(text[0], text[1], text[2], text[3])
+	// if text[0] == "GetNumberRebelds " {
+	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
+	// }
+	// fmt.Printf(text[0], text[1], text[2], text[3])
+	// usecomando(text[0], text[1], text[2], text[3])
 
 	return &pb.HelloReply{Message: selected_value}, nil
 
@@ -408,7 +408,7 @@ func main() {
 		}
 
 		if respuesta_host == "213" {
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}

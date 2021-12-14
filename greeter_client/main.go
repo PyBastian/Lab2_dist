@@ -270,27 +270,33 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 }
 
 func main() {
-
-	var choice, N_planeta, N_ciudad, N_valor string
-	var respuesta_host string
-
-	var comando_input string
-	forever := make(chan bool)
+	// comando := []string{}
+	// comando = append(comando, "AddCity perrito pitbull")
+	// comando = append(comando, "AddCity perrito salchicha")
+	// comando = append(comando, "AddCity Tierra Chile")
+	// comando = append(comando, "AddCity Tierra Brasil")
+	// comando = append(comando, "UpdateName perrito pitbull dalmata")
+	// comando = append(comando, "UpdateNumber perrito dalmata 1200")
 
 	go ListenInstr()
 
-	fmt.Println("Bienvenide Informante, para entrar a la red escribe: Ingresar\n")
-	fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
+	fmt.Println("Bienvenide Ahsoka, estos seran tus comandos:")
 
 	Menu()
 
 	for {
-		fmt.Println("Procedemos al scanF")
-		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		fmt.Println("Bienvenide Informante Ahsoka Tano, estos seran tus comandos:\n")
 
-		comando_input = choice + " " + N_planeta + " " + N_ciudad
-		//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+		var choice, N_planeta, N_ciudad, N_valor, instruccion string
+		var respuesta_host string = ""
+
+		fmt.Println("Ingresa tus comandos")
+		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
+		instruccion = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
+		fmt.Println(len(instruccion))
+
+		if choice == "close" {
+			break
+		}
 
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
@@ -326,8 +332,9 @@ func main() {
 		}
 
 		if respuesta_host == "213" {
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			grpcChannel213(comando_input)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
+			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 
@@ -338,10 +345,17 @@ func main() {
 		}
 
 		if respuesta_host == "216" {
-			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
+			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+			// var respuesta = grpcChannel216(comando_input)
+			// fmt.Print(respuesta + " eesta wea se mando")
 		}
+
+		if respuesta_host == "update" {
+			fmt.Println("Debemos actualizar")
+			// updateMaquina(comando)
+		}
+
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-		<-forever
 	}
 }

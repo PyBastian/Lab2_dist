@@ -59,13 +59,15 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 
 	text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
-	if text[0] == "GetNumberRebelds " {
-		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	}
-	fmt.Printf(text[0], text[1], text[2], text[3])
-	usecomando(text[0], text[1], text[2], text[3])
+	// if text[0] == "GetNumberRebelds " {
+	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
+	// }
+	// if text[0] == "DeleteCity"{
+	// 	usecomando(text[0], text[1], text[2], " ")
+	// }
+	// usecomando(choice, N_planeta, N_ciudad, N_valor)
 
-	return &pb.HelloReply{Message: selected_value}, nil
+	return &pb.HelloReply{Message: "Te entregamos desde 215"}, nil
 
 }
 
@@ -277,7 +279,6 @@ func main() {
 			fmt.Println(respuesta_host)
 			//return
 		}
-
 		if respuesta_host == "213" {
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
@@ -289,6 +290,7 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 216")
 		}
 		fmt.Println("Comenzando nueva iteración ...")
-		<-forever
+
+		//<-forever
 	}
 }
