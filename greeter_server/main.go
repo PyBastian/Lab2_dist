@@ -79,13 +79,12 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	//214 no porque es la direcciones del Broker
 
 	fmt.Printf(in.GetName())
-
+	fmt.Printf("\n")
 
 	text := strings.Split(in.GetName(), " ")
 
 	if text[len(text) - 1] == "1"{
 		if dir_Inf1 == ""{
-			fmt.Print("Entramos primera vez")
 			randomIndex := rand.Intn(len(dir_maquinas))
 			dir_Inf1 = dir_maquinas[randomIndex]
 			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
@@ -93,11 +92,9 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			fmt.Print(dir_Inf1)
 			return &pb.HelloReply{Message: dir_Inf1}, nil
 		}
-		fmt.Print("Entramos se vez")
 		fmt.Print(dir_Inf1)
 		return &pb.HelloReply{Message: dir_Inf1}, nil
 	}
-
 	if text[len(text) - 1] == "2"{
 		if dir_Inf1 == ""{
 			randomIndex := rand.Intn(len(dir_maquinas))
@@ -135,8 +132,17 @@ func doEvery(d time.Duration, f func(time.Time)) {
 }
 
 func helloworld(t time.Time) {
+
+	fmt.Printf("Procederemos al merge\n")
+
 	dir_maquinas = []string{"213", "215", "216"}
-	fmt.Printf("%v: Hello, World!\n")
+	var dir_Inf1 = ""
+	var dir_Inf2 = ""
+
+	grpcChannel("dist213.inf.santiago.usm.cl:50071", "Update")
+	grpcChannel("dist215.inf.santiago.usm.cl:50071", "Update")
+	grpcChannel("dist216.inf.santiago.usm.cl:50071", "Update")
+
 }
 
 func main() {
