@@ -52,6 +52,9 @@ func failOnError(err error, msg string) {
 		log.Fatalf("%s: %s", msg, err)
 	}
 }
+func RemoveIndex(s []int, index int) []int {
+    return append(s[:index], s[index+1:]...)
+}
 
 func grpcChannel(ipAdress string, message string) string {
 	fmt.Println("Nos conectamos al Cliente")
@@ -106,6 +109,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
 	}
+	return &pb.HelloReply{Message: "216"}, nil
 }
 
 func ListenMessage() {
