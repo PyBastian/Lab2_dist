@@ -150,7 +150,7 @@ func helloworld(t time.Time) {
 
 func main() {
 
-	forever := make(chan bool)
+	//forever := make(chan bool)
 	go ListenMessage()
 	//var choice string
 
@@ -171,6 +171,6 @@ func main() {
 		//Menu()
 		//fmt.Scanf("%s", &choice)
 
-		<-forever
+		//<-forever
 	}
 }
