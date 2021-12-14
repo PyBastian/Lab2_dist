@@ -57,7 +57,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Printf("Recibimos Comando \n")
 	fmt.Printf(in.GetName())
 
-	text := strings.Split(in.GetName(), " ")
+	//text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
 	selected_value := "Te entregsmos desde 213"
 

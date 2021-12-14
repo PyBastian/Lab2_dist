@@ -57,7 +57,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Printf("Recibimos Comando \n")
 	fmt.Printf(in.GetName())
 
-	text := strings.Split(in.GetName(), " ")
+	//text := strings.Split(in.GetName(), " ")
 	//fmt.Printf(text)
 	// if text[0] == "GetNumberRebelds " {
 	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
@@ -258,7 +258,7 @@ func main() {
 	var choice, N_planeta, N_ciudad, N_valor string
 	var respuesta_host string
 
-	forever := make(chan bool)
+	//forever := make(chan bool)
 	go ListenInstr()
 
 	fmt.Println("Bienvenide Leia Organa, asi seran tus comandos:\n")
