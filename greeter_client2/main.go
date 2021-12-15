@@ -178,6 +178,9 @@ func AddCity(path string, N_ciudad string, N_valor string) {
 	if N_valor == "" {
 		N_valor = "0"
 	}
+	if N_valor == " " {
+		N_valor = "0"
+	}
 
 	if !isPlanetFileCreated(path) {
 		createFile(path)

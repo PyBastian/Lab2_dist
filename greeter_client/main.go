@@ -9,7 +9,6 @@ import (
 	"log"
 	"net"
 	"os"
-	"strconv"
 	"strings"
 
 	//"strconv"
@@ -36,8 +35,6 @@ var (
 )
 
 type server struct{ pb.UnimplementedGreeterServer }
-
-var reloj [3]int
 
 func ListenInstr() {
 	lis, err := net.Listen("tcp", "dist216.inf.santiago.usm.cl:50051")
@@ -129,6 +126,13 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 			return
 		}
 		defer file.Close()
+
+		if N_valor == "" {
+			N_valor = "0"
+		}
+		if N_valor == " " {
+			N_valor = "0"
+		}
 		_, err = file.WriteString(N_ciudad + " " + N_valor + "\n")
 		if isError(err) {
 			return
@@ -209,14 +213,24 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		fmt.Println("")
 	}
 
-	createFile(path_log)
-	var file, err = os.OpenFile(path_log, os.O_RDWR|os.O_APPEND, 0644)
-	if isError(err) {
-		return
+	var _, err = os.Stat(path_log)
+	if os.IsNotExist(err) {
+		createFile(path_log)
+		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(choice + " " + N_ciudad + " " + N_valor + " " + "Ahsoka" + "\n")
+	} else {
+		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(choice + " " + N_ciudad + " " + N_valor + " " + "Ahsoka" + "\n")
 	}
-	reloj[2] = reloj[2] + 1
-	defer file.Close()
-	_, err = file.WriteString(N_ciudad + " " + N_valor + " " + "Ahsoka Tano" + strconv.Itoa(reloj[0]) + strconv.Itoa(reloj[1]) + strconv.Itoa(reloj[2]))
+
 }
 
 func doEvery(d time.Duration, f func(time.Time)) {
