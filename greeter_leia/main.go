@@ -311,6 +311,11 @@ func isPlanetFileCreated(path string) bool {
 		return true
 	}
 }
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
 func helloworld(t time.Time) {
 	fmt.Printf("Hack")
 	grpcChannel("merge")
