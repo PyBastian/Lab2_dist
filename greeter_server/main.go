@@ -127,7 +127,6 @@ func ListenMessage() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
-	//forever <- false
 }
 
 func doEvery(d time.Duration, f func(time.Time)) {
@@ -165,8 +164,6 @@ func main() {
 	// 				"AfterFunc() after 3 seconssds")
 	// }
 	for {
-		response = grpcChannel("dist216.inf.santiago.usm.cl:50051", "nc conectamo a la 216")
-		fmt.Printf(response)
 		//doEvery(120*time.Second, helloworld)
 		//defer Timer1.Stop()
 		// Calling sleep method
