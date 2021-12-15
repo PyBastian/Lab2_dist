@@ -311,11 +311,8 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 
 	respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 
-	fmt.Println(respuesta_host)
-
 	if respuesta_host == "213" {
 		usecomando(choice, N_planeta, N_ciudad, N_valor)
-		fmt.Printf("Vamos a guardar la wea en dist 213")
 	}
 
 	// if respuesta_host == "215" {
