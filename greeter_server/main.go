@@ -74,7 +74,6 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	text := strings.Split(in.GetName(), " ")
 	comandos_enviados = append(comandos_enviados, in.GetName())
 	fmt.Printf("%v", comandos_enviados)
-
 	if text[len(text)-1] == "1" {
 		if dir_Inf1 == "" {
 			randomIndex := rand.Intn(len(dir_maquinas))
@@ -98,9 +97,12 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		return &pb.HelloReply{Message: dir_Inf2}, nil
 	}
 	//fmt.Printf(text)
-
 	if text[0] == "GetNumberRebelds" {
 		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
+	}
+	if text[0] == "update" {
+		output := strings.Join(comandos_enviados, " ")
+		return &pb.HelloReply{Message: output}, nil
 	}
 	return &pb.HelloReply{Message: "216"}, nil
 }
