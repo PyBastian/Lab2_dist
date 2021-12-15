@@ -311,6 +311,11 @@ func isPlanetFileCreated(path string) bool {
 		return true
 	}
 }
+func helloworld(t time.Time) {
+	grpcChannel("merge")
+
+
+}
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -326,10 +331,12 @@ func main() {
 	//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	for {
-
+		doEvery(120*time.Second, helloworld)
 		fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
+
 		AddCity("greeter_leia/"+N_planeta+".txt", N_planeta, N_ciudad)
+
 		if choice == "GetNumberRebelds" {
 			fmt.Println("Okey Preguntando")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad)
