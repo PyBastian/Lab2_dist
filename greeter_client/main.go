@@ -271,6 +271,18 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	_, err = file.WriteString(N_ciudad + " " + N_valor + " " + "Ahsoka Tano" + strconv.Itoa(reloj[0]) + strconv.Itoa(reloj[1]) + strconv.Itoa(reloj[2]))
 }
 
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+
+func helloworld(t time.Time) {
+
+	comandos_total = grpcChanel("Update 216")
+
+}
+
 func main() {
 	// comando := []string{}
 	// comando = append(comando, "AddCity perrito pitbull")
@@ -291,6 +303,8 @@ func main() {
 		var choice, N_planeta, N_ciudad, N_valor, instruccion string
 		var respuesta_host string = ""
 		var comando_input string
+
+		go doEvery(120*time.Second, helloworld)
 
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
@@ -354,7 +368,7 @@ func main() {
 			// fmt.Print(respuesta + " eesta wea se mando")
 		}
 
-		if respuesta_host == "update" {
+		if respuesta_host == "Update" {
 			fmt.Println("Debemos actualizar")
 			// updateMaquina(comando)
 		}

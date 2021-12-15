@@ -298,12 +298,9 @@ func doEvery(d time.Duration, f func(time.Time)) {
 		f(x)
 	}
 }
-func helloworld(t time.Time) {
-	fmt.Printf("Hack")
-	grpcChannel("merge")
 
 
-}
+
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -319,7 +316,7 @@ func main() {
 	//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	for {
-		doEvery(120*time.Second, helloworld)
+		//go doEvery(120*time.Second, helloworld)
 		fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 
