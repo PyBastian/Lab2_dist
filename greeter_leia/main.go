@@ -312,6 +312,7 @@ func isPlanetFileCreated(path string) bool {
 	}
 }
 func helloworld(t time.Time) {
+	fmt.Printf("Hack")
 	grpcChannel("merge")
 
 
