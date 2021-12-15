@@ -92,12 +92,10 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 			dir_maquinas = RemoveIndex(dir_maquinas, randomIndex)
 			fmt.Print("Maquina 1")
 			fmt.Print(dir_Inf1)
-			//return &pb.HelloReply{Message: dir_Inf1}, nil
-			return &pb.HelloReply{Message: "216"}, nil
+			return &pb.HelloReply{Message: dir_Inf1}, nil
 		}
 		fmt.Print(dir_Inf1)
-		//return &pb.HelloReply{Message: dir_Inf1}, nil
-		return &pb.HelloReply{Message: "216"}, nil
+		return &pb.HelloReply{Message: dir_Inf1}, nil
 	}
 	if text[len(text)-1] == "2" {
 		if dir_Inf1 == "" {
