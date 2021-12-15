@@ -158,7 +158,8 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		}
 		for i, line := range lines {
 			if strings.Contains(line, N_ciudad) {
-				lines[i] = N_ciudad + " " + N_valor
+				var number = strings.Split(line, " ")
+				lines[i] = N_valor + " " + number[1]
 				fmt.Printf("El nombre de la ciudad se actualizo correctamente")
 				didchange = 1
 				break
