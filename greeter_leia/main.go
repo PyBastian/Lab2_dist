@@ -30,16 +30,9 @@ func isError(err error) bool {
 	return (err != nil)
 }
 
-var (
-	name = flag.String("name", defaultName, "Name to greet")
-)
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var G_now string = ""
-var id_user string = ""
-var ReadyToPlay string = ""
-var R_Game = ""
 
 func ListenInstr() {
 	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50071")
@@ -56,16 +49,6 @@ func ListenInstr() {
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
 	fmt.Printf(in.GetName())
-
-	//text := strings.Split(in.GetName(), " ")
-	//fmt.Printf(text)
-	// if text[0] == "GetNumberRebelds " {
-	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	// }
-	// if text[0] == "DeleteCity"{
-	// 	usecomando(text[0], text[1], text[2], " ")
-	// }
-	// usecomando(choice, N_planeta, N_ciudad, N_valor)
 
 	return &pb.HelloReply{Message: "Te entregamos desde 215"}, nil
 
