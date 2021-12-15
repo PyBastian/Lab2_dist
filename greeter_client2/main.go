@@ -84,64 +84,7 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-// func grpcChannel216(message string) string {
-// 	fmt.Println("Enviando mensaje a 216")
-// 	fmt.Println(message)
-// 	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
-// 	if err != nil {
-// 		log.Fatalf("Error de conecc'on con 213: %v", err)
-// 	}
-// 	defer conn.Close()
-// 	c := pb.NewGreeterClient(conn)
-// 	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-// 	defer cancel()
-// 	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-// 	if err != nil {
-// 		log.Fatalf("could not greet: %v", err)
-// 	}
-// 	return r.GetMessage()
-// }
-
-func grpcChannel215(choice string, N_planeta string, N_ciudad string, N_valor string) string {
-	fmt.Println("Enviando mensaje a 215")
-	fmt.Println(choice + " " + N_planeta + " " + N_ciudad + " " + N_valor)
-	var message string = "devuelve la wea qlo"
-	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Error de conecc'on con 215: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	return r.GetMessage()
-}
-
-func grpcChannel216(choice string, N_planeta string, N_ciudad string, N_valor string) string {
-	fmt.Println("Enviando mensaje a 216")
-	var message string = "devuelve la wea qlo"
-	conn, err := grpc.Dial("dist216.inf.santiago.usm.cl:50051", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Error de conecc'on con 216: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-
-	return r.GetMessage()
-}
-
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
-	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string
 
 	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor + " " + "2"
@@ -199,29 +142,33 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 
 }
 
-func updateMaquina(comandos []string) {
+func updateMaquina() {
 	//esta funcion deberia ser llamada cada 2 minutos para ejecutar los comandos que se puedan haber usado en otra maquina
+	var comandos string
+	comandos = grpcChannel("update 2")
+	fmt.Println("Envie el update")
+	fmt.Println(comandos)
 
-	for i := 0; i < len(comandos); i++ {
-		comando := strings.Split(string(comandos[i]), " ")
-		path := comando[1] + ".txt"
-		N_ciudad := comando[2]
-		N_valor := "0"
-		if len(comando) == 4 {
-			N_valor = comando[3]
-		}
+	// for i := 0; i < len(comandos); i++ {
+	// 	comando := strings.Split(string(comandos[i]), " ")
+	// 	path := comando[1] + ".txt"
+	// 	N_ciudad := comando[2]
+	// 	N_valor := "0"
+	// 	if len(comando) == 4 {
+	// 		N_valor = comando[3]
+	// 	}
 
-		switch comando[0] {
-		case "AddCity":
-			AddCity(path, N_ciudad, N_valor)
-		case "UpdateName":
-			UpdateName(path, N_ciudad, N_valor)
-		case "UpdateNumber":
-			UpdateNumber(path, N_ciudad, N_valor)
-		case "DeleteCity":
-			DeleteCity(path)
-		}
-	}
+	// 	switch comando[0] {
+	// 	case "AddCity":
+	// 		AddCity(path, N_ciudad, N_valor)
+	// 	case "UpdateName":
+	// 		UpdateName(path, N_ciudad, N_valor)
+	// 	case "UpdateNumber":
+	// 		UpdateNumber(path, N_ciudad, N_valor)
+	// 	case "DeleteCity":
+	// 		DeleteCity(path)
+	// 	}
+	// }
 }
 
 func AddCity(path string, N_ciudad string, N_valor string) {
@@ -362,27 +309,32 @@ func createFile(path string) {
 func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor string) {
 	var respuesta_host string
 
-	//respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
+	respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 
-	respuesta_host = "216"
+	fmt.Println(respuesta_host)
 
 	if respuesta_host == "213" {
 		usecomando(choice, N_planeta, N_ciudad, N_valor)
 		fmt.Printf("Vamos a guardar la wea en dist 213")
 	}
 
-	if respuesta_host == "215" {
-		fmt.Printf("Vamos a guardar la wea en dist 215")
-		grpcChannel215(choice, N_planeta, N_ciudad, N_valor)
-		//usecomando(choice, N_planeta, N_ciudad, N_valor)
-	}
+	// if respuesta_host == "215" {
+	// 	fmt.Printf("Vamos a guardar la wea en dist 215")
+	// 	grpcChannel215(choice, N_planeta, N_ciudad, N_valor)
+	// 	//usecomando(choice, N_planeta, N_ciudad, N_valor)
+	// }
 
-	if respuesta_host == "216" {
-		fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-		grpcChannel216(choice, N_planeta, N_ciudad, N_valor)
-		// var respuesta = grpcChannel216(comando_input)
-		// fmt.Print(respuesta + " eesta wea se mando")
-	}
+	// if respuesta_host == "216" {
+	// 	fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+	// 	grpcChannel216(choice, N_planeta, N_ciudad, N_valor)
+	// 	// var respuesta = grpcChannel216(comando_input)
+	// 	// fmt.Print(respuesta + " eesta wea se mando")
+	// }
+
+	// if respuesta_host == "update" {
+	// 	fmt.Println("Debemos actualizar")
+	// 	// updateMaquina(comando)
+	// }
 
 }
 
@@ -409,11 +361,8 @@ func main() {
 
 		serverResponse(choice, N_planeta, N_ciudad, N_valor)
 
-		// if respuesta_host == "update" {
-		// 	fmt.Println("Debemos actualizar")
-		// 	// updateMaquina(comando)
-		// }
-
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
+
+		updateMaquina()
 	}
 }
