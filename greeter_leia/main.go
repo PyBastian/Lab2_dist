@@ -313,7 +313,7 @@ func main() {
 
 	Menu()
 
-	//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
+//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	for {
 		//go doEvery(120*time.Second, helloworld)
@@ -340,7 +340,6 @@ func main() {
 			fmt.Printf("Vamos a guardar la wea en dist 216")
 		}
 		fmt.Println("Comenzando nueva iteración ...")
-
 		//<-forever
 	}
 }
