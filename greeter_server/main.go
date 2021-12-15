@@ -102,7 +102,8 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 		for _, s := range comandos_enviados {
 				nuevo := strings.Split(s, " ")
 		    if nuevo[1] == text[1] && nuevo[2] == text[2]{
-					respuesta = nuevo[2]
+					if len(nuevo) == 4:
+						respuesta = nuevo[3]
 				}
 		}
 		return &pb.HelloReply{Message: respuesta}, nil
