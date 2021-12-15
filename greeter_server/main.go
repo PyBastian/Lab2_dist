@@ -98,7 +98,14 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	}
 	//fmt.Printf(text)
 	if text[0] == "GetNumberRebelds" {
-		return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
+		var respuesta = "No se encontro";
+		for i, s := range comandos_enviados {
+				nuevo := strings.Split(s, " ")
+		    if nuevo[1] == text[1] && nuevo[2] == text[2]{
+					respuesta = nuevo[3]
+				}
+		}
+		return &pb.HelloReply{Message: respuesta}, nil
 	}
 	if text[0] == "update" {
 		output := strings.Join(comandos_enviados, " ")
