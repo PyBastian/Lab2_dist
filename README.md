@@ -14,8 +14,8 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - dist216 ---> Leia Organa / Servidor Fulcrum 3
   
 ## Informantes
-- Inicialmente envia los comando al Broker, el cual respondera con la dirección del servidor fulcrum al cual debera reenviar el comando 
-- Para luego recibir la dirección y comunicarse con este, donde cabe desatcar que el serviidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
+- Inicialmente pide los comandos por terminal para luego enviar los comando al Broker, el cual respondera con la dirección del servidor fulcrum al cual debera reenviar el comando 
+- Para luego estos sean capaces de recibir la dirección y comunicarse con este, donde cabe destcar que el servidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
 
 ## Broker/Server
 - Recibir las comunicaciones de los dos informantes y elegir según el criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum que direcciona, 
@@ -30,7 +30,7 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Merge PENDIENTE
 
 ## Leia Organa
-- Leia envia comandos al Broker, donde ella guardara los comandos que ha solicitado, y además guardara el reloj del planeta de lainformación que solicito y cual fue la maquina que tenia guardado este registro.
+- Leia envia comandos al Broker, donde ella guardara los comandos que ha solicitado en su misma maquina en la carpeta greeter_leia/. con formato .txt, y además almacenara el reloj del planeta de la información que solicito y cual fue la maquina de la cual proviene este registro.
 
 ## Ejecución Codigo
 

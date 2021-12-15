@@ -95,7 +95,7 @@ func C_Lider(msg string, n_planeta string, n_ciudad string) string {
 
 	comando = msg + " " + n_planeta + " " + n_ciudad
 	fmt.Printf("Comando Final \n")
-	fmt.Printf(comando)
+	fmt.Printf(comando + "\n")
 
 	if msg == "GetNumberRebelds" {
 		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
