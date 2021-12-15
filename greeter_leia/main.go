@@ -2,7 +2,6 @@ package main
 
 import (
 	"context"
-	"flag"
 	"fmt"
 	"io"
 	"io/ioutil"
@@ -30,16 +29,9 @@ func isError(err error) bool {
 	return (err != nil)
 }
 
-var (
-	name = flag.String("name", defaultName, "Name to greet")
-)
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var G_now string = ""
-var id_user string = ""
-var ReadyToPlay string = ""
-var R_Game = ""
 
 func ListenInstr() {
 	lis, err := net.Listen("tcp", "dist215.inf.santiago.usm.cl:50071")
@@ -56,16 +48,6 @@ func ListenInstr() {
 func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
 	fmt.Printf("Recibimos Comando \n")
 	fmt.Printf(in.GetName())
-
-	//text := strings.Split(in.GetName(), " ")
-	//fmt.Printf(text)
-	// if text[0] == "GetNumberRebelds " {
-	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	// }
-	// if text[0] == "DeleteCity"{
-	// 	usecomando(text[0], text[1], text[2], " ")
-	// }
-	// usecomando(choice, N_planeta, N_ciudad, N_valor)
 
 	return &pb.HelloReply{Message: "Te entregamos desde 215"}, nil
 
@@ -311,6 +293,17 @@ func isPlanetFileCreated(path string) bool {
 		return true
 	}
 }
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+func helloworld(t time.Time) {
+	fmt.Printf("Hack")
+	grpcChannel("merge")
+
+
+}
 func main() {
 
 	var choice, N_planeta, N_ciudad, N_valor string
@@ -326,10 +319,12 @@ func main() {
 	//fmt.Printf("captured: %s %s %s %s\n", choice, N_planeta, N_ciudad, N_valor)
 
 	for {
-
+		doEvery(120*time.Second, helloworld)
 		fmt.Scanf("%s %s %s", &choice, &N_planeta, &N_ciudad)
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
+
 		AddCity("greeter_leia/"+N_planeta+".txt", N_planeta, N_ciudad)
+
 		if choice == "GetNumberRebelds" {
 			fmt.Println("Okey Preguntando")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad)

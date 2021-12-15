@@ -15,19 +15,19 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
   
 ## Informantes
 - Inicialmente pide los comandos por terminal para luego enviar los comando al Broker, el cual respondera con la dirección del servidor fulcrum al cual debera reenviar el comando 
-- Para luego estos sean capaces de recibir la dirección y comunicarse con este, donde cabe destcar que el servidor puede estar en su maquina y por ende se ejecuta el comando localmente, y en los otros casos mandara el comando al servidor fulcrum.
+- Para luego estos sean capaces de recibir la dirección y comunicarse con este, donde cabe destcar que el servidor puede estar en su maquina y por ende se ejecuta el comando localmente asociado a crear, eliminar o modificar los .txt, y en los otros casos mandara el comando al servidor fulcrum.
 
 ## Broker/Server
-- Recibir las comunicaciones de los dos informantes y elegir según el criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum que direcciona, 
+- Recibir las comunicaciones de los dos informantes y elegir según nuestro criterio de consistencia para que estos comandos tengan sentido al servidor fulcrum que direcciona, 
 - Recibe los comandos de Leia y este consulta a los servidores Fulcrum, donde utilizando Monotonic Reads, el valor que este retorne siempre sera igual o más actualizado que las lecturas anterior.
   
 ## Servidores Fulcrum
-- Recibir comandos...LISTO
-- Ejecutar funcionalidades de Add, Update, Delete...LISTO
-- Guardar registro de planetas en .txt...LISTO
-- Retornar vector reloj del cambio que se hizo PENDIENTE
-- Revisar consistencia entre servidores PENDIENTE
-- Merge PENDIENTE
+- Recibir comandos de los informantes y el broker.
+- Ejecutar funcionalidades de Add, Update, Delete asociadas a .txt según el comando que reciban
+- Guardar registro de planetas en .txt
+- Retornar vector reloj del planeta que modifico o creo 
+- Revisar consistencia entre servidores 
+- Merge cada 2 minutos
 
 ## Leia Organa
 - Leia envia comandos al Broker, donde ella guardara los comandos que ha solicitado en su misma maquina en la carpeta greeter_leia/. con formato .txt, y además almacenara el reloj del planeta de la información que solicito y cual fue la maquina de la cual proviene este registro.
