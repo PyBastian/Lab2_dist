@@ -252,6 +252,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		}
 		didchange = 0
 	}
+
 	if choice == "DeleteCity " {
 		var err = os.Remove(path)
 		if isError(err) {
@@ -259,6 +260,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 		}
 		fmt.Println("")
 	}
+
 	createFile(path_log)
 	var file, err = os.OpenFile(path_log, os.O_RDWR|os.O_APPEND, 0644)
 	if isError(err) {

@@ -29,21 +29,9 @@ var N_play int = 0
 var N_Playerr int = 0
 var L_player = [3]string{"l", "l", "l"}
 
-var numberG1 int = 0
-
-var RPlayerEliminated string = "-"
-var T_T1 int = 0
-var TotalG2T2 int = 0
-var choiceG2 int = 0
-var TeamPlayers = [3]string{"-", "-", "-"}
-var LoseTeam string = "0"
-
-var numberG3 int = 0
-var PairPlayers = [3]int{-1, -1, -1}
-var AnswerPlayers = [3]int{-1, -1, -1}
-
 var dir_maquinas = []string{"213", "215", "216"}
 
+var comandos_enviados []string
 var dir_Inf1 = ""
 var dir_Inf2 = ""
 var forever = make(chan bool)
@@ -84,6 +72,8 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	fmt.Printf("\n")
 
 	text := strings.Split(in.GetName(), " ")
+	comandos_enviados = append(comandos_enviados, in.GetName())
+	fmt.Printf("%v", comandos_enviados)
 
 	if text[len(text)-1] == "1" {
 		if dir_Inf1 == "" {
