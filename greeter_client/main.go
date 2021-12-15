@@ -279,18 +279,14 @@ func doEvery(d time.Duration, f func(time.Time)) {
 
 func helloworld(t time.Time) {
 
-	comandos_total = grpcChanel("Update 216")
+	var comandos string
+	comandos = grpcChannel("update 1")
+	fmt.Println("Envie el update")
+	fmt.Println(comandos)
 
 }
 
 func main() {
-	// comando := []string{}
-	// comando = append(comando, "AddCity perrito pitbull")
-	// comando = append(comando, "AddCity perrito salchicha")
-	// comando = append(comando, "AddCity Tierra Chile")
-	// comando = append(comando, "AddCity Tierra Brasil")
-	// comando = append(comando, "UpdateName perrito pitbull dalmata")
-	// comando = append(comando, "UpdateNumber perrito dalmata 1200")
 
 	go ListenInstr()
 
@@ -304,7 +300,7 @@ func main() {
 		var respuesta_host string = ""
 		var comando_input string
 
-		go doEvery(120*time.Second, helloworld)
+		go doEvery(30*time.Second, helloworld)
 
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
