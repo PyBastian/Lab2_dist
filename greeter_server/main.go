@@ -99,7 +99,7 @@ func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloRe
 	//fmt.Printf(text)
 	if text[0] == "GetNumberRebelds" {
 		var respuesta = "No se encontro";
-		for i, s := range comandos_enviados {
+		for _, s := range comandos_enviados {
 				nuevo := strings.Split(s, " ")
 		    if nuevo[1] == text[1] && nuevo[2] == text[2]{
 					respuesta = nuevo[3]
