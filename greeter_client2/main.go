@@ -116,6 +116,30 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	if choice == "DeleteCity " {
 		DeleteCity(path)
 	}
+	saveLog(choice, N_planeta, N_ciudad, N_valor)
+}
+
+func saveLog(choice string, N_planeta, N_ciudad string, N_valor string) {
+	var path string
+	path = "Logs.txt"
+
+	var _, err = os.Stat(path)
+	if os.IsNotExist(err) {
+		createFile("Logs.txt")
+		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(choice + " " + N_ciudad + " " + N_valor + " " + "Almirante Thrawn" + "\n")
+	} else {
+		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		if isError(err) {
+			return
+		}
+		defer file.Close()
+		_, err = file.WriteString(choice + " " + N_ciudad + " " + N_valor + " " + "Almirante Thrawn" + "\n")
+	}
 
 }
 
