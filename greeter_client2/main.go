@@ -142,7 +142,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 
 }
 
-func updateMaquina() {
+func updateMaquina(t time.Time) {
 	//esta funcion deberia ser llamada cada 2 minutos para ejecutar los comandos que se puedan haber usado en otra maquina
 	var comandos string
 	comandos = grpcChannel("update 2")
@@ -338,6 +338,12 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 
 }
 
+func doEvery(d time.Duration, f func(time.Time)) {
+	for x := range time.Tick(d) {
+		f(x)
+	}
+}
+
 func main() {
 
 	fmt.Println("Bienvenide Almirante Thrawn, estos seran tus comandos:")
@@ -347,6 +353,8 @@ func main() {
 	for {
 
 		Menu()
+
+		go doEvery(30*time.Second, updateMaquina)
 
 		var choice, N_planeta, N_ciudad, N_valor string
 
@@ -362,7 +370,5 @@ func main() {
 		serverResponse(choice, N_planeta, N_ciudad, N_valor)
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
-
-		updateMaquina()
 	}
 }
