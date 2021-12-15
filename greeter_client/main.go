@@ -119,7 +119,7 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	var didchange int = 0
 
 	path = "greeter_client/" + N_planeta + ".txt"
-	var path_log string = "greeter_client/" + "historial" + ".txt"
+	var path_log string = "greeter_client/" + "Logs" + ".txt"
 	fmt.Println(path)
 
 	if choice == "AddCity" {
