@@ -260,26 +260,28 @@ func main() {
 		if choice == "AddCity" {
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado")
+			fmt.Printf("Máquina a usar %s", respuesta_host)
 		}
 
 		if choice == "UpdateName" {
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Printf("Máquina a usar %s", respuesta_host)
 		}
 
 		if choice == "UpdateNumber" {
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Printf("Máquina a usar %s", respuesta_host)
 		}
 
 		if choice == "DeleteCity" {
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
+			fmt.Printf("Máquina a usar %s", respuesta_host)
 		}
 
-		if respuesta_host == "216" {
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
-		}
+		usecomando(choice, N_planeta, N_ciudad, N_valor)
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 	}

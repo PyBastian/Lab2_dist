@@ -289,10 +289,9 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 	var respuesta_host string
 
 	respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
+	fmt.Printf("Máquina a usar %s", respuesta_host)
 
-	if respuesta_host == "213" {
-		usecomando(choice, N_planeta, N_ciudad, N_valor)
-	}
+	usecomando(choice, N_planeta, N_ciudad, N_valor)
 
 }
 
