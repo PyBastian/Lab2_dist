@@ -6,12 +6,6 @@ Este documento mostrará y documentará informacion relacionada a la tarea y a l
 - Bastián Vivar 201773109-5
 - Rodrigo Hernandez 201730036-1
 - Luis Blanco 201573027-K
-
-### La distribución de las máquinas virtuales y sus componentes son los siguentes:
-- dist213 ---> Informante Ahsoka Tano / Servidor Fulcrum 
-- dist214 ---> Broker
-- dist215 ---> Informante Almirante Thrawn / Servidor Fulcrum 2
-- dist216 ---> Leia Organa / Servidor Fulcrum 3
   
 ## Informantes
 - Inicialmente pide los comandos por terminal para luego enviar los comando al Broker, el cual respondera con una maquina que se le asigne al informante mediante la logica interna que manejara el broker. Asi el broken contendra los comandos junto con los relojes de informacion almacenados en memoria para entregar la consulta y escritura que se le haga dependiendo de la maquina que la requiera.
