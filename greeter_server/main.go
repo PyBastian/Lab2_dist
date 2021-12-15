@@ -152,7 +152,6 @@ func helloworld(t time.Time) {
 
 func main() {
 
-	var response string
 	forever := make(chan bool)
 	go ListenMessage()
 
