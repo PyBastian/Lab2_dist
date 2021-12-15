@@ -216,14 +216,14 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 	var _, err = os.Stat(path_log)
 	if os.IsNotExist(err) {
 		createFile(path_log)
-		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		var file, err = os.OpenFile(path_log, os.O_RDWR|os.O_APPEND, 0644)
 		if isError(err) {
 			return
 		}
 		defer file.Close()
 		_, err = file.WriteString(choice + " " + N_ciudad + " " + N_valor + " " + "Ahsoka" + "\n")
 	} else {
-		var file, err = os.OpenFile(path, os.O_RDWR|os.O_APPEND, 0644)
+		var file, err = os.OpenFile(path_log, os.O_RDWR|os.O_APPEND, 0644)
 		if isError(err) {
 			return
 		}
