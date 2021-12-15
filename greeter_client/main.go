@@ -344,30 +344,30 @@ func main() {
 			//return
 		}
 
-		if respuesta_host == "213" {
-			grpcChannel213(comando_input)
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
+		if respuesta_host == "216" {
+			//grpcChannel213(comando_input)
+			usecomando(choice, N_planeta, N_ciudad, N_valor)
 			//usecomando(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Printf("Vamos a guardar la wea en dist 213")
 		}
 
-		if respuesta_host == "215" {
-			grpcChannel215(comando_input)
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a guardar la wea en dist 215")
-		}
+		// if respuesta_host == "215" {
+		// 	grpcChannel215(comando_input)
+		// 	//usecomando(choice, N_planeta, N_ciudad, N_valor)
+		// 	fmt.Printf("Vamos a guardar la wea en dist 215")
+		// }
 
-		if respuesta_host == "216" {
-			usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-			// var respuesta = grpcChannel216(comando_input)
-			// fmt.Print(respuesta + " eesta wea se mando")
-		}
+		// if respuesta_host == "216" {
+		// 	usecomando(choice, N_planeta, N_ciudad, N_valor)
+		// 	fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
+		// 	// var respuesta = grpcChannel216(comando_input)
+		// 	// fmt.Print(respuesta + " eesta wea se mando")
+		// }
 
-		if respuesta_host == "Update" {
-			fmt.Println("Debemos actualizar")
-			// updateMaquina(comando)
-		}
+		// if respuesta_host == "Update" {
+		// 	fmt.Println("Debemos actualizar")
+		// 	// updateMaquina(comando)
+		// }
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
 	}
