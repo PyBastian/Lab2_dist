@@ -48,23 +48,6 @@ func ListenInstr() {
 		log.Fatalf("failed to serve: %v", err)
 	}
 }
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	fmt.Printf("Recibimos Comando \n")
-	fmt.Printf(in.GetName())
-
-	//text := strings.Split(in.GetName(), " ")
-	//fmt.Printf(text)
-	selected_value := "Te entregsmos desde 213"
-
-	// if text[0] == "GetNumberRebelds " {
-	// 	return &pb.HelloReply{Message: "Ligerito te entregamos respsuesta"}, nil
-	// }
-	// fmt.Printf(text[0], text[1], text[2], text[3])
-	// usecomando(text[0], text[1], text[2], text[3])
-
-	return &pb.HelloReply{Message: selected_value}, nil
-
-}
 
 //Esto envia automaticaamente ingo a 214 (Server)
 func grpcChannel(message string) string {
@@ -89,22 +72,16 @@ func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) stri
 
 	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor + " " + "2"
 
-	fmt.Printf("Comando Final \n")
-
 	if msg == "AddCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "UpdateName" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "UpdateNumber" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "DeleteCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 
@@ -144,31 +121,33 @@ func usecomando(choice string, N_planeta string, N_ciudad string, N_valor string
 
 func updateMaquina(t time.Time) {
 	//esta funcion deberia ser llamada cada 2 minutos para ejecutar los comandos que se puedan haber usado en otra maquina
+	fmt.Println("Preguntando si hay que hacer merge...")
 	var comandos string
+
 	comandos = grpcChannel("update 2")
-	fmt.Println("Envie el update")
-	fmt.Println(comandos)
 
-	// for i := 0; i < len(comandos); i++ {
-	// 	comando := strings.Split(string(comandos[i]), " ")
-	// 	path := comando[1] + ".txt"
-	// 	N_ciudad := comando[2]
-	// 	N_valor := "0"
-	// 	if len(comando) == 4 {
-	// 		N_valor = comando[3]
-	// 	}
+	fmt.Printf("Comandos recibidos: %s", comandos)
 
-	// 	switch comando[0] {
-	// 	case "AddCity":
-	// 		AddCity(path, N_ciudad, N_valor)
-	// 	case "UpdateName":
-	// 		UpdateName(path, N_ciudad, N_valor)
-	// 	case "UpdateNumber":
-	// 		UpdateNumber(path, N_ciudad, N_valor)
-	// 	case "DeleteCity":
-	// 		DeleteCity(path)
-	// 	}
-	// }
+	for i := 0; i < len(comandos); i++ {
+		comando := strings.Split(string(comandos[i]), " ")
+		path := comando[1] + ".txt"
+		N_ciudad := comando[2]
+		N_valor := "0"
+		if len(comando) == 4 {
+			N_valor = comando[3]
+		}
+
+		switch comando[0] {
+		case "AddCity":
+			AddCity(path, N_ciudad, N_valor)
+		case "UpdateName":
+			UpdateName(path, N_ciudad, N_valor)
+		case "UpdateNumber":
+			UpdateNumber(path, N_ciudad, N_valor)
+		case "DeleteCity":
+			DeleteCity(path)
+		}
+	}
 }
 
 func AddCity(path string, N_ciudad string, N_valor string) {
@@ -315,24 +294,6 @@ func serverResponse(choice string, N_planeta string, N_ciudad string, N_valor st
 		usecomando(choice, N_planeta, N_ciudad, N_valor)
 	}
 
-	// if respuesta_host == "215" {
-	// 	fmt.Printf("Vamos a guardar la wea en dist 215")
-	// 	grpcChannel215(choice, N_planeta, N_ciudad, N_valor)
-	// 	//usecomando(choice, N_planeta, N_ciudad, N_valor)
-	// }
-
-	// if respuesta_host == "216" {
-	// 	fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-	// 	grpcChannel216(choice, N_planeta, N_ciudad, N_valor)
-	// 	// var respuesta = grpcChannel216(comando_input)
-	// 	// fmt.Print(respuesta + " eesta wea se mando")
-	// }
-
-	// if respuesta_host == "update" {
-	// 	fmt.Println("Debemos actualizar")
-	// 	// updateMaquina(comando)
-	// }
-
 }
 
 func doEvery(d time.Duration, f func(time.Time)) {
@@ -351,7 +312,7 @@ func main() {
 
 		Menu()
 
-		go doEvery(30*time.Second, updateMaquina)
+		go doEvery(120*time.Second, updateMaquina)
 
 		var choice, N_planeta, N_ciudad, N_valor string
 

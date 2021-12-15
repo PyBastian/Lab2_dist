@@ -37,10 +37,6 @@ var (
 
 type server struct{ pb.UnimplementedGreeterServer }
 
-var G_now string = ""
-var id_user string = ""
-var ReadyToPlay string = ""
-var R_Game = ""
 var reloj [3]int
 
 func ListenInstr() {
@@ -53,13 +49,6 @@ func ListenInstr() {
 	if err := s.Serve(lis); err != nil {
 		log.Fatalf("failed to serve: %v", err)
 	}
-}
-
-func (s *server) SayHello(ctx context.Context, in *pb.HelloRequest) (*pb.HelloReply, error) {
-	//text := strings.Split(in.GetName(), " ")
-	fmt.Print(in.GetName())
-	//usecomando(text[0], text[1], text[2], text[3])
-	return &pb.HelloReply{Message: "recibid chuhc escrito"}, nil
 }
 
 //Esto envia automaticaamente ingo a 214 (Server)
@@ -80,65 +69,22 @@ func grpcChannel(message string) string {
 	return r.GetMessage()
 }
 
-func grpcChannel213(message string) string {
-	fmt.Println("Enviando mensaje a 213")
-	fmt.Println(message)
-	conn, err := grpc.Dial("dist213.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Error de conecc'on con 213: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	return r.GetMessage()
-}
-
-func grpcChannel215(message string) string {
-	fmt.Println("Enviando mensaje a 215")
-	fmt.Println(message)
-	conn, err := grpc.Dial("dist215.inf.santiago.usm.cl:50071", grpc.WithInsecure(), grpc.WithBlock())
-	if err != nil {
-		log.Fatalf("Error de conecc'on con 215: %v", err)
-	}
-	defer conn.Close()
-	c := pb.NewGreeterClient(conn)
-	ctx, cancel := context.WithTimeout(context.Background(), time.Second)
-	defer cancel()
-	r, err := c.SayHello(ctx, &pb.HelloRequest{Name: message})
-	if err != nil {
-		log.Fatalf("could not greet: %v", err)
-	}
-	return r.GetMessage()
-}
-
 func C_Lider(msg string, n_planeta string, n_ciudad string, n_valor string) string {
 	//fmt.Println("Me voy a comunicar con el Lider")
 	var comando string
 
 	comando = msg + " " + n_planeta + " " + n_ciudad + " " + n_valor + " " + "1"
 
-	fmt.Printf("Comando Final \n")
-	fmt.Printf(comando)
-
 	if msg == "AddCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "UpdateName" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "UpdateNumber" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 	if msg == "DeleteCity" {
-		//fmt.Println("Entrando al grpcChanel pa mandarle algo al Lider")
 		return grpcChannel(comando)
 	}
 
@@ -150,7 +96,8 @@ func Menu() {
 	fmt.Println("AddCity {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("UpdateName {N_planeta} {N_ciudad} [nuevo valor]")
 	fmt.Println("UpdateNumber {N_planeta} {N_ciudad} [nuevo valor]")
-	fmt.Println("DeleteCity {N_planeta} {N_ciudad} \n")
+	fmt.Println("DeleteCity {N_planeta} {N_ciudad}")
+	fmt.Println("")
 }
 
 func createFile(path string) {
@@ -277,12 +224,14 @@ func doEvery(d time.Duration, f func(time.Time)) {
 	}
 }
 
-func helloworld(t time.Time) {
+func updateMaquina(t time.Time) {
 
+	fmt.Println("Preguntando si hay que hacer merge...")
 	var comandos string
-	comandos = grpcChannel("update 1")
-	fmt.Println("Envie el update")
-	fmt.Println(comandos)
+
+	comandos = grpcChannel("update 2")
+
+	fmt.Printf("Comandos recibidos: %s", comandos)
 
 }
 
@@ -295,17 +244,13 @@ func main() {
 	Menu()
 
 	for {
+		go doEvery(120*time.Second, updateMaquina)
 
-		var choice, N_planeta, N_ciudad, N_valor, instruccion string
+		var choice, N_planeta, N_ciudad, N_valor string
 		var respuesta_host string = ""
-		var comando_input string
-
-		go doEvery(30*time.Second, helloworld)
 
 		fmt.Println("Ingresa tus comandos")
 		fmt.Scanf("%s %s %s %s", &choice, &N_planeta, &N_ciudad, &N_valor)
-		comando_input = choice + " " + N_planeta + " " + N_ciudad + " " + N_valor
-		fmt.Println(len(instruccion))
 
 		if choice == "close" {
 			break
@@ -313,60 +258,27 @@ func main() {
 
 		fmt.Println("Hablemos Con el Broker Mos Eisley entonces...")
 		if choice == "AddCity" {
-			fmt.Println("Okey agregemos")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Println("El Lider fue Avisado")
-			fmt.Println(respuesta_host)
-			//return
+			fmt.Println("El Broker fue Avisado")
 		}
 
 		if choice == "UpdateName" {
-			fmt.Println("Okey uName")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
 		}
 
 		if choice == "UpdateNumber" {
-			fmt.Println("Okey uNumber")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
 		}
 
 		if choice == "DeleteCity" {
-			fmt.Println("Okey dCity")
 			respuesta_host = C_Lider(choice, N_planeta, N_ciudad, N_valor)
 			fmt.Println("El Broker fue Avisado, la info se va a la maquina")
-			fmt.Println(respuesta_host)
-			//return
-		}
-
-		if respuesta_host == "213" {
-			grpcChannel213(comando_input)
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a guardar la wea en dist 213")
-		}
-
-		if respuesta_host == "215" {
-			grpcChannel215(comando_input)
-			//usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a guardar la wea en dist 215")
 		}
 
 		if respuesta_host == "216" {
 			usecomando(choice, N_planeta, N_ciudad, N_valor)
-			fmt.Printf("Vamos a proceder a guardar aqui nomas ch en 216")
-			// var respuesta = grpcChannel216(comando_input)
-			// fmt.Print(respuesta + " eesta wea se mando")
-		}
-
-		if respuesta_host == "Update" {
-			fmt.Println("Debemos actualizar")
-			// updateMaquina(comando)
 		}
 
 		fmt.Println("Finalizado, puedes ingresar nuevo comando")
